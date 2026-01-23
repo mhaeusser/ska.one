@@ -5,22 +5,22 @@
   <META http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>Ska Radios</title>
   <script type="text/javascript">
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = ["January", "February", "March", "April", "Mai", "June", "July", "August", "September", "October", "November", "December"];
+    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     function go() {
       const current = new Date();
-      const formatter = new Intl.DateTimeFormat('en-GB', {
-        timeZoneName: 'short'
+      const formatter = new Intl.DateTimeFormat("en-GB", {
+        timeZoneName: "short"
       });
-      document.getElementById('timezone').innerHTML = formatter.formatToParts(current).find(p => p.type === 'timeZoneName').value;
-      document.getElementById('current').innerHTML = formatDate(current.getDay(), current.getDate(), current.getMonth(), current.getFullYear(), current.getHours(), current.getMinutes(), current.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(current.getDate())), current.getDay());
-      document.getElementById('utc').innerHTML = formatDate(current.getUTCDay(), current.getUTCDate(), current.getUTCMonth(), current.getUTCFullYear(), current.getUTCHours(), current.getUTCMinutes(), current.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(current.getUTCDate())), current.getUTCDay());
+      document.getElementById("timezone").innerHTML = formatter.formatToParts(current).find(p => p.type === "timeZoneName").value;
+      document.getElementById("current").innerHTML = formatDate(current.getDay(), current.getDate(), current.getMonth(), current.getFullYear(), current.getHours(), current.getMinutes(), current.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(current.getDate())), current.getDay());
+      document.getElementById("utc").innerHTML = formatDate(current.getUTCDay(), current.getUTCDate(), current.getUTCMonth(), current.getUTCFullYear(), current.getUTCHours(), current.getUTCMinutes(), current.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(current.getUTCDate())), current.getUTCDay());
       // hours are UTC times! day: 0 = Sunday
-      document.getElementById('skapatrol').innerHTML = calcInnerHTML(1, 20, 22, 1, 1, 1, 1, 1);
-      document.getElementById('rd').innerHTML = calcInnerHTML(3, 21, 22, 1 ,1 ,1 ,1 ,1);
-      document.getElementById('fus').innerHTML = calcInnerHTML(5, 19, 20, 1, 0, 1, 1, 1);
-      document.getElementById('freedom').innerHTML = calcInnerHTML(0, 21, 22, 0, 1, 0, 1, 0);
+      document.getElementById("skapatrol").innerHTML = calcInnerHTML(1, 20, 22, 1, 1, 1, 1, 1);
+      document.getElementById("rd").innerHTML = calcInnerHTML(3, 21, 22, 1 ,1 ,1 ,1 ,1);
+      document.getElementById("fus").innerHTML = calcInnerHTML(5, 19, 20, 1, 0, 1, 1, 1);
+      document.getElementById("freedom").innerHTML = calcInnerHTML(0, 21, 22, 0, 1, 0, 1, 0);
       setTimeout("go()", 1000);
     }
 
