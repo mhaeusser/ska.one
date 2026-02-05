@@ -237,6 +237,171 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   </tbody>
 </table>
 <p>
+
+<table id="radioTable">
+  <thead>
+  <tr>
+    <th>Radiosendung</th>
+    <th>Day</th>
+    <th>PST (UTC-8)</th>
+    <th>EST (UTC-5)</th>
+    <th>GMT (UTC)</th>
+    <th>CET (UTC+1)</th>
+    <th>MSK (UTC+3)</th>
+    <th>JST (UTC+9)</th>
+    <th>AEST (UTC+10)</th>
+  </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+  // ---------------------------
+  // Datenstruktur
+  // ---------------------------
+  const weeklySchedule = {
+    0: [ // Monday
+      {
+        name: "Morning Ska",
+        start: "08:00",
+        end: "10:00",
+        timezoneOffset: -5
+      }
+    ],
+    1: [ // Tuesday
+      {
+        name: "Rocksteady Nights",
+        start: "21:30",
+        end: "23:00",
+        timezoneOffset: 1
+      }
+    ],
+    2: [], // Wednesday
+    3: [ // Thursday
+      {
+        name: "Tokyo Groove",
+        start: "18:00",
+        end: "20:00",
+        timezoneOffset: 9
+      },
+      {
+        name: "Osaka Beat",
+        start: "12:00",
+        end: "24:00",
+        timezoneOffset: 9
+      }
+    ],
+    4: [], // Friday
+    5: [ // Saturday
+      {
+        name: "Sydney Late Show",
+        start: "22:15",
+        end: "23:45",
+        timezoneOffset: 10
+      }
+    ],
+    6: []  // Sunday
+  };
+
+  // Ziel-Zeitzonen
+  const targetZones = [
+    { name: "PST", offset: -8 },
+    { name: "EST", offset: -5 },
+    { name: "GMT", offset: 0 },
+    { name: "CET", offset: 1 },
+    { name: "MSK", offset: 3 },
+    { name: "JST", offset: 9 },
+    { name: "AEST", offset: 10 }
+  ];
+
+  // ---------------------------
+  // Hilfsfunktionen
+  // ---------------------------
+  function getNextStart(show) {
+    const now = new Date();
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+
+    const [h, m] = show.start.split(":").map(Number);
+
+    const startUTC =
+      new Date(utcNow)
+        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+
+    let nextStart = new Date(startUTC);
+
+    if (nextStart.getTime() <= utcNow) {
+      nextStart.setUTCDate(nextStart.getUTCDate() + 1);
+    }
+
+    return nextStart;
+  }
+
+  function formatDuration(ms) {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+    const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+    const s = String(totalSeconds % 60).padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  }
+
+  // ---------------------------
+  // Tabelle erzeugen
+  // ---------------------------
+  function renderTable() {
+    const tbody = document.querySelector("#radioTable tbody");
+    tbody.innerHTML = "";
+
+    const now = new Date();
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+
+    const weekdays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ];
+
+    for (let day = 0; day <= 6; day++) {
+      weeklySchedule[day].forEach(show => {
+      const tr = document.createElement("tr");
+      const nextStart = getNextStart(show);
+
+      // Name
+      const nameTd = document.createElement("td");
+      nameTd.textContent = show.name;
+      tr.appendChild(nameTd);
+
+      // Day
+      const dayTd = document.createElement("td");
+      dayTd.textContent = weekdays[day];
+      tr.appendChild(dayTd);
+
+      // Zeitzonen
+      targetZones.forEach(zone => {
+        const localStart =
+        nextStart.getTime() + zone.offset * 3600000;
+
+        const remaining = localStart - (utcNow + zone.offset * 3600000);
+
+        const td = document.createElement("td");
+        td.textContent = formatDuration(remaining);
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+      });
+    }
+  }
+
+  renderTable();
+  setInterval(renderTable, 1000);
+</script>
+
+
+
   <!-- gone: www.upsettingstation.tk -->
 Once a month: <a target="_parent" href="https://www.fsk-hh.org">Freies Sender-Kombinat Hamburg: SkaTime FS-Ska</a>
 <p>
