@@ -241,8 +241,8 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 <table id="radioTable">
   <thead>
   <tr>
-    <th>Radiosendung</th>
     <th>Day</th>
+    <th>Show</th>
     <th>PST (UTC-8)</th>
     <th>EST (UTC-5)</th>
     <th>GMT (UTC)</th>
@@ -369,15 +369,15 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const tr = document.createElement("tr");
       const nextStart = getNextStart(show);
 
-      // Name
-      const nameTd = document.createElement("td");
-      nameTd.textContent = show.name;
-      tr.appendChild(nameTd);
-
       // Day
       const dayTd = document.createElement("td");
       dayTd.textContent = weekdays[day];
       tr.appendChild(dayTd);
+
+      // Show
+      const nameTd = document.createElement("td");
+      nameTd.textContent = show.name;
+      tr.appendChild(nameTd);
 
       // Zeitzonen
       targetZones.forEach(zone => {
