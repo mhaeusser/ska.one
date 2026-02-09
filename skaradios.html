@@ -160,7 +160,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th class="header">Station</th>
     <th class="header">Stream</th>
     <th class="header">Archive</th>
-    <th align="left" nowrap="nowrap" valign="bottom">time until next show</th>
+    <th class="header">time until next show</th>
     <td class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span></td>
     <td class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span></td>
     <td class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span></td>
@@ -243,6 +243,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   <tr>
     <th>Day</th>
     <th>Show</th>
+    <th>Station</th>
     <th>PST (UTC-8)</th>
     <th>EST (UTC-5)</th>
     <th>GMT (UTC)</th>
@@ -263,6 +264,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     0: [ // Monday
       {
         name: "Morning Ska",
+        station: "M1",
         start: "08:00",
         end: "10:00",
         timezoneOffset: -5
@@ -271,6 +273,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     1: [ // Tuesday
       {
         name: "Rocksteady Nights",
+        station: "M2",
         start: "21:30",
         end: "23:00",
         timezoneOffset: 1
@@ -280,12 +283,14 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     3: [ // Thursday
       {
         name: "Tokyo Groove",
+        station: "M3",
         start: "18:00",
         end: "20:00",
         timezoneOffset: 9
       },
       {
         name: "Osaka Beat",
+        station: "M4",
         start: "12:00",
         end: "24:00",
         timezoneOffset: 9
@@ -295,6 +300,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     5: [ // Saturday
       {
         name: "Sydney Late Show",
+        station: "M5",
         start: "22:15",
         end: "23:45",
         timezoneOffset: 10
@@ -378,6 +384,11 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const nameTd = document.createElement("td");
       nameTd.textContent = show.name;
       tr.appendChild(nameTd);
+
+      // Station
+      const stationTd = document.createElement("td");
+      stationTd.textContent = show.station;
+      tr.appendChild(stationTd);
 
       // Zeitzonen
       targetZones.forEach(zone => {
