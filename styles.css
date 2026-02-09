@@ -62,6 +62,10 @@ td.center {
   text-align: center;
 }
 
+th.center {
+  text-align: center;
+}
+
 td.top {
   vertical-align: top;
 }
