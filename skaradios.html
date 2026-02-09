@@ -244,6 +244,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th>Day</th>
     <th>Show</th>
     <th>Station</th>
+    <th>time until next show</th>
     <th>PST (UTC-8)</th>
     <th>EST (UTC-5)</th>
     <th>GMT (UTC)</th>
@@ -389,6 +390,11 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const stationTd = document.createElement("td");
       stationTd.textContent = show.station;
       tr.appendChild(stationTd);
+
+      // Time until next show
+      const waitTd = document.createElement("td");
+      waitTd.textContent = "123";
+      tr.appendChild(waitTd);
 
       // Zeitzonen
       targetZones.forEach(zone => {
