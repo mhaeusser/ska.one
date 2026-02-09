@@ -243,7 +243,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
 <script>
   // ---------------------------
-  // Datenstruktur
+  // Show data
   // ---------------------------
   const weeklySchedule = {
     0: [ // Monday
@@ -294,7 +294,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     6: []  // Sunday
   };
 
-  // Ziel-Zeitzonen
+  // target timezones
   const targetZones = [
     { name: "PST", offset: -8 },
     { name: "EST", offset: -5 },
@@ -305,9 +305,9 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     { name: "AEST", offset: 10 }
   ];
 
-  // ---------------------------
-  // Hilfsfunktionen
-  // ---------------------------
+  // --------------------------
+  // Helper functions
+  // --------------------------
   function getNextStart(show) {
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -345,15 +345,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
 
-    const weekdays = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ];
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
