@@ -412,16 +412,19 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
         //const remaining = localStart - (utcNow + zone.offset * 3600000);
 
         const td = document.createElement("td");
-        //td.textContent = formatDuration(remaining);
-        const startTime = getStartDate(show).toLocaleTimeString("en-GB", {
+
+        const theStartTime = getStartDate(show).getTime() + zone.offset * 3600000;
+        const startTime = new Date(theStartTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
-        const endTime = getEndDate(show).toLocaleTimeString("en-GB", {
+        const theEndTime = getEndDate(show).getTime() + zone.offset * 3600000;
+        const endTime = new Date(theEndTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
         td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3600000;//formatDuration(remaining);
+
         tr.appendChild(td);
       });
 
