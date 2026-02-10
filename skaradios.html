@@ -424,7 +424,9 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
           minute: "2-digit"
         });
         td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3600000;//formatDuration(remaining);
-
+        if (zone.offset === show.timezoneOffset) {
+          td.classList.add("bold");
+        }
         tr.appendChild(td);
       });
 
