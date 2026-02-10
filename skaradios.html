@@ -327,6 +327,32 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     return nextStart;
   }
 
+  function getStartDate(show) {
+    const now = new Date();
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+
+    const [h, m] = show.start.split(":").map(Number);
+
+    const startUTC =
+      new Date(utcNow)
+        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+
+    return new Date(startUTC);
+  }
+
+  function getEndDate(show) {
+    const now = new Date();
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+
+    const [h, m] = show.end.split(":").map(Number);
+
+    const startUTC =
+      new Date(utcNow)
+        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+
+    return new Date(startUTC);
+  }
+
   function formatDuration(ms) {
     const totalSeconds = Math.max(0, Math.floor(ms / 1000));
     const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
@@ -369,18 +395,33 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       // Time until next show
       const waitTd = document.createElement("td");
-      waitTd.textContent = "123";
+
+      const offset = show.timezoneOffset;
+
+      const localStart =
+        nextStart.getTime() + offset * 3600000;
+      const remaining = localStart - (utcNow + offset * 3600000);
+
+      waitTd.textContent = formatDuration(remaining);
+
       tr.appendChild(waitTd);
 
       // Zeitzonen
       targetZones.forEach(zone => {
-        const localStart =
-        nextStart.getTime() + zone.offset * 3600000;
-
-        const remaining = localStart - (utcNow + zone.offset * 3600000);
+        //const localStart = nextStart.getTime() + zone.offset * 3600000;
+        //const remaining = localStart - (utcNow + zone.offset * 3600000);
 
         const td = document.createElement("td");
-        td.textContent = formatDuration(remaining);
+        //td.textContent = formatDuration(remaining);
+        const startTime = getStartDate(show).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+        const endTime = getEndDate(show).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+        td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3600000;//formatDuration(remaining);
         tr.appendChild(td);
       });
 
