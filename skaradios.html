@@ -229,6 +229,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th>Show</th>
     <th>Station</th>
     <th>Stream</th>
+    <th>Archive</th>
     <th>time until next show</th>
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span></th>
     <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span></th>
@@ -250,29 +251,34 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     0: [ // Monday
       {
         name: "Ska Patrol",
-        homepage: "https://skapatrol.weebly.com",
+        showUrl: "https://skapatrol.weebly.com",
         station: "NEAR fm 90.3",
 		stream: "https://nearfm.ie/livestream/",
         start: "20:00",
         end: "22:00",
+        stream: "",
+		archive: "",
         timezoneOffset: -1
       }
     ],
     1: [ // Tuesday
       {
         name: "Rocksteady Nights",
-        homepage: "",
+        showUrl: "",
         station: "M2",
         start: "21:30",
         end: "23:00",
+        stream: "",
+		archive: "",
         timezoneOffset: 1
       }
     ],
     2: [ // Wednesday
       {
         name: "Rudeboy's Delight",
-        homepage: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
-        station: "Wüste Welle",//https://www.wueste-welle.de
+        showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
+        station: "Wüste Welle",
+        stationUrl: "https://www.wueste-welle.de",
         start: "22:00",
         end: "23:00",
 		stream: "https://www.wueste-welle.de/broadcasts/livestream/",
@@ -284,25 +290,40 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     4: [ // Friday
       {
         name: "File Under Ska",
-        homepage: "https://www.file-under-ska.de",
+        showUrl: "https://www.file-under-ska.de",
         station: "Freies Radio für Stuttgart",
         start: "20:00",
         end: "22:00",
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
+		archive: "https://www.freies-radio.de/mediathek",
         timezoneOffset: 0
       }
 	],
     5: [ // Saturday
       {
         name: "Sydney Late Show",
-        homepage: "",
+        showUrl: "",
         station: "M5",
         start: "22:15",
         end: "23:45",
+        stream: "",
+		archive: "",
         timezoneOffset: 10
       }
     ],
-    6: []  // Sunday
+    6: [ // Sunday
+      {
+        name: "Blue Beat in my Soul",
+        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
+        station: "Radio Flora",
+        stationUrl: "https://radioflora.de",
+        start: "20:00",
+        end: "22:00",
+        stream: "https://radioflora.de",
+		archive: "https://www.mixcloud.com/bluebeatshelter/",
+        timezoneOffset: 10
+      }
+    ],
   };
 
   // target timezones
@@ -395,7 +416,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       // Show
       const nameTd = document.createElement("td");
       const link = document.createElement("a");
-      link.href = show.homepage;
+      link.href = show.showUrl;
       link.textContent = show.name;
       link.target = "_blank";       // optional: open in new tab
       link.rel = "noopener noreferrer"; // recommended when using _blank
@@ -416,6 +437,16 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       streamLink.rel = "noopener noreferrer"; // recommended when using _blank
       streamTd.appendChild(streamLink);
       tr.appendChild(streamTd);
+
+      // Archive
+      const archiveTd = document.createElement("td");
+      const archiveLink = document.createElement("a");
+      archiveLink.href = show.archive;
+      archiveLink.textContent = "archive";
+      archiveLink.target = "_blank";       // optional: open in new tab
+      archiveLink.rel = "noopener noreferrer"; // recommended when using _blank
+      archiveTd.appendChild(archiveLink);
+      tr.appendChild(archiveTd);
 
       // Time until next show
       const waitTd = document.createElement("td");
