@@ -248,7 +248,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th>Archive</th>
     <th>time until next show</th>
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="pst"></span></th>
-    <th class="center nowrap">New York<br/>Kingston<br/><span id="est"></span><br/><span class="small-text">EST (UTC-5)</span></th>
+    <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="est"></span></th>
     <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="gmt"></span></th>
     <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="cet"></span></th>	
     <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="msk"></span></th>
@@ -311,7 +311,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "",
 		archive: "",
-        timezoneOffset: -1
+        timezoneOffset: 0
       }
     ],
     1: [], // Tuesday
@@ -338,7 +338,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
 		archive: "https://www.freies-radio.de/mediathek",
-        timezoneOffset: 0
+        timezoneOffset: 1
       }
 	],
     5: [ // Saturday
@@ -363,7 +363,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "https://radioflora.de",
 		archive: "https://www.mixcloud.com/bluebeatshelter/",
-        timezoneOffset: 10
+        timezoneOffset: 1
       }
     ],
   };
@@ -405,9 +405,7 @@ NZDT          UTC+13     Pacific/Auckland
 
     const [h, m] = show.start.split(":").map(Number);
 
-    const startUTC =
-      new Date(utcNow)
-        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const startUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
 
     return new Date(startUTC);
   }
@@ -418,11 +416,9 @@ NZDT          UTC+13     Pacific/Auckland
 
     const [h, m] = show.end.split(":").map(Number);
 
-    const startUTC =
-      new Date(utcNow)
-        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const endUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
 
-    return new Date(startUTC);
+    return new Date(endUTC);
   }
 
   // in seconds
