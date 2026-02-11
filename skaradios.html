@@ -372,13 +372,42 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     return new Date(startUTC);
   }
 
-  function formatDuration(ms) {
-    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-    const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
-    const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
-    const s = String(totalSeconds % 60).padStart(2, "0");
-    return `${h}:${m}:${s}`;
+  // in seconds
+  function formatDuration(sec) {
+    const hours = Math.floor(sec / 3600);
+    const minutes = Math.floor((sec % 3600) / 60);
+    const seconds = sec % 60;
+    //return `${h}:${m}:${s}`;
+	//return `${h} h, ${m} m, ${s} s`;
+    let text = '';
+    //if (days === 1) {
+    //  text =  "1 d, ";
+    //} else if (days > 1) {
+    //  text += days + " d, ";
+    //}
+    if (hours > 0)
+	text += hours + ' h, '
+    
+    text += minutes + ' m, '
+    
+    return text + seconds + ' s';
   }
+
+/*
+  function formatRestDate(days, hours, minutes, seconds) {
+    let text = '';
+    if (days === 1) {
+      text =  "1 d, ";
+    } else if (days > 1) {
+      text += days + " d, ";
+    }
+    text += hours + ' h, '
+    if (minutes < 10) { text += "0";}
+    text += minutes + ' m, '
+    if (seconds < 10) { text += "0";}
+    return text + seconds + ' s';
+  }
+*/
 
   // ---------------------------
   // Tabelle erzeugen
@@ -449,8 +478,9 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       const localStart =
         nextStart.getTime() + offset * 3_600_000;
-      const remaining = localStart - (utcNow + offset * 3_600_000);
+      const remaining = Math.floor((localStart - (utcNow + offset * 3_600_000)) / 1000);
 
+      waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining);
 
       tr.appendChild(waitTd);
@@ -476,6 +506,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
         if (zone.offset === show.timezoneOffset) {
           td.classList.add("bold");
         }
+        td.classList.add("nowrap");
         tr.appendChild(td);
       });
 
