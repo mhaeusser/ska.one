@@ -512,7 +512,7 @@ NZDT          UTC+13     Pacific/Auckland
       const link = document.createElement("a");
       link.href = show.showUrl;
       link.textContent = show.name;
-      link.target = "_blank"; // optional: open in new tab
+      link.target = "_blank";
       link.rel = "noopener noreferrer"; // recommended when using _blank
       nameTd.appendChild(link);
       tr.appendChild(nameTd);
@@ -522,7 +522,7 @@ NZDT          UTC+13     Pacific/Auckland
       const stationLink = document.createElement("a");
       stationLink.href = show.stationUrl;
       stationLink.textContent = show.station;
-      stationLink.target = "_blank"; // optional: open in new tab
+      stationLink.target = "_blank";
       stationLink.rel = "noopener noreferrer"; // recommended when using _blank
       stationTd.appendChild(stationLink);
       tr.appendChild(stationTd);
@@ -532,7 +532,7 @@ NZDT          UTC+13     Pacific/Auckland
       const streamLink = document.createElement("a");
       streamLink.href = show.stream;
       streamLink.textContent = "Stream";
-      streamLink.target = "_blank"; // optional: open in new tab
+      streamLink.target = "_blank";
       streamLink.rel = "noopener noreferrer"; // recommended when using _blank
       streamTd.appendChild(streamLink);
       tr.appendChild(streamTd);
@@ -542,7 +542,7 @@ NZDT          UTC+13     Pacific/Auckland
       const archiveLink = document.createElement("a");
       archiveLink.href = show.archive;
       archiveLink.textContent = "Archive";
-      archiveLink.target = "_blank"; // optional: open in new tab
+      archiveLink.target = "_blank";
       archiveLink.rel = "noopener noreferrer"; // recommended when using _blank
       archiveTd.appendChild(archiveLink);
       tr.appendChild(archiveTd);
