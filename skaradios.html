@@ -246,9 +246,9 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th>Archive</th>
     <th>time until next show</th>
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span></th>
-    <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span></th>
+    <th class="center nowrap">New York<br/>Kingston<br/><span id="est"></span><br/><span class="small-text">EST (UTC-5)</span></th>
     <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span></th>
-    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span></th>
+    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="cet"></span></th>	
     <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span></th>
     <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span></th>
     <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span></th>
@@ -427,11 +427,33 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   // Create the table
   // ---------------------------
   function renderTable() {
+    const now = new Date();
+	const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
+
+    /*
+    const formatter = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "America/Jamaica",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    });
+    */
+    function formatInTimeZone(date, timeZone) {
+      return new Intl.DateTimeFormat("en-GB", {
+        timeZone: timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }).format(date);
+    }
+    document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
+	document.getElementById("cet").textContent = formatInTimeZone(now, "Europe/Berlin");
+	//document.getElementById("timezone").innerHTML = formatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+    
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
-
-    const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
