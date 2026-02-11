@@ -14,6 +14,7 @@
         timeZoneName: "short"
       });
       document.getElementById("timezone").innerHTML = formatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+      document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();	  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
       // hours are UTC times! day: 0 = Sunday
@@ -117,6 +118,18 @@
       text += '</span>';
       return text;
     }
+
+    function getGMTOffsetMessage() {
+      const offsetMinutes = new Date().getTimezoneOffset();
+      const offsetHours = Math.abs(offsetMinutes) / 60;
+      if (offsetMinutes === 0) {
+        return "You are in GMT.";
+      }
+      const direction = offsetMinutes > 0 ? "behind" : "ahead";
+      const hourLabel = offsetHours === 1 ? "hour" : "hours";
+
+      return `You are ${offsetHours} ${hourLabel} ${direction} of GMT.`;
+    }
   </script>
 </head>
 
@@ -127,12 +140,13 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 <p/>
 <table>
   <tr>
-    <td>Local time (<span id="timezone"></span>):</td><td><span id="now"></span></td>
+    <td>Your local time (<span id="timezone"></span>):</td><td><span id="now"></span></td>
   </tr>
   <tr>
     <td><a target="_parent" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT)</a>:</td><td><span id="utc"></span></td>
   </tr>
 </table>
+<span id="gmtOffsetMessage"></span>
 <br/>
 <h2>FM Radio Shows</h2>
 <table border="1">
@@ -410,7 +424,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 */
 
   // ---------------------------
-  // Tabelle erzeugen
+  // Create the table
   // ---------------------------
   function renderTable() {
     const tbody = document.querySelector("#radioTable tbody");
@@ -485,7 +499,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       tr.appendChild(waitTd);
 
-      // Zeitzonen
+      // timezones
       targetZones.forEach(zone => {
         //const localStart = nextStart.getTime() + zone.offset * 3_600_000;
         //const remaining = localStart - (utcNow + zone.offset * 3_600_000);
@@ -583,7 +597,6 @@ Once a month: <a target="_parent" href="https://www.fsk-hh.org">Freies Sender-Ko
    -->
   </li>
 </ul>
-
 
 </body>
 </html>
