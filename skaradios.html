@@ -249,11 +249,13 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   const weeklySchedule = {
     0: [ // Monday
       {
-        name: "Morning Ska",
-        station: "M1",
-        start: "08:00",
-        end: "10:00",
-        timezoneOffset: -5
+        name: "Ska Patrol",
+        homepage: "https://skapatrol.weebly.com",
+        station: "NEAR fm 90.3",
+		stream: "https://nearfm.ie/livestream/",
+        start: "20:00",
+        end: "22:00",
+        timezoneOffset: -1
       }
     ],
     1: [ // Tuesday
@@ -285,6 +287,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     4: [ // Friday
       {
         name: "File Under Ska",
+        homepage: "https://www.file-under-ska.de",
         station: "Freies Radio für Stuttgart",
         start: "20:00",
         end: "22:00",
@@ -393,7 +396,12 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       // Show
       const nameTd = document.createElement("td");
-      nameTd.textContent = show.name;
+      const link = document.createElement("a");
+      link.href = show.homepage;
+      link.textContent = show.name;
+      link.target = "_blank";       // optional: open in new tab
+      link.rel = "noopener noreferrer"; // recommended when using _blank
+      nameTd.appendChild(link);
       tr.appendChild(nameTd);
 
       // Station
@@ -403,7 +411,12 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       // Stream
       const streamTd = document.createElement("td");
-      streamTd.textContent = show.stream;
+      const streamLink = document.createElement("a");
+      streamLink.href = show.stream;
+      streamLink.textContent = "stream";
+      streamLink.target = "_blank";       // optional: open in new tab
+      streamLink.rel = "noopener noreferrer"; // recommended when using _blank
+      streamTd.appendChild(streamLink);
       tr.appendChild(streamTd);
 
       // Time until next show
