@@ -331,7 +331,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   // --------------------------
   function getNextStart(show) {
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     const [h, m] = show.start.split(":").map(Number);
 
@@ -348,7 +348,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
   function getStartDate(show) {
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     const [h, m] = show.start.split(":").map(Number);
 
@@ -361,7 +361,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
   function getEndDate(show) {
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     const [h, m] = show.end.split(":").map(Number);
 
@@ -388,7 +388,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     tbody.innerHTML = "";
 
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60000;
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -448,8 +448,8 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const offset = show.timezoneOffset;
 
       const localStart =
-        nextStart.getTime() + offset * 3600000;
-      const remaining = localStart - (utcNow + offset * 3600000);
+        nextStart.getTime() + offset * 3_600_000;
+      const remaining = localStart - (utcNow + offset * 3_600_000);
 
       waitTd.textContent = formatDuration(remaining);
 
@@ -457,22 +457,22 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
       // Zeitzonen
       targetZones.forEach(zone => {
-        //const localStart = nextStart.getTime() + zone.offset * 3600000;
-        //const remaining = localStart - (utcNow + zone.offset * 3600000);
+        //const localStart = nextStart.getTime() + zone.offset * 3_600_000;
+        //const remaining = localStart - (utcNow + zone.offset * 3_600_000);
 
         const td = document.createElement("td");
 
-        const theStartTime = getStartDate(show).getTime() + zone.offset * 3600000;
+        const theStartTime = getStartDate(show).getTime() + zone.offset * 3_600_000;
         const startTime = new Date(theStartTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
-        const theEndTime = getEndDate(show).getTime() + zone.offset * 3600000;
+        const theEndTime = getEndDate(show).getTime() + zone.offset * 3_600_000;
         const endTime = new Date(theEndTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
-        td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3600000;//formatDuration(remaining);
+        td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3_600_000;//formatDuration(remaining);
         if (zone.offset === show.timezoneOffset) {
           td.classList.add("bold");
         }
