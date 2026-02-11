@@ -261,18 +261,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
         timezoneOffset: -1
       }
     ],
-    1: [ // Tuesday
-      {
-        name: "Rocksteady Nights",
-        showUrl: "",
-        station: "M2",
-        start: "21:30",
-        end: "23:00",
-        stream: "",
-		archive: "",
-        timezoneOffset: 1
-      }
-    ],
+    1: [], // Tuesday
     2: [ // Wednesday
       {
         name: "Rudeboy's Delight",
@@ -418,22 +407,27 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const link = document.createElement("a");
       link.href = show.showUrl;
       link.textContent = show.name;
-      link.target = "_blank";       // optional: open in new tab
+      link.target = "_blank"; // optional: open in new tab
       link.rel = "noopener noreferrer"; // recommended when using _blank
       nameTd.appendChild(link);
       tr.appendChild(nameTd);
 
       // Station
       const stationTd = document.createElement("td");
-      stationTd.textContent = show.station;
+      const stationLink = document.createElement("a");
+      stationLink.href = show.stationUrl;
+      stationLink.textContent = show.station;
+      stationLink.target = "_blank"; // optional: open in new tab
+      stationLink.rel = "noopener noreferrer"; // recommended when using _blank
+      stationTd.appendChild(stationLink);
       tr.appendChild(stationTd);
 
       // Stream
       const streamTd = document.createElement("td");
       const streamLink = document.createElement("a");
       streamLink.href = show.stream;
-      streamLink.textContent = "stream";
-      streamLink.target = "_blank";       // optional: open in new tab
+      streamLink.textContent = "Stream";
+      streamLink.target = "_blank"; // optional: open in new tab
       streamLink.rel = "noopener noreferrer"; // recommended when using _blank
       streamTd.appendChild(streamLink);
       tr.appendChild(streamTd);
@@ -442,8 +436,8 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const archiveTd = document.createElement("td");
       const archiveLink = document.createElement("a");
       archiveLink.href = show.archive;
-      archiveLink.textContent = "archive";
-      archiveLink.target = "_blank";       // optional: open in new tab
+      archiveLink.textContent = "Archive";
+      archiveLink.target = "_blank"; // optional: open in new tab
       archiveLink.rel = "noopener noreferrer"; // recommended when using _blank
       archiveTd.appendChild(archiveLink);
       tr.appendChild(archiveTd);
