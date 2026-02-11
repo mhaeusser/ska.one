@@ -228,6 +228,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th>Day</th>
     <th>Show</th>
     <th>Station</th>
+    <th>Stream</th>
     <th>time until next show</th>
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span></th>
     <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span></th>
@@ -281,7 +282,16 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
         timezoneOffset: 9
       }
     ],
-    4: [], // Friday
+    4: [ // Friday
+      {
+        name: "File Under Ska",
+        station: "Freies Radio für Stuttgart",
+        start: "20:00",
+        end: "22:00",
+        stream: "https://streaming.fueralle.org/frs-hi.mp3",
+        timezoneOffset: 0
+      }
+	],
     5: [ // Saturday
       {
         name: "Sydney Late Show",
@@ -314,9 +324,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
     const [h, m] = show.start.split(":").map(Number);
 
-    const startUTC =
-      new Date(utcNow)
-        .setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const startUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
 
     let nextStart = new Date(startUTC);
 
@@ -392,6 +400,11 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       const stationTd = document.createElement("td");
       stationTd.textContent = show.station;
       tr.appendChild(stationTd);
+
+      // Stream
+      const streamTd = document.createElement("td");
+      streamTd.textContent = show.stream;
+      tr.appendChild(streamTd);
 
       // Time until next show
       const waitTd = document.createElement("td");
