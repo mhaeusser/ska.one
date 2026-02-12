@@ -434,8 +434,8 @@ function setNextWeekday(date, targetWeekday) {
     }
   }
 
-  function timeToText(time_sec) {
-    return new Date(time_sec).toLocaleTimeString("en-GB", {
+  function formatTime(time) {
+    return time.toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit"
     });
@@ -580,10 +580,12 @@ function setNextWeekday(date, targetWeekday) {
         const td = document.createElement("td");
 
         const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
-        const startTime = timeToText(startTimeInZone_sec);
+        const startTimeInZone_date = new Date(startTimeInZone_sec);
+        const startTime = formatTime(startTimeInZone_date);
 	
         const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
-        const endTime = timeToText(endTimeInZone_sec);
+        const endTimeInZone_date = new Date(addHours(localEndTime_sec, zone.offset - show.timezone));
+        const endTime = formatTime(endTimeInZone_date);
 		
         td.textContent = startTime + " - " + endTime;
         if (zone.offset === show.timezone) {
