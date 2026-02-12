@@ -242,6 +242,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   <thead>
   <tr>
     <th>Day</th>
+    <th>Recurrence</th>
     <th>Show</th>
     <th>Station</th>
     <th>Stream</th>
@@ -304,6 +305,7 @@ NZDT          UTC+13     Pacific/Auckland
     0: [ // Sunday
       {
         name: "Blue Beat in my Soul",
+        recurrence: "2nd, 4th",
         showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
         station: "Radio Flora",
         stationUrl: "https://radioflora.de",
@@ -317,6 +319,7 @@ NZDT          UTC+13     Pacific/Auckland
     1: [ // Monday
       {
         name: "Ska Patrol",
+        recurrence: "weekly",
         showUrl: "https://skapatrol.weebly.com",
         station: "NEAR fm 90.3",
 		stream: "https://nearfm.ie/livestream/",
@@ -331,6 +334,7 @@ NZDT          UTC+13     Pacific/Auckland
     3: [ // Wednesday
       {
         name: "Rudeboy's Delight",
+        recurrence: "weekly",
         showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
         station: "Wüste Welle",
         stationUrl: "https://www.wueste-welle.de",
@@ -345,8 +349,10 @@ NZDT          UTC+13     Pacific/Auckland
     5: [ // Friday
       {
         name: "File Under Ska",
+        recurrence: "monthly",
         showUrl: "https://www.file-under-ska.de",
-        station: "Freies Radio für Stuttgart",
+        station: "FRS",
+        stationUrl: "https://www.freies-radio.de",
         start: "20:00",
         end: "22:00",
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
@@ -357,6 +363,7 @@ NZDT          UTC+13     Pacific/Auckland
     6: [ // Saturday
       {
         name: "Sydney Late Show",
+        recurrence: "weekly",
         showUrl: "",
         station: "M5",
         start: "22:15",
@@ -495,6 +502,11 @@ function setNextWeekday(date, targetWeekday) {
       const dayTd = document.createElement("td");
       dayTd.textContent = weekdays[day];// + " " + show.timezone;
       tr.appendChild(dayTd);
+
+      // Recurrence
+      const recurrenceTd = document.createElement("td");
+      recurrenceTd.textContent = show.recurrence;
+      tr.appendChild(recurrenceTd);
 
       // Show
       const nameTd = document.createElement("td");
