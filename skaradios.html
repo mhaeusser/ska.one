@@ -549,20 +549,31 @@ function setNextWeekday(date, targetWeekday) {
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
+	  
+
+	  // TODO
+	  /*
+      // is the show on now?
+      if ((nowDayUTC === day) && (nowHourUTC >= startHour) && (nowHourUTC < endHour)) {
+        thisWeek = whichWeek(now.getDay());
+        // if(weeks[thisWeek] == 1) {
+        return '<span><b>now playing!</b></span>';
+        // }
+      }
+      */
 
       tr.appendChild(waitTd);
 
+      const localStartTime_sec = showTimeInfo.start;
+      const localEndTime_sec = showTimeInfo.end;
       // traverse timezones
       targetZones.forEach(zone => {
         const td = document.createElement("td");
 
-        const localStartTime_sec = showTimeInfo.start;
 		const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
         const startTime = timeToText(startTimeInZone_sec);
 		
-        const localEndTime_sec = showTimeInfo.end;
 		const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
-
         const endTime = timeToText(endTimeInZone_sec);
 		
         td.textContent = startTime + " - " + endTime;
