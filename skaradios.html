@@ -301,7 +301,20 @@ NZDT          UTC+13     Pacific/Auckland
   // Show data
   // ---------------------------
   const weeklySchedule = {
-    0: [ // Monday
+    0: [ // Sunday
+      {
+        name: "Blue Beat in my Soul",
+        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
+        station: "Radio Flora",
+        stationUrl: "https://radioflora.de",
+        start: "20:00",
+        end: "22:00",
+        stream: "https://radioflora.de",
+		archive: "https://www.mixcloud.com/bluebeatshelter/",
+        timezone: 1
+      }
+    ],
+    1: [ // Monday
       {
         name: "Ska Patrol",
         showUrl: "https://skapatrol.weebly.com",
@@ -314,8 +327,8 @@ NZDT          UTC+13     Pacific/Auckland
         timezone: 0
       }
     ],
-    1: [], // Tuesday
-    2: [ // Wednesday
+    2: [], // Tuesday
+    3: [ // Wednesday
       {
         name: "Rudeboy's Delight",
         showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
@@ -328,8 +341,8 @@ NZDT          UTC+13     Pacific/Auckland
         timezone: 1
       },
 	],
-    3: [], // Thursday    
-    4: [ // Friday
+    4: [], // Thursday    
+    5: [ // Friday
       {
         name: "File Under Ska",
         showUrl: "https://www.file-under-ska.de",
@@ -341,7 +354,7 @@ NZDT          UTC+13     Pacific/Auckland
         timezone: 1
       }
 	],
-    5: [ // Saturday
+    6: [ // Saturday
       {
         name: "Sydney Late Show",
         showUrl: "",
@@ -351,19 +364,6 @@ NZDT          UTC+13     Pacific/Auckland
         stream: "",
 		archive: "",
         timezone: 10
-      }
-    ],
-    6: [ // Sunday
-      {
-        name: "Blue Beat in my Soul",
-        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
-        station: "Radio Flora",
-        stationUrl: "https://radioflora.de",
-        start: "20:00",
-        end: "22:00",
-        stream: "https://radioflora.de",
-		archive: "https://www.mixcloud.com/bluebeatshelter/",
-        timezone: 1
       }
     ],
   };
@@ -382,7 +382,7 @@ NZDT          UTC+13     Pacific/Auckland
   // --------------------------
   // Helper functions
   // --------------------------
-  function getNextStart(show, day) {
+  function getNextStart_date(show, day) {
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
@@ -396,10 +396,8 @@ NZDT          UTC+13     Pacific/Auckland
       nextStart.setUTCDate(nextStart.getUTCDate() + 1);
     }
 
-    const x = setNextWeekday(nextStart, day);
-	//nextStart.setDate(4);
-
-    return x;
+    const next = setNextWeekday(nextStart, day);
+    return next;
   }
 
 function setNextWeekday(date, targetWeekday) {
@@ -437,40 +435,22 @@ function setNextWeekday(date, targetWeekday) {
 
   // in seconds
   function formatDuration(sec) {
-    const hours = Math.floor(sec / 3600);
+    let hours = Math.floor(sec / 3600);
+
+	let days = 0;
+	while (hours > 23) {
+	  days++;
+	  hours -= 24;
+    }
+	
     const minutes = Math.floor((sec % 3600) / 60);
     const seconds = sec % 60;
-    //return `${h}:${m}:${s}`;
-	//return `${h} h, ${m} m, ${s} s`;
     let text = '';
-    //if (days === 1) {
-    //  text =  "1 d, ";
-    //} else if (days > 1) {
-    //  text += days + " d, ";
-    //}
-    if (hours > 0)
-	text += hours + ' h, '
-    
+	if (days > 0) text += days + ' d, '
+    if (hours > 0) text += hours + ' h, '
     text += minutes + ' m, '
-    
     return text + seconds + ' s';
   }
-
-/*
-  function formatRestDate(days, hours, minutes, seconds) {
-    let text = '';
-    if (days === 1) {
-      text =  "1 d, ";
-    } else if (days > 1) {
-      text += days + " d, ";
-    }
-    text += hours + ' h, '
-    if (minutes < 10) { text += "0";}
-    text += minutes + ' m, '
-    if (seconds < 10) { text += "0";}
-    return text + seconds + ' s';
-  }
-*/
 
   // ---------------------------
   // Create the table
@@ -479,15 +459,6 @@ function setNextWeekday(date, targetWeekday) {
     const now = new Date();
 	const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
-    /*
-    const formatter = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "America/Jamaica",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false
-    });
-    */
     function formatInTimeZone(date, timeZone) {
       return new Intl.DateTimeFormat("en-GB", {
         timeZone: timeZone,
@@ -497,6 +468,11 @@ function setNextWeekday(date, targetWeekday) {
         hour12: false
       }).format(date);
     }
+
+    function addHours(timeSec, numHours) {
+      return timeSec + numHours * 3_600_000;
+    }
+
     document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
     document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
     document.getElementById("gmt").textContent = formatInTimeZone(now, "Europe/London");
@@ -509,7 +485,7 @@ function setNextWeekday(date, targetWeekday) {
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
-    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
@@ -562,34 +538,34 @@ function setNextWeekday(date, targetWeekday) {
 
       const showTimeInfo = getShowTimeInfo(show);
 
-      // Time until next show
+      // time until next show
       const waitTd = document.createElement("td");
 
       const offset = show.timezone; // TODO
 
-      const nextStart = getNextStart(show, day+1);
-      const localStart = nextStart.getTime() + offset * 3_600_000;
-      const remaining = Math.floor((localStart - (utcNow + offset * 3_600_000)) / 1000);
+      const nextStart_date = getNextStart_date(show, day);
+      const localStart_sec = addHours(nextStart_date.getTime(), offset);
+      const remaining_sec = Math.floor((localStart_sec - (utcNow + offset * 3_600_000)) / 1000);
 
       waitTd.classList.add("nowrap-right");
-      waitTd.textContent = nextStart;// formatDuration(remaining);
+      waitTd.textContent = formatDuration(remaining_sec);
 
       tr.appendChild(waitTd);
 
-      // timezones
+      // traverse timezones
       targetZones.forEach(zone => {
         const td = document.createElement("td");
 
-        const localStartTimeSec = showTimeInfo.start;
-		const startTimeInZone = localStartTimeSec + (zone.offset - show.timezone) * 3_600_000;
-        const startTime = timeToText(startTimeInZone);
+        const localStartTime_sec = showTimeInfo.start;
+		const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
+        const startTime = timeToText(startTimeInZone_sec);
 		
-        const localEndTimeSec = showTimeInfo.end;
-		const endTimeInZone = localEndTimeSec + (zone.offset - show.timezone) * 3_600_000;
+        const localEndTime_sec = showTimeInfo.end;
+		const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
 
-        const endTime = timeToText(endTimeInZone);
+        const endTime = timeToText(endTimeInZone_sec);
 		
-        td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3_600_000;//formatDuration(remaining);
+        td.textContent = startTime + " - " + endTime;
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
         }
