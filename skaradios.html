@@ -402,23 +402,15 @@ NZDT          UTC+13     Pacific/Auckland
   function getStartDate(show) {
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
-
     const [h, m] = show.start.split(":").map(Number);
-
-    const startUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
-
-    return new Date(startUTC);
+    return new Date(new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0));
   }
 
   function getEndDate(show) {
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
-
     const [h, m] = show.end.split(":").map(Number);
-
-    const endUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
-
-    return new Date(endUTC);
+    return new Date(new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0));
   }
 
   // in seconds
@@ -504,7 +496,7 @@ NZDT          UTC+13     Pacific/Auckland
 
       // Day
       const dayTd = document.createElement("td");
-      dayTd.textContent = weekdays[day];
+      dayTd.textContent = weekdays[day];// + " " + show.timezone;
       tr.appendChild(dayTd);
 
       // Show
@@ -552,8 +544,7 @@ NZDT          UTC+13     Pacific/Auckland
 
       const offset = show.timezone; // TODO
 
-      const localStart =
-        nextStart.getTime() + offset * 3_600_000;
+      const localStart = nextStart.getTime() + offset * 3_600_000;
       const remaining = Math.floor((localStart - (utcNow + offset * 3_600_000)) / 1000);
 
       waitTd.classList.add("nowrap-right");
@@ -578,6 +569,7 @@ NZDT          UTC+13     Pacific/Auckland
           hour: "2-digit",
           minute: "2-digit"
         });
+		
         td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3_600_000;//formatDuration(remaining);
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
