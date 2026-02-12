@@ -419,12 +419,13 @@ function setNextWeekday(date, targetWeekday) {
 
 
   function getShowTimeInfo(show) {
-	const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
+    const now = Date.now();
+
     const [start_h, start_m] = show.start.split(":").map(Number);
-	const start = new Date(new Date(utcNow).setUTCHours(start_h - show.timezone, start_m, 0, 0)).getTime();
-	const [end_h, end_m] = show.end.split(":").map(Number);
-	const end = new Date(new Date(utcNow).setUTCHours(end_h - show.timezone, end_m, 0, 0)).getTime();
+    const start = new Date(now).setUTCHours(start_h - show.timezone, start_m, 0, 0);
+
+    const [end_h, end_m] = show.end.split(":").map(Number);
+    const end = new Date(now).setUTCHours(end_h - show.timezone, end_m, 0, 0);
 	
 	return {
 	  start: start,
@@ -433,8 +434,8 @@ function setNextWeekday(date, targetWeekday) {
     }
   }
 
-  function timeToText(time) {
-    return new Date(time).toLocaleTimeString("en-GB", {
+  function timeToText(time_sec) {
+    return new Date(time_sec).toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit"
     });
@@ -501,6 +502,7 @@ function setNextWeekday(date, targetWeekday) {
       // Day
       const dayTd = document.createElement("td");
       dayTd.textContent = weekdays[day];// + " " + show.timezone;
+	  
       tr.appendChild(dayTd);
 
       // Recurrence
