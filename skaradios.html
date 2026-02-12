@@ -311,7 +311,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "",
 		archive: "",
-        timezoneOffset: 0
+        timezone: 0
       }
     ],
     1: [], // Tuesday
@@ -325,7 +325,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "23:00",
 		stream: "https://www.wueste-welle.de/broadcasts/livestream/",
 		archive: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
-        timezoneOffset: 1
+        timezone: 1
       },
 	],
     3: [], // Thursday    
@@ -338,7 +338,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
 		archive: "https://www.freies-radio.de/mediathek",
-        timezoneOffset: 1
+        timezone: 1
       }
 	],
     5: [ // Saturday
@@ -350,7 +350,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "23:45",
         stream: "",
 		archive: "",
-        timezoneOffset: 10
+        timezone: 10
       }
     ],
     6: [ // Sunday
@@ -363,7 +363,7 @@ NZDT          UTC+13     Pacific/Auckland
         end: "22:00",
         stream: "https://radioflora.de",
 		archive: "https://www.mixcloud.com/bluebeatshelter/",
-        timezoneOffset: 1
+        timezone: 1
       }
     ],
   };
@@ -388,7 +388,7 @@ NZDT          UTC+13     Pacific/Auckland
 
     const [h, m] = show.start.split(":").map(Number);
 
-    const startUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const startUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
 
     let nextStart = new Date(startUTC);
 
@@ -405,7 +405,7 @@ NZDT          UTC+13     Pacific/Auckland
 
     const [h, m] = show.start.split(":").map(Number);
 
-    const startUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const startUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
 
     return new Date(startUTC);
   }
@@ -416,7 +416,7 @@ NZDT          UTC+13     Pacific/Auckland
 
     const [h, m] = show.end.split(":").map(Number);
 
-    const endUTC = new Date(utcNow).setUTCHours(h - show.timezoneOffset, m, 0, 0);
+    const endUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
 
     return new Date(endUTC);
   }
@@ -550,7 +550,7 @@ NZDT          UTC+13     Pacific/Auckland
       // Time until next show
       const waitTd = document.createElement("td");
 
-      const offset = show.timezoneOffset;
+      const offset = show.timezone; // TODO
 
       const localStart =
         nextStart.getTime() + offset * 3_600_000;
@@ -568,18 +568,18 @@ NZDT          UTC+13     Pacific/Auckland
 
         const td = document.createElement("td");
 
-        const theStartTime = getStartDate(show).getTime() + zone.offset * 3_600_000;
+        const theStartTime = getStartDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
         const startTime = new Date(theStartTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
-        const theEndTime = getEndDate(show).getTime() + zone.offset * 3_600_000;
+        const theEndTime = getEndDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
         const endTime = new Date(theEndTime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         });
         td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3_600_000;//formatDuration(remaining);
-        if (zone.offset === show.timezoneOffset) {
+        if (zone.offset === show.timezone) {
           td.classList.add("bold");
         }
         td.classList.add("nowrap");
