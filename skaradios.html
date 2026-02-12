@@ -14,7 +14,7 @@
         timeZoneName: "short"
       });
       document.getElementById("timezone").innerHTML = formatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
-      document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();	  
+      document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
       // hours are UTC times! day: 0 = Sunday
@@ -251,7 +251,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="pst"></span></th>
     <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="est"></span></th>
     <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="gmt"></span></th>
-    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="cet"></span></th>	
+    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="cet"></span></th>
     <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="msk"></span></th>
     <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span><br/><span id="jst"></span></th>
     <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span><br/><span id="aest"></span></th>
@@ -312,7 +312,7 @@ NZDT          UTC+13     Pacific/Auckland
         start: "20:00",
         end: "22:00",
         stream: "https://radioflora.de",
-		archive: "https://www.mixcloud.com/bluebeatshelter/",
+        archive: "https://www.mixcloud.com/bluebeatshelter/",
         timezone: 1
       }
     ],
@@ -322,11 +322,11 @@ NZDT          UTC+13     Pacific/Auckland
         recurrence: "weekly",
         showUrl: "https://skapatrol.weebly.com",
         station: "NEAR fm 90.3",
-		stream: "https://nearfm.ie/livestream/",
+        stream: "https://nearfm.ie/livestream/",
         start: "20:00",
         end: "22:00",
         stream: "",
-		archive: "",
+        archive: "",
         timezone: 0
       }
     ],
@@ -340,11 +340,11 @@ NZDT          UTC+13     Pacific/Auckland
         stationUrl: "https://www.wueste-welle.de",
         start: "22:00",
         end: "23:00",
-		stream: "https://www.wueste-welle.de/broadcasts/livestream/",
-		archive: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
+        stream: "https://www.wueste-welle.de/broadcasts/livestream/",
+        archive: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
         timezone: 1
       },
-	],
+    ],
     4: [], // Thursday    
     5: [ // Friday
       {
@@ -356,10 +356,10 @@ NZDT          UTC+13     Pacific/Auckland
         start: "20:00",
         end: "22:00",
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
-		archive: "https://www.freies-radio.de/mediathek",
+        archive: "https://www.freies-radio.de/mediathek",
         timezone: 1
       }
-	],
+    ],
     6: [ // Saturday
       {
         name: "Sydney Late Show",
@@ -369,7 +369,7 @@ NZDT          UTC+13     Pacific/Auckland
         start: "22:15",
         end: "23:45",
         stream: "",
-		archive: "",
+        archive: "",
         timezone: 10
       }
     ],
@@ -426,11 +426,11 @@ function setNextWeekday(date, targetWeekday) {
 
     const [end_h, end_m] = show.end.split(":").map(Number);
     const end = new Date(now).setUTCHours(end_h - show.timezone, end_m, 0, 0);
-	
-	return {
-	  start: start,
-	  end: end,
-	  timezone: show.timezone
+    
+    return {
+      start: start,
+      end: end,
+      timezone: show.timezone
     }
   }
 
@@ -445,16 +445,16 @@ function setNextWeekday(date, targetWeekday) {
   function formatDuration(sec) {
     let hours = Math.floor(sec / 3600);
 
-	let days = 0;
-	while (hours > 23) {
-	  days++;
-	  hours -= 24;
+    let days = 0;
+    while (hours > 23) {
+  days++;
+      hours -= 24;
     }
-	
+    
     const minutes = Math.floor((sec % 3600) / 60);
     const seconds = sec % 60;
     let text = '';
-	if (days > 0) text += days + ' d, '
+    if (days > 0) text += days + ' d, '
     if (hours > 0) text += hours + ' h, '
     text += minutes + ' m, '
     return text + seconds + ' s';
@@ -465,7 +465,7 @@ function setNextWeekday(date, targetWeekday) {
   // ---------------------------
   function renderTable() {
     const now = new Date();
-	const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
+    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     function formatInTimeZone(date, timeZone) {
       return new Intl.DateTimeFormat("en-GB", {
@@ -500,7 +500,7 @@ function setNextWeekday(date, targetWeekday) {
       // Day
       const dayTd = document.createElement("td");
       dayTd.textContent = weekdays[day];// + " " + show.timezone;
-	  
+      
       tr.appendChild(dayTd);
 
       // Recurrence
@@ -558,10 +558,10 @@ function setNextWeekday(date, targetWeekday) {
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
-	  
+      
 
-	  // TODO
-	  /*
+      // TODO
+      /*
       // is the show on now?
       if ((nowDayUTC === day) && (nowHourUTC >= startHour) && (nowHourUTC < endHour)) {
         thisWeek = whichWeek(now.getDay());
@@ -582,11 +582,11 @@ function setNextWeekday(date, targetWeekday) {
         const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
         const startTimeInZone_date = new Date(startTimeInZone_sec);
         const startTime = formatTime(startTimeInZone_date);
-	
+    
         const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
         const endTimeInZone_date = new Date(addHours(localEndTime_sec, zone.offset - show.timezone));
         const endTime = formatTime(endTimeInZone_date);
-		
+        
         td.textContent = startTime + " - " + endTime;
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
