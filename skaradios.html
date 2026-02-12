@@ -403,9 +403,9 @@ NZDT          UTC+13     Pacific/Auckland
 	const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
     const [start_h, start_m] = show.start.split(":").map(Number);
-	const start = new Date(new Date(utcNow).setUTCHours(start_h - show.timezone, start_m, 0, 0));
+	const start = new Date(new Date(utcNow).setUTCHours(start_h - show.timezone, start_m, 0, 0)).getTime();
 	const [end_h, end_m] = show.end.split(":").map(Number);
-	const end = new Date(new Date(utcNow).setUTCHours(end_h - show.timezone, end_m, 0, 0));
+	const end = new Date(new Date(utcNow).setUTCHours(end_h - show.timezone, end_m, 0, 0)).getTime();
 	
 	return {
 	  start: start,
@@ -565,12 +565,17 @@ NZDT          UTC+13     Pacific/Auckland
         const td = document.createElement("td");
         const showTimeInfo = getShowTimeInfo(show);
 
-        //const theStartTime = getStartDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
-		const theStartTime = showTimeInfo.start.getTime() + (zone.offset - show.timezone) * 3_600_000;// getStartDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
-        const startTime = timeToText(theStartTime);
-        //const theEndTime = getEndDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
-		const theEndTime = showTimeInfo.end.getTime() + (zone.offset - show.timezone) * 3_600_000;
-        const endTime = timeToText(theEndTime);
+        const localStartTimeSec = showTimeInfo.start;
+		const startTimeInZone = localStartTimeSec + (zone.offset - show.timezone) * 3_600_000;
+        const startTime = timeToText(startTimeInZone);
+		//const theStartTime = showTimeInfo.start.getTime() + (zone.offset - show.timezone) * 3_600_000;// getStartDate(show).getTime() + (zone.offset - show.timezone) * 3_600_000;
+		
+        const localEndTimeSec = showTimeInfo.end;
+		const endTimeInZone = localEndTimeSec + (zone.offset - show.timezone) * 3_600_000;
+
+        //const startTime = timeToText(startTimeInZone);
+		//const theEndTime = showTimeInfo.end.getTime() + (zone.offset - show.timezone) * 3_600_000;
+        const endTime = timeToText(endTimeInZone);
 		
         td.textContent = startTime + " - " + endTime; // getStartDate(show).getTime();//.start + " - " + show.end;// + zone.offset * 3_600_000;//formatDuration(remaining);
         if (zone.offset === show.timezone) {
