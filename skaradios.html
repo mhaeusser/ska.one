@@ -553,11 +553,8 @@ function setNextWeekday(date, targetWeekday) {
       // time until next show
       const waitTd = document.createElement("td");
 
-      const offset = show.timezone; // TODO
-
       const nextStart_date = getNextStart_date(show, day);
-      const localStart_sec = addHours(nextStart_date.getTime(), offset);
-      const remaining_sec = Math.floor((localStart_sec - (utcNow + offset * 3_600_000)) / 1000);
+      const remaining_sec = Math.floor((nextStart_date - (utcNow + show.timezone * 3_600_000)) / 1000);
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
