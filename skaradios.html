@@ -493,8 +493,6 @@ function setNextWeekday(date, targetWeekday) {
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
       const tr = document.createElement("tr");
