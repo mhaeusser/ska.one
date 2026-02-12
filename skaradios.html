@@ -5,7 +5,7 @@
   <META http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>Ska Radios</title>
   <script type="text/javascript">
-    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     function go() {
@@ -86,7 +86,7 @@
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
-      let text = days[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
+      let text = weekdays[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
       if (hour < 10) { text += "0";}
       text += hour + ':'
       if (minute < 10) { text += "0";}
@@ -113,7 +113,7 @@
     function formatWeekInMonth(whichWeek, day) {
       text = '<span class="small-text">';
       text += ' (' + whichWeek + ' ';
-      text += days[day];
+      text += weekdays[day];
       text += ' this month)';
       text += '</span>';
       return text;
@@ -581,10 +581,10 @@ function setNextWeekday(date, targetWeekday) {
       targetZones.forEach(zone => {
         const td = document.createElement("td");
 
-		const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
+        const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
         const startTime = timeToText(startTimeInZone_sec);
-		
-		const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
+	
+        const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
         const endTime = timeToText(endTimeInZone_sec);
 		
         td.textContent = startTime + " - " + endTime;
