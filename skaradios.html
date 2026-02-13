@@ -63,7 +63,7 @@
   </script>
 </head>
 
-<body onload="go">
+<body onload="go()">
 <h1>Ska Radios of the world, unite!</h1>
 <!-- No warranty, there may be minor errors... -->
 The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts & radio shows</a>
@@ -289,11 +289,9 @@ NZDT          UTC+13     Pacific/Auckland
     const hours = Math.floor(sec / 3600) % 24;
     const minutes = Math.floor(sec / 60) % 60;
     const seconds = sec % 60;
-    return (
-      (days ? days + " d, " : "") +
+    return (days ? days + " d, " : "") +
       (hours ? hours + " h, " : "") +
-      minutes + " m, " + seconds + " s"
-    );
+      minutes + " m, " + seconds + " s";
   }
 
   function isShowNoOn(show, weekday) {
@@ -309,7 +307,7 @@ NZDT          UTC+13     Pacific/Auckland
     showEnd.setUTCHours(show.end_h - show.timezone, show.end_m, 0, 0);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
 
-    return (showStart <= now && now <= showEnd);
+    return showStart <= now && now <= showEnd;
   }
 
   // ---------------------------
