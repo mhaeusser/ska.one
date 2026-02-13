@@ -46,12 +46,8 @@
     }
 
     function formatWeekInMonth(whichWeek, day) {
-      let text = '<span class="small-text">';
-      text += ' (' + whichWeek + ' ';
-      text += weekdays[day];
-      text += ' this month)';
-      text += '</span>';
-      return text;
+      let text = '<span class="small-text"> (' + whichWeek + ' ';
+      text += weekdays[day] + ' this month)' + '</span>';
     }
 
     function getGMTOffsetMessage() {
@@ -173,12 +169,12 @@ NZDT          UTC+13     Pacific/Auckland
         recurrence: "weekly",
         showUrl: "https://skapatrol.weebly.com",
         station: "NEAR fm 90.3",
-        stream: "https://nearfm.ie/livestream/",
+        stationUrl: "https://nearfm.ie/",
         start_h: 20,
         start_m: 0,
         end_h: 22,
         end_m: 0,
-        stream: "",
+        stream: "https://nearfm.ie/livestream/",
         archive: "",
         timezone: 0
       }
