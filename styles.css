@@ -74,6 +74,10 @@ td.bold {
   font-weight: bold;
 }
 
+span.bold {
+  font-weight: bold;
+}
+
 th.center {
   text-align: center;
 }
