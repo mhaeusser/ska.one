@@ -158,8 +158,8 @@ NZDT          UTC+13     Pacific/Auckland
         start_m: 0,
         end_h: 22,
         end_m: 0,
-        stream: "https://radioflora.de",
-        archive: "https://www.mixcloud.com/bluebeatshelter/",
+        streamUrl: "https://radioflora.de",
+        archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
         timezone: 1
       }
     ],
@@ -174,8 +174,8 @@ NZDT          UTC+13     Pacific/Auckland
         start_m: 0,
         end_h: 22,
         end_m: 0,
-        stream: "https://nearfm.ie/livestream/",
-        archive: "",
+        streamUrl: "https://nearfm.ie/livestream/",
+        archiveUrl: "",
         timezone: 0
       }
     ],
@@ -191,8 +191,8 @@ NZDT          UTC+13     Pacific/Auckland
         start_m: 0,
         end_h: 23,
         end_m: 0,
-        stream: "https://www.wueste-welle.de/broadcasts/livestream/",
-        archive: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
+        streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
+        archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
         timezone: 1
       },
     ],
@@ -208,8 +208,8 @@ NZDT          UTC+13     Pacific/Auckland
         start_m: 0,
         end_h: 22,
         end_m: 0,
-        stream: "https://streaming.fueralle.org/frs-hi.mp3",
-        archive: "https://www.freies-radio.de/mediathek",
+        streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
+        archiveUrl: "https://www.freies-radio.de/mediathek",
         timezone: 1
       }
     ],
@@ -223,8 +223,8 @@ NZDT          UTC+13     Pacific/Auckland
         start_m: 15,
         end_h: 15,
         end_m: 45,
-        stream: "",
-        archive: "",
+        streamUrl: "",
+        archiveUrl: "",
         timezone: 10
       }
     ],
@@ -326,6 +326,21 @@ NZDT          UTC+13     Pacific/Auckland
       }).format(date);
     }
 
+    function addTdWithLink(tr, text, url, ifNone) {
+      const nameTd = document.createElement("td");
+	  if (url) {
+        const link = document.createElement("a");
+        link.href = url;
+        link.textContent = text;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        nameTd.appendChild(link);
+      } else {  
+        nameTd.textContent = ifNone ? ifNone : text;
+      }
+      tr.appendChild(nameTd);
+    }
+
     document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
     document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
     document.getElementById("gmt").textContent = formatInTimeZone(now, "Europe/London");
@@ -353,48 +368,16 @@ NZDT          UTC+13     Pacific/Auckland
       tr.appendChild(recurrenceTd);
 
       // Show
-      const nameTd = document.createElement("td");
-	  if (show.showUrl) {
-        const link = document.createElement("a");
-        link.href = show.showUrl;
-        link.textContent = show.name;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        nameTd.appendChild(link);
-      } else {
-        nameTd.textContent = show.name;
-      }
-      tr.appendChild(nameTd);
+	  addTdWithLink(tr, show.name, show.showUrl);
 
       // Station
-      const stationTd = document.createElement("td");
-      const stationLink = document.createElement("a");
-      stationLink.href = show.stationUrl;
-      stationLink.textContent = show.station;
-      stationLink.target = "_blank";
-      stationLink.rel = "noopener noreferrer";
-      stationTd.appendChild(stationLink);
-      tr.appendChild(stationTd);
+	  addTdWithLink(tr, show.station, show.stationUrl);
 
       // Stream
-      const streamTd = document.createElement("td");
-      const streamLink = document.createElement("a");
-      streamLink.href = show.stream;
-      streamLink.textContent = "Stream";
-      streamLink.target = "_blank";
-      streamLink.rel = "noopener noreferrer";
-      streamTd.appendChild(streamLink);
-      tr.appendChild(streamTd);
+	  addTdWithLink(tr, "Stream", show.streamUrl, "-");
 
       // Archive
-      const archiveTd = document.createElement("td");
-      const archiveLink = document.createElement("a");
-      archiveLink.href = show.archive;
-      archiveLink.textContent = "Archive";
-      archiveLink.target = "_blank";
-      archiveLink.rel = "noopener noreferrer";
-      archiveTd.appendChild(archiveLink);
-      tr.appendChild(archiveTd);
+	  addTdWithLink(tr, "Archive", show.archiveUrl, "-");
 
       // time until next show
       const waitTd = document.createElement("td");
