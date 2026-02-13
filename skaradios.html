@@ -17,72 +17,7 @@
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
-      // hours are UTC times! day: 0 = Sunday
-      document.getElementById("skapatrol").innerHTML = calcInnerHTML(1, 20, 22, 1, 1, 1, 1, 1);
-      document.getElementById("rd").innerHTML = calcInnerHTML(3, 21, 22, 1 ,1 ,1 ,1 ,1);
-      document.getElementById("fus").innerHTML = calcInnerHTML(5, 19, 20, 1, 0, 1, 1, 1);
-      document.getElementById("freedom").innerHTML = calcInnerHTML(0, 21, 22, 0, 1, 0, 1, 0);
       setTimeout("go()", 1000);
-    }
-
-    // day: 0 = Sunday
-    function calcInnerHTML(day, startHour, endHour, first, second, third, fourth, fifth) {
-      // var weeks = [first, second, third, fourth, fifth];
-      const now = new Date();
-      const nowDayUTC = now.getUTCDay();
-      const nowHourUTC = now.getUTCHours();
-      let nowMinutesUTC = now.getUTCMinutes();
-      const nowSecondsUTC = now.getUTCSeconds();
-      // is the show on now?
-      if ((nowDayUTC === day) && (nowHourUTC >= startHour) && (nowHourUTC < endHour)) {
-        thisWeek = whichWeek(now.getDay());
-        // if(weeks[thisWeek] == 1) {
-        return '<span><b>now playing!</b></span>';
-        // }
-      }
-
-      let secondsLeft = 60 - nowSecondsUTC;
-      if (secondsLeft === 60) {
-        secondsLeft = 0;
-      } else {
-        nowMinutesUTC += 1;
-      }
-
-      let minutesLeft = 60 - nowMinutesUTC;
-      if (minutesLeft === 60) {
-        minutesLeft = 0;
-        //nowHourUTC += 1;
-        // } else {
-      }
-
-      let daysLeft = day - nowDayUTC;
-      if (daysLeft < 0) {
-        daysLeft += 7;
-      }
-
-      let hoursLeft = startHour - nowHourUTC - 1;
-      if (hoursLeft < 0) {
-        hoursLeft += 24;
-        // daysLeft -= 1;
-      }
-      //return 'startHour='+startHour+', nowHourUTC='+nowHourUTC;
-      //return 'nowDayUTC='+nowDayUTC+', day='+day+", daysLeft="+daysLeft;
-      //return 'day='+day+'nowDayUTC='+nowDayUTC+'nowHourUTC='+nowHourUTC + 'startHour='+startHour+'endHour='+endHour+formatRestDate(daysLeft, hoursLeft, minutesLeft, secondsLeft);
-      return formatRestDate(daysLeft, hoursLeft, minutesLeft, secondsLeft);
-    }
-
-    function formatRestDate(days, hours, minutes, seconds) {
-      let text = '';
-      if (days === 1) {
-        text =  "1 d, ";
-      } else if (days > 1) {
-        text += days + " d, ";
-      }
-      text += hours + ' h, '
-      if (minutes < 10) { text += "0";}
-      text += minutes + ' m, '
-      if (seconds < 10) { text += "0";}
-      return text + seconds + ' s';
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
@@ -151,92 +86,6 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 </table>
 <br/>
 <h2>FM Radio Shows</h2>
-<table border="1">
-  <tbody>
-  <tr>
-    <th class="header">Day</th>
-    <th class="header">Recurrence</th>
-    <th class="header">Programme</th>
-    <th class="header">Station</th>
-    <th class="header">Stream</th>
-    <th class="header">Archive</th>
-    <th class="header">time until next show</th>
-    <td class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span></td>
-    <td class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span></td>
-    <td class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span></td>
-    <td class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span></td>
-    <td class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span></td>
-    <td class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span></td>
-    <td class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span></td>
-  </tr>
-  <tr>
-    <td class="top">Monday</td>
-    <td class="top">weekly</td>
-    <td class="top"><a target="_parent" href="https://skapatrol.weebly.com">Ska Patrol</a></td>
-    <td class="top"><a target="_parent" href="https://nearfm.ie">NEAR fm 90.3</a></td>
-    <td class="top"><a target="_parent" href="https://nearfm.ie/livestream/">nearfm.ie/livestream</a></td>
-    <td class="top">-</td>
-    <td class="top"><p style="text-align:center" id="skapatrol">
-    <td class="center-top nowrap">12:00 - 14:00</td>
-    <td class="center-top nowrap">15:00 - 17:00</td>
-    <td class="center-top nowrap"><b>20:00 - 22:00</b></td>
-    <td class="center-top nowrap">21:00 - 23:00</td>
-    <td class="center-top nowrap">23:00 - 01:00</td>
-    <td class="center-top nowrap">05:00 - 07:00<br/><span class="small-text">Tuesday</span></td>
-    <td class="center-top nowrap">06:00 - 08:00<br/><span class="small-text">Tuesday</span></td>
-  </tr>
-  <tr>
-    <td class="top">Wednesday</td>
-    <td class="top">weekly</td>
-    <td class="top"><a target="_parent" href="https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html">Rudeboy's Delight</a></td>
-    <td class="top"><a target="_parent" href="https://www.wueste-welle.de">Wüste Welle</a></td>
-    <td class="top"><a target="_parent" href="https://www.wueste-welle.de/broadcasts/livestream/">Stream</a></td>
-    <td class="top"><a target="_parent" href="https://www.wueste-welle.de/mediathek/viewsendung/id/78445">Mediathek</a></td>
-    <td class="top"><p style="text-align:center" id="rd"></p></td>
-    <td class="center-top nowrap">13:00 - 14:00</td>
-    <td class="center-top nowrap">16:00 - 18:00</td>
-    <td class="center-top nowrap">21:00 - 22:00</td>
-    <td class="center-top nowrap"><b>22:00 - 23:00</b></td>
-    <td class="center-top nowrap">00:00 - 01:00<br/><span class="small-text">Thursday</span></td>
-    <td class="center-top nowrap">06:00 - 07:00<br/><span class="small-text">Thursday</span></td>
-    <td class="center-top nowrap">07:00 - 08:00<br/><span class="small-text">Thursday</span></td>
-  </tr>
-  <tr>
-    <td class="top">Friday</td>
-    <td class="top">monthly</td>
-    <td class="top"><a target="_parent" href="https://www.file-under-ska.de">File Under Ska</a></td>
-    <td class="top"><a target="_parent" href="https://www.freies-radio.de">Freies Radio für Stuttgart</a></td>
-    <td class="top"><a target="_parent" href="https://streaming.fueralle.org/frs-hi.mp3">Stream</a></td>
-    <td class="top"><a target="_parent" href="https://www.freies-radio.de/mediathek">Mediathek</a></td>
-    <td class="top"><p style="text-align:center" id="fus"></p></td>
-    <td class="center-top nowrap">11:00 - 13:00</td>
-    <td class="center-top nowrap">14:00 - 16:00</td>
-    <td class="center-top nowrap">19:00 - 21:00</td>
-    <td class="center-top nowrap"><b>20:00 - 22:00</b></td>
-    <td class="center-top nowrap">22:00 - 24:00</td>
-    <td class="center-top nowrap">04:00 - 06:00<br/><span class="small-text">Saturday</span></td>
-    <td class="center-top nowrap">05:00 - 07:00<br/><span class="small-text">Saturday</span></td>
-  </tr>
-  <tr>
-    <td class="top">Sunday<br/></td>
-    <td class="top">2<sup>nd</sup>, 4<sup>th</sup></td>
-    <!-- https://www.facebook.com/groups/387675204487 -->
-    <td class="top"><a target="_parent" href="https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/">Blue Beat in my Soul</a></td>
-    <td class="top"><a target="_parent" href="https://radioflora.de">Radio Flora</a></td>
-    <td class="top"><a target="_parent" href="https://radioflora.de">Stream</a></td>
-    <td class="top"><a target="_parent" href="https://www.mixcloud.com/bluebeatshelter/">Mixcloud</a></td>
-    <td class="top"><p style="text-align:center" id="freedom"></p></td>
-    <td class="center-top nowrap">13 - 14</td>
-    <td class="center-top nowrap">16 - 17</td>
-    <td class="center-top nowrap">21 - 22</td>
-    <td class="center-top nowrap"><b>20 - 22</b></td>
-    <td class="center-top nowrap">00 - 01<br/><span class="small-text">Monday</span></td>
-    <td class="center-top nowrap">06 - 07<br/><span class="small-text">Monday</span></td>
-    <td class="center-top nowrap">07 - 08<br/><span class="small-text">Monday</span></td>
-  </tr>
-  </tbody>
-</table>
-<p>
 
 <table id="radioTable">
   <thead>
@@ -559,26 +408,7 @@ NZDT          UTC+13     Pacific/Auckland
 	  
 	  const nextStartDate = getNextStartDate(show, day);
 	  
-	  if (show.name.startsWith("File")) {
-      console.log("show.timezone");
-      console.log(show.timezone);
-      const now = new Date();
-	  console.log("new Date()");
-	  console.log(now);
-	  const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
-	  console.log("utcNow = now.getTime() + now.getTimezoneOffset() * 60_000");
-	  console.log(utcNow);
-	  
-	  console.log("nextStartDate");
-	  console.log(nextStartDate);
-      }
-
-
-      //const remaining_sec = Math.floor((nextStartDate - (utcNow + show.timezone * 3_600_000)) / 1000);
-	  
-	  let remaining_sec = (nextStartDate - now) / 1000;//(utcNow + show.timezone * 3_600_000)) / 1000);
-	  remaining_sec = Math.floor(remaining_sec);
-	  
+	  const remaining_sec = Math.floor((nextStartDate - now) / 1000);
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
