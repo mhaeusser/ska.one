@@ -326,19 +326,19 @@ NZDT          UTC+13     Pacific/Auckland
     }).format(date);
   }
 
-  function addTd(tr, text, url, ifNone) {
-    const nameTd = document.createElement("td");
+  function addTd(tr, text, url, fallback) {
+    const td = document.createElement("td");
     if (url) {
       const link = document.createElement("a");
       link.href = url;
       link.textContent = text;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      nameTd.appendChild(link);
+      td.appendChild(link);
     } else {
-      nameTd.textContent = ifNone ? ifNone : text;
+      td.textContent = fallback ? fallback : text;
     }
-    tr.appendChild(nameTd);
+    tr.appendChild(td);
   }
 
   // ---------------------------
