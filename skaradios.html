@@ -17,7 +17,7 @@
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
-      setTimeout("go()", 1000);
+      setTimeout("go", 1000);
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
@@ -248,19 +248,17 @@ NZDT          UTC+13     Pacific/Auckland
   // --------------------------
   // Helper functions
   // --------------------------
-  function getNextStartDate(show, day) {
+  function getNextStartDate(show, weekday) {
     const now = new Date();
-    const utcNow = Date.now();
+    const next = new Date();
 
-    const startUTC = new Date(utcNow).setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
+    next.setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
+    const diff = (weekday - next.getUTCDay() + 7) % 7;
+    next.setUTCDate(next.getUTCDate() + diff);
 
-    let nextStart = new Date(startUTC);
+    if (next <= now)
+      next.setUTCDate(next.getUTCDate() + 7);
 
-    if (nextStart.getTime() <= utcNow) {
-      nextStart.setUTCDate(nextStart.getUTCDate() + 1);
-    }
-
-    const next = setNextWeekday(nextStart, day);
     return next;
   }
 
@@ -277,7 +275,7 @@ NZDT          UTC+13     Pacific/Auckland
   function getShowTimeInZone(show, showDay, zone) {
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
-    let end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
+    const end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
 
     let day = showDay;
     // detect underflow
@@ -302,21 +300,17 @@ NZDT          UTC+13     Pacific/Auckland
   }
 
   function formatDuration(sec) {
-    let hours = Math.floor(sec / 3600);
-
-    let days = 0;
-    while (hours > 23) {
-      days++;
-      hours -= 24;
-    }
-    
-    const minutes = Math.floor((sec % 3600) / 60);
+    const days = Math.floor(sec / 86400);
+    const hours = Math.floor(sec / 3600) % 24;
+    const minutes = Math.floor(sec / 60) % 60;
     const seconds = sec % 60;
-    let text = '';
-    if (days > 0) text += days + ' d, '
-    if (hours > 0) text += hours + ' h, '
-    text += minutes + ' m, '
-    return text + seconds + ' s';
+
+    return (
+      (days ? days + " d, " : "") +
+      (hours ? hours + " h, " : "") +
+      minutes + " m, " +
+      seconds + " s"
+    );
   }
 
   // ---------------------------
