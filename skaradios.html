@@ -346,13 +346,23 @@ NZDT          UTC+13     Pacific/Auckland
   function renderTable() {
     const now = new Date();
 
-    document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
-    document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
-    document.getElementById("gmt").textContent = formatInTimeZone(now, "Europe/London");
-    document.getElementById("cet").textContent = formatInTimeZone(now, "Europe/Berlin");
-    document.getElementById("msk").textContent = formatInTimeZone(now, "Europe/Moscow");
-    document.getElementById("jst").textContent = formatInTimeZone(now, "Asia/Tokyo");
-    document.getElementById("aest").textContent = formatInTimeZone(now, "Australia/Sydney");
+    const timeZoneElements = {
+      pst: document.getElementById("pst"),
+      est: document.getElementById("est"),
+      gmt: document.getElementById("gmt"),
+      cet: document.getElementById("cet"),
+      msk: document.getElementById("msk"),
+      jst: document.getElementById("jst"),
+      aest: document.getElementById("aest")
+    };
+
+    timeZoneElements.pst.textContent = formatInTimeZone(now, "America/Los_Angeles");
+    timeZoneElements.est.textContent = formatInTimeZone(now, "America/Jamaica");
+    timeZoneElements.gmt.textContent = formatInTimeZone(now, "Europe/London");
+    timeZoneElements.cet.textContent = formatInTimeZone(now, "Europe/Berlin");
+    timeZoneElements.msk.textContent = formatInTimeZone(now, "Europe/Moscow");
+    timeZoneElements.jst.textContent = formatInTimeZone(now, "Asia/Tokyo");
+    timeZoneElements.aest.textContent = formatInTimeZone(now, "Australia/Sydney");
 
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
