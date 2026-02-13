@@ -374,9 +374,9 @@ NZDT          UTC+13     Pacific/Auckland
         recurrence: "weekly",
         showUrl: "",
         station: "M5",
-        start_h: 22,
+        start_h: 14,
         start_m: 15,
-        end_h: 23,
+        end_h: 15,
         end_m: 45,
         stream: "",
         archive: "",
@@ -434,8 +434,13 @@ NZDT          UTC+13     Pacific/Auckland
     const end_h = (show.end_h + offset) % 24;
     // const showTimeInfo = getShowTimeInfo(show, day);
     let day = showDay;
+    // detect underflow
+    if (start_h < 0 && show.start_h >= 0) {
+      start_h += 24;
+      day = (day+6) % 7;
+    }
     // detect overflow
-    if (start_h>24 && show.start_h <=24) {
+    if (start_h > 24 && show.start_h <= 24) {
       start_h -= 24;
       day = (day+1) % 7;
     }
@@ -593,6 +598,7 @@ NZDT          UTC+13     Pacific/Auckland
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
         }
+        td.classList.add("center-top");
         td.classList.add("nowrap");
         tr.appendChild(td);
       });
