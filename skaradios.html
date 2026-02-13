@@ -392,7 +392,7 @@ NZDT          UTC+13     Pacific/Auckland
       const waitOrPlayingTd = document.createElement("td");
       if (isShowNoOn(show, day)) {
         waitOrPlayingTd.textContent = "NOW PLAYING!";
-        waitOrPlayingTd.classList.add("bold", "center", "blink");
+        waitOrPlayingTd.classList.add("blink-red");
         tr.appendChild(waitOrPlayingTd);
       } else {
         const nextStartDate = getNextStartDate(show, day);
@@ -417,7 +417,7 @@ NZDT          UTC+13     Pacific/Auckland
         
         td.innerHTML = startTime + " - " + endTime;
         if (day != showTimeInZone.day) {
-          td.innerHTML += "<br/><span class=\"small-text\">" + weekdays[showTimeInZone.day] + "</span>";
+          td.innerHTML += '<br/><span class="small-text">' + weekdays[showTimeInZone.day] + "</span>";
         }
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
