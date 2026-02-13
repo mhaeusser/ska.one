@@ -18,7 +18,7 @@
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
-      setTimeout("go", 1000);
+      setInterval(go, 1000);
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
