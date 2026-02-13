@@ -309,8 +309,10 @@ NZDT          UTC+13     Pacific/Auckland
         showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
         station: "Radio Flora",
         stationUrl: "https://radioflora.de",
-        start: "20:00",
-        end: "22:00",
+        start_h: 20,
+        start_m: 00,
+        end_h: 22,
+        end_m: 00,
         stream: "https://radioflora.de",
         archive: "https://www.mixcloud.com/bluebeatshelter/",
         timezone: 1
@@ -323,8 +325,10 @@ NZDT          UTC+13     Pacific/Auckland
         showUrl: "https://skapatrol.weebly.com",
         station: "NEAR fm 90.3",
         stream: "https://nearfm.ie/livestream/",
-        start: "20:00",
-        end: "22:00",
+        start_h: 20,
+        start_m: 00,
+        end_h: 22,
+        end_m: 00,
         stream: "",
         archive: "",
         timezone: 0
@@ -338,8 +342,10 @@ NZDT          UTC+13     Pacific/Auckland
         showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
         station: "Wüste Welle",
         stationUrl: "https://www.wueste-welle.de",
-        start: "22:00",
-        end: "23:00",
+        start_h: 22,
+        start_m: 00,
+        end_h: 23,
+        end_m: 00,
         stream: "https://www.wueste-welle.de/broadcasts/livestream/",
         archive: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
         timezone: 1
@@ -353,8 +359,10 @@ NZDT          UTC+13     Pacific/Auckland
         showUrl: "https://www.file-under-ska.de",
         station: "FRS",
         stationUrl: "https://www.freies-radio.de",
-        start: "20:00",
-        end: "22:00",
+        start_h: 20,
+        start_m: 00,
+        end_h: 22,
+        end_m: 00,
         stream: "https://streaming.fueralle.org/frs-hi.mp3",
         archive: "https://www.freies-radio.de/mediathek",
         timezone: 1
@@ -366,8 +374,10 @@ NZDT          UTC+13     Pacific/Auckland
         recurrence: "weekly",
         showUrl: "",
         station: "M5",
-        start: "22:15",
-        end: "23:45",
+        start_h: 22,
+        start_m: 15,
+        end_h: 23,
+        end_m: 45,
         stream: "",
         archive: "",
         timezone: 10
@@ -393,9 +403,9 @@ NZDT          UTC+13     Pacific/Auckland
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
-    const [h, m] = show.start.split(":").map(Number);
+    //const [h, m] = show.start.split(":").map(Number);
 
-    const startUTC = new Date(utcNow).setUTCHours(h - show.timezone, m, 0, 0);
+    const startUTC = new Date(utcNow).setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
 
     let nextStart = new Date(startUTC);
 
@@ -407,47 +417,44 @@ NZDT          UTC+13     Pacific/Auckland
     return next;
   }
 
-function setNextWeekday(date, targetWeekday) {
-  const currentWeekday = date.getDay();
-  let diff = targetWeekday - currentWeekday;
+  function setNextWeekday(date, targetWeekday) {
+    const currentWeekday = date.getDay();
+    let diff = targetWeekday - currentWeekday;
 
-  if (diff <= 0) diff += 7;
+    if (diff <= 0) diff += 7;
 
-  date.setDate(date.getDate() + diff);
-  return date;
-}
+    date.setDate(date.getDate() + diff);
+    return date;
+  }
 
+  function getShowTimeInZone(show, showDay, zone) {
+    console.log(show.timezone);
+    const offset = zone.offset - show.timezone;
+    let start_h = show.start_h + offset;
+    const end_h = (show.end_h + offset) % 24;
+    // const showTimeInfo = getShowTimeInfo(show, day);
+    let day = showDay;
+    // detect overflow
+    if (start_h>24 && show.start_h <=24) {
+      start_h -= 24;
+      day = (day+1) % 7;
+    }
 
-  function getShowTimeInfo(show) {
-    const now = Date.now();
-
-    const [start_h, start_m] = show.start.split(":").map(Number);
-    const start = new Date(now).setUTCHours(start_h - show.timezone, start_m, 0, 0);
-
-    const [end_h, end_m] = show.end.split(":").map(Number);
-    const end = new Date(now).setUTCHours(end_h - show.timezone, end_m, 0, 0);
-    
     return {
-      start: start,
-      end: end,
-      timezone: show.timezone
+      start_h: start_h,
+      start_m: show.start_m,
+      end_h: end_h,
+      end_m: show.end_m,
+      day: day
     }
   }
 
-  function formatTime(time) {
-    return time.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  // in seconds
   function formatDuration(sec) {
     let hours = Math.floor(sec / 3600);
 
     let days = 0;
     while (hours > 23) {
-  days++;
+      days++;
       hours -= 24;
     }
     
@@ -475,10 +482,6 @@ function setNextWeekday(date, targetWeekday) {
         second: "2-digit",
         hour12: false
       }).format(date);
-    }
-
-    function addHours(timeSec, numHours) {
-      return timeSec + numHours * 3_600_000;
     }
 
     document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
@@ -548,8 +551,6 @@ function setNextWeekday(date, targetWeekday) {
       archiveTd.appendChild(archiveLink);
       tr.appendChild(archiveTd);
 
-      const showTimeInfo = getShowTimeInfo(show);
-
       // time until next show
       const waitTd = document.createElement("td");
 
@@ -558,7 +559,6 @@ function setNextWeekday(date, targetWeekday) {
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
-      
 
       // TODO
       /*
@@ -573,21 +573,23 @@ function setNextWeekday(date, targetWeekday) {
 
       tr.appendChild(waitTd);
 
-      const localStartTime_sec = showTimeInfo.start;
-      const localEndTime_sec = showTimeInfo.end;
       // traverse timezones
       targetZones.forEach(zone => {
         const td = document.createElement("td");
+        const showTimeInZone = getShowTimeInZone(show, day, zone);
 
-        const startTimeInZone_sec = addHours(localStartTime_sec, zone.offset - show.timezone);
-        const startTimeInZone_date = new Date(startTimeInZone_sec);
-        const startTime = formatTime(startTimeInZone_date);
-    
-        const endTimeInZone_sec = addHours(localEndTime_sec, zone.offset - show.timezone);
-        const endTimeInZone_date = new Date(addHours(localEndTime_sec, zone.offset - show.timezone));
-        const endTime = formatTime(endTimeInZone_date);
+        let startTime = showTimeInZone.start_h + ":" + showTimeInZone.start_m;
+        if (showTimeInZone.start_h < 10) startTime = "0" + startTime;
+        if (showTimeInZone.start_m === 0) startTime += "0";
+
+        let endTime = showTimeInZone.end_h + ":" + showTimeInZone.end_m;
+        if (showTimeInZone.end_h < 10) endTime = "0" + endTime;
+        if (showTimeInZone.end_m === 0) endTime += "0";
         
-        td.textContent = startTime + " - " + endTime;
+        td.innerHTML = startTime + " - " + endTime;
+        if (day != showTimeInZone.day) {
+          td.innerHTML += "<br/><small>(" + weekdays[showTimeInZone.day] + ")</small>";
+        }
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
         }
