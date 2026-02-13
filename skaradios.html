@@ -250,7 +250,7 @@ NZDT          UTC+13     Pacific/Auckland
   // --------------------------
   function getNextStartDate(show, day) {
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
+    const utcNow = Date.now();
 
     const startUTC = new Date(utcNow).setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
 
