@@ -300,8 +300,6 @@ NZDT          UTC+13     Pacific/Auckland
   }
 
   function isShowNoOn(show, weekday) {
-    console.log(show.name);
-
     const now = new Date();
     const showStart = makeDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
