@@ -46,8 +46,11 @@
     }
 
     function formatWeekInMonth(whichWeek, day) {
-      let text = '<span class="small-text"> (' + whichWeek + ' ';
-      text += weekdays[day] + ' this month)' + '</span>';
+      let text = '<span class="small-text">';
+      text += ' (' + whichWeek + ' ';
+      text += weekdays[day];
+      text += ' this month)';
+      return text + '</span>';
     }
 
     function getGMTOffsetMessage() {
@@ -258,16 +261,6 @@ NZDT          UTC+13     Pacific/Auckland
     return next;
   }
 
-  function setNextWeekday(date, targetWeekday) {
-    const currentWeekday = date.getDay();
-    let diff = targetWeekday - currentWeekday;
-
-    if (diff < 0) diff += 7;
-
-    date.setDate(date.getDate() + diff);
-    return date;
-  }
-
   function getShowTimeInZone(show, showDay, zone) {
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
@@ -296,16 +289,14 @@ NZDT          UTC+13     Pacific/Auckland
   }
 
   function formatDuration(sec) {
-    const days = Math.floor(sec / 86400);
+    const days = Math.floor(sec / 86_400);
     const hours = Math.floor(sec / 3600) % 24;
     const minutes = Math.floor(sec / 60) % 60;
     const seconds = sec % 60;
-
     return (
       (days ? days + " d, " : "") +
       (hours ? hours + " h, " : "") +
-      minutes + " m, " +
-      seconds + " s"
+      minutes + " m, " + seconds + " s"
     );
   }
 
@@ -328,7 +319,7 @@ NZDT          UTC+13     Pacific/Auckland
 
     function addTdWithLink(tr, text, url, ifNone) {
       const nameTd = document.createElement("td");
-	  if (url) {
+      if (url) {
         const link = document.createElement("a");
         link.href = url;
         link.textContent = text;
@@ -368,23 +359,23 @@ NZDT          UTC+13     Pacific/Auckland
       tr.appendChild(recurrenceTd);
 
       // Show
-	  addTdWithLink(tr, show.name, show.showUrl);
+      addTdWithLink(tr, show.name, show.showUrl);
 
       // Station
-	  addTdWithLink(tr, show.station, show.stationUrl);
+      addTdWithLink(tr, show.station, show.stationUrl);
 
       // Stream
-	  addTdWithLink(tr, "Stream", show.streamUrl, "-");
+      addTdWithLink(tr, "Stream", show.streamUrl, "-");
 
       // Archive
-	  addTdWithLink(tr, "Archive", show.archiveUrl, "-");
+      addTdWithLink(tr, "Archive", show.archiveUrl, "-");
 
       // time until next show
       const waitTd = document.createElement("td");
-	  
-	  const nextStartDate = getNextStartDate(show, day);
-	  
-	  const remaining_sec = Math.floor((nextStartDate - now) / 1000);
+      
+      const nextStartDate = getNextStartDate(show, day);
+      
+      const remaining_sec = Math.floor((nextStartDate - now) / 1000);
 
       waitTd.classList.add("nowrap-right");
       waitTd.textContent = formatDuration(remaining_sec);
@@ -438,7 +429,7 @@ NZDT          UTC+13     Pacific/Auckland
 
 
 
-  <!-- gone: www.upsettingstation.tk -->
+<!-- gone: www.upsettingstation.tk -->
 Once a month: <a target="_parent" href="https://www.fsk-hh.org">Freies Sender-Kombinat Hamburg: SkaTime FS-Ska</a>
 <p>
 <h2>24/7 Streams</h2>
