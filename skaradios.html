@@ -275,7 +275,7 @@ NZDT          UTC+13     Pacific/Auckland
   function getShowTimeInZone(show, showDay, zone) {
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
-    const end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
+    let end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
 
     let day = showDay;
     // detect underflow
