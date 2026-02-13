@@ -212,7 +212,7 @@ NZDT          UTC+13     Pacific/Auckland
         stationUrl: "https://www.freies-radio.de",
         start_h: 20,
         start_m: 0,
-        end_h: 22,
+        end_h: 24,
         end_m: 0,
         streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
         archiveUrl: "https://www.freies-radio.de/mediathek",
@@ -392,8 +392,7 @@ NZDT          UTC+13     Pacific/Auckland
       const waitOrPlayingTd = document.createElement("td");
       if (isShowNoOn(show, day)) {
         waitOrPlayingTd.textContent = "NOW PLAYING!";
-        waitOrPlayingTd.classList.add("bold");
-        waitOrPlayingTd.classList.add("center");
+        waitOrPlayingTd.classList.add("bold", "center", "blink");
         tr.appendChild(waitOrPlayingTd);
       } else {
         const nextStartDate = getNextStartDate(show, day);
@@ -423,8 +422,7 @@ NZDT          UTC+13     Pacific/Auckland
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
         }
-        td.classList.add("center-top");
-        td.classList.add("nowrap");
+        td.classList.add("center-top", "nowrap");
         tr.appendChild(td);
       });
 

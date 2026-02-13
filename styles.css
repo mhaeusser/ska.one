@@ -82,6 +82,14 @@ th.center {
   text-align: center;
 }
 
+.blink {
+  animation: blinkAnimation 1s step-start infinite;
+}
+
+@keyframes blinkAnimation {
+  50% { opacity: 0; }
+}
+
 td.top {
   vertical-align: top;
 }
