@@ -63,7 +63,7 @@
   </script>
 </head>
 
-<body onload="go()">
+<body onload="go">
 <h1>Ska Radios of the world, unite!</h1>
 <!-- No warranty, there may be minor errors... -->
 The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts & radio shows</a>
@@ -296,6 +296,25 @@ NZDT          UTC+13     Pacific/Auckland
     );
   }
 
+  function isShowNoOn(show, weekday) {
+    console.log(show.name);
+
+    const now = new Date();
+    const showStart = new Date();
+    showStart.setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
+    const diff = (weekday - showStart.getUTCDay() + 7) % 7;
+    showStart.setUTCDate(showStart.getUTCDate() + diff);
+
+    const showEnd = new Date();
+    showEnd.setUTCHours(show.end_h - show.timezone, show.end_m, 0, 0);
+    showEnd.setUTCDate(showEnd.getUTCDate() + diff);
+
+    if (showStart <= now && now <= showEnd) {
+      return true;
+    }
+    return false;
+  }
+
   // ---------------------------
   // Create the table
   // ---------------------------
@@ -366,28 +385,18 @@ NZDT          UTC+13     Pacific/Auckland
       // Archive
       addTdWithLink(tr, "Archive", show.archiveUrl, "-");
 
-      // time until next show
-      const waitTd = document.createElement("td");
-      
-      const nextStartDate = getNextStartDate(show, day);
-      
-      const remaining_sec = Math.floor((nextStartDate - now) / 1000);
-
-      waitTd.classList.add("nowrap-right");
-      waitTd.textContent = formatDuration(remaining_sec);
-
-      // TODO
-      /*
-      // is the show on now?
-      if ((nowDayUTC === day) && (nowHourUTC >= startHour) && (nowHourUTC < endHour)) {
-        thisWeek = whichWeek(now.getDay());
-        // if(weeks[thisWeek] == 1) {
-        return '<span><b>now playing!</b></span>';
-        // }
+      // time until next show, or is the show on now?
+      const waitOrPlayingTd = document.createElement("td");
+      if (isShowNoOn(show, day)) {
+        waitOrPlayingTd.textContent = "<b>now playing!</b>";
+        tr.appendChild(waitOrPlayingTd);
+      } else {
+        const nextStartDate = getNextStartDate(show, day);
+        const remaining_sec = Math.floor((nextStartDate - now) / 1000);
+        waitOrPlayingTd.classList.add("nowrap-right");
+        waitOrPlayingTd.textContent = formatDuration(remaining_sec);
+        tr.appendChild(waitOrPlayingTd);
       }
-      */
-
-      tr.appendChild(waitTd);
 
       // traverse timezones
       targetZones.forEach(zone => {
