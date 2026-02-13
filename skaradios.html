@@ -23,11 +23,11 @@
     function formatDate(day, date, month, year, hour, minute, second) {
       let text = weekdays[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
       if (hour < 10) { text += "0";}
-      text += hour + ':'
+      text += '<b>' + hour + ':'
       if (minute < 10) { text += "0";}
       text += minute + ':'
       if (second < 10) { text += "0";}
-      return text + second;
+      return text + second + '</b>';
     }
 
     function whichWeek(day) {
