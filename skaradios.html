@@ -46,10 +46,8 @@
     }
 
     function formatWeekInMonth(whichWeek, day) {
-      let text = '<span class="small-text">';
-      text += ' (' + whichWeek + ' ';
-      text += weekdays[day];
-      text += ' this month)';
+      let text = '<span class="small-text"> (' + whichWeek + ' ';
+      text += weekdays[day] + ' this month)';
       return text + '</span>';
     }
 
