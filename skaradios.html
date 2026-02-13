@@ -309,10 +309,7 @@ NZDT          UTC+13     Pacific/Auckland
     showEnd.setUTCHours(show.end_h - show.timezone, show.end_m, 0, 0);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
 
-    if (showStart <= now && now <= showEnd) {
-      return true;
-    }
-    return false;
+    return (showStart <= now && now <= showEnd);
   }
 
   // ---------------------------
@@ -385,10 +382,12 @@ NZDT          UTC+13     Pacific/Auckland
       // Archive
       addTdWithLink(tr, "Archive", show.archiveUrl, "-");
 
-      // time until next show, or is the show on now?
+      // Time until next show, or is the show on playing?
       const waitOrPlayingTd = document.createElement("td");
       if (isShowNoOn(show, day)) {
-        waitOrPlayingTd.textContent = "<b>now playing!</b>";
+        waitOrPlayingTd.textContent = "NOW PLAYING!";
+        waitOrPlayingTd.classList.add("bold");
+        waitOrPlayingTd.classList.add("center");
         tr.appendChild(waitOrPlayingTd);
       } else {
         const nextStartDate = getNextStartDate(show, day);
