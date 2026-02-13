@@ -336,7 +336,7 @@ NZDT          UTC+13     Pacific/Auckland
       link.rel = "noopener noreferrer";
       td.appendChild(link);
     } else {
-      td.textContent = fallback ? fallback : text;
+      td.textContent = fallback ?? text;
     }
     tr.appendChild(td);
   }
