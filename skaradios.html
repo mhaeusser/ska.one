@@ -301,9 +301,7 @@ NZDT          UTC+13     Pacific/Auckland
     const hours = Math.floor(sec / 3600) % 24;
     const minutes = Math.floor(sec / 60) % 60;
     const seconds = sec % 60;
-    return (days ? days + " d, " : "") +
-      (hours ? hours + " h, " : "") +
-      minutes + " m, " + seconds + " s";
+    return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
   function isShowNoOn(show, weekday) {
