@@ -304,11 +304,34 @@ NZDT          UTC+13     Pacific/Auckland
     const showStart = makeDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
     showStart.setUTCDate(showStart.getUTCDate() + diff);
-
     const showEnd = makeDate(show.end_h - show.timezone, show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
-
     return showStart <= now && now <= showEnd;
+  }
+
+  function formatInTimeZone(date, timeZone) {
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone: timeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(date);
+  }
+
+  function addTd(tr, text, url, ifNone) {
+    const nameTd = document.createElement("td");
+    if (url) {
+      const link = document.createElement("a");
+      link.href = url;
+      link.textContent = text;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      nameTd.appendChild(link);
+    } else {
+      nameTd.textContent = ifNone ? ifNone : text;
+    }
+    tr.appendChild(nameTd);
   }
 
   // ---------------------------
@@ -317,31 +340,6 @@ NZDT          UTC+13     Pacific/Auckland
   function renderTable() {
     const now = new Date();
     const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
-
-    function formatInTimeZone(date, timeZone) {
-      return new Intl.DateTimeFormat("en-GB", {
-        timeZone: timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }).format(date);
-    }
-
-    function addTdWithLink(tr, text, url, ifNone) {
-      const nameTd = document.createElement("td");
-      if (url) {
-        const link = document.createElement("a");
-        link.href = url;
-        link.textContent = text;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        nameTd.appendChild(link);
-      } else {  
-        nameTd.textContent = ifNone ? ifNone : text;
-      }
-      tr.appendChild(nameTd);
-    }
 
     document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
     document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
@@ -359,27 +357,22 @@ NZDT          UTC+13     Pacific/Auckland
       const tr = document.createElement("tr");
 
       // Day
-      const dayTd = document.createElement("td");
-      dayTd.textContent = weekdays[day];// + " " + show.timezone;
-      
-      tr.appendChild(dayTd);
+      addTd(tr, weekdays[day]);
 
       // Recurrence
-      const recurrenceTd = document.createElement("td");
-      recurrenceTd.textContent = show.recurrence;
-      tr.appendChild(recurrenceTd);
+      addTd(tr, show.recurrence);
 
       // Show
-      addTdWithLink(tr, show.name, show.showUrl);
+      addTd(tr, show.name, show.showUrl);
 
       // Station
-      addTdWithLink(tr, show.station, show.stationUrl);
+      addTd(tr, show.station, show.stationUrl);
 
       // Stream
-      addTdWithLink(tr, "Stream", show.streamUrl, "-");
+      addTd(tr, "Stream", show.streamUrl, "-");
 
       // Archive
-      addTdWithLink(tr, "Archive", show.archiveUrl, "-");
+      addTd(tr, "Archive", show.archiveUrl, "-");
 
       // Time until next show, or is the show on playing?
       const waitOrPlayingTd = document.createElement("td");
