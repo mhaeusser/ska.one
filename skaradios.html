@@ -243,16 +243,21 @@ NZDT          UTC+13     Pacific/Auckland
   // --------------------------
   // Helper functions
   // --------------------------
+  function makeDate(hours, minutes) {
+    const date = new Date();
+    date.setUTCHours(hours, minutes, 0, 0);
+    return date;
+  }
+
   function getNextStartDate(show, weekday) {
     const now = new Date();
-    const next = new Date();
-
-    next.setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
+    const next = makeDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + diff);
 
-    if (next <= now)
+    if (next <= now) {
       next.setUTCDate(next.getUTCDate() + 7);
+    }
 
     return next;
   }
@@ -298,13 +303,11 @@ NZDT          UTC+13     Pacific/Auckland
     console.log(show.name);
 
     const now = new Date();
-    const showStart = new Date();
-    showStart.setUTCHours(show.start_h - show.timezone, show.start_m, 0, 0);
+    const showStart = makeDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
     showStart.setUTCDate(showStart.getUTCDate() + diff);
 
-    const showEnd = new Date();
-    showEnd.setUTCHours(show.end_h - show.timezone, show.end_m, 0, 0);
+    const showEnd = makeDate(show.end_h - show.timezone, show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
 
     return showStart <= now && now <= showEnd;
