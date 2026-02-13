@@ -339,7 +339,6 @@ NZDT          UTC+13     Pacific/Auckland
   // ---------------------------
   function renderTable() {
     const now = new Date();
-    const utcNow = now.getTime() + now.getTimezoneOffset() * 60_000;
 
     document.getElementById("pst").textContent = formatInTimeZone(now, "America/Los_Angeles");
     document.getElementById("est").textContent = formatInTimeZone(now, "America/Jamaica");
