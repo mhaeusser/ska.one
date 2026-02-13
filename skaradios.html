@@ -46,9 +46,7 @@
     }
 
     function formatWeekInMonth(whichWeek, day) {
-      let text = '<span class="small-text"> (' + whichWeek + ' ';
-      text += weekdays[day] + ' this month)';
-      return text + '</span>';
+      return '<span class="small-text"> (' + whichWeek + ' ' + weekdays[day] + ' this month)</span>';
     }
 
     function getGMTOffsetMessage() {
