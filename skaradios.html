@@ -431,7 +431,7 @@ NZDT          UTC+13     Pacific/Auckland
     console.log(show.timezone);
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
-    const end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
+    let end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
 
     let day = showDay;
     // detect underflow
@@ -594,7 +594,7 @@ NZDT          UTC+13     Pacific/Auckland
         
         td.innerHTML = startTime + " - " + endTime;
         if (day != showTimeInZone.day) {
-          td.innerHTML += "<br/><small>(" + weekdays[showTimeInZone.day] + ")</small>";
+          td.innerHTML += "<br/><span class=\"small-text\">" + weekdays[showTimeInZone.day] + "</span>";
         }
         if (zone.offset === show.timezone) {
           td.classList.add("bold");
