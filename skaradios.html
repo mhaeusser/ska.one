@@ -431,18 +431,19 @@ NZDT          UTC+13     Pacific/Auckland
     console.log(show.timezone);
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
-    const end_h = (show.end_h + offset) % 24;
-    // const showTimeInfo = getShowTimeInfo(show, day);
+    const end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
+
     let day = showDay;
     // detect underflow
     if (start_h < 0 && show.start_h >= 0) {
       start_h += 24;
       day = (day+6) % 7;
-    }
-    // detect overflow
-    if (start_h > 24 && show.start_h <= 24) {
-      start_h -= 24;
-      day = (day+1) % 7;
+    } else {
+      // detect overflow
+      if (start_h > 24 && show.start_h <= 24) {
+        start_h -= 24;
+        day = (day+1) % 7;
+      }
     }
 
     return {
