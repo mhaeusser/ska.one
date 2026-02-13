@@ -354,12 +354,16 @@ NZDT          UTC+13     Pacific/Auckland
 
       // Show
       const nameTd = document.createElement("td");
-      const link = document.createElement("a");
-      link.href = show.showUrl;
-      link.textContent = show.name;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      nameTd.appendChild(link);
+	  if (show.showUrl) {
+        const link = document.createElement("a");
+        link.href = show.showUrl;
+        link.textContent = show.name;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        nameTd.appendChild(link);
+      } else {
+        nameTd.textContent = show.name;
+      }
       tr.appendChild(nameTd);
 
       // Station
