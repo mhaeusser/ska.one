@@ -260,7 +260,7 @@ NZDT          UTC+13     Pacific/Auckland
   function getShowTimeInZone(show, showDay, zone) {
     const offset = zone.offset - show.timezone;
     let start_h = show.start_h + offset;
-    let end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
+    const end_h = (show.end_h + 24 + offset) % 24; // +24 avoids underflow
 
     let day = showDay;
     // detect underflow
@@ -450,7 +450,7 @@ Once a month: <a target="_parent" href="https://www.fsk-hh.org">Freies Sender-Ko
 </table>
 <p>
   <!--
-      24/7: Easy Skanking <a target="_parent" href="http://www.easyskanking.tk/">Homepage</a> <a target="_parent" href="http://64.20.36.156:8003/listen.pls">Stream (Winamp)</a><br/>
+      24/7: Easy Skanking <a target="_parent" href="https://www.easyskanking.tk/">Homepage</a> <a target="_parent" href="https://64.20.36.156:8003/listen.pls">Stream (Winamp)</a><br/>
   -->
 <p>
 <h2>Podcasts</h2>
