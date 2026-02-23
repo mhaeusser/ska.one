@@ -9,15 +9,144 @@
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
+    let timeZoneElements;
+
+    // ---------------------------
+    // Show data
+    // ---------------------------
+    const weeklySchedule = {
+      0: [ // Sunday
+        {
+          name: "Blue Beat in my Soul",
+          id: "bbims",
+          recurrence: "2nd, 4th",
+          showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
+          station: "Radio Flora",
+          stationUrl: "https://radioflora.de",
+          start_h: 20,
+          start_m: 0,
+          end_h: 22,
+          end_m: 0,
+          streamUrl: "https://radioflora.de",
+          archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
+          timezone: 1
+        }
+      ],
+      1: [ // Monday
+        {
+          name: "Ska Patrol",
+          id: "sp",
+          recurrence: "weekly",
+          showUrl: "https://skapatrol.weebly.com",
+          station: "NEAR fm 90.3",
+          stationUrl: "https://nearfm.ie/",
+          start_h: 20,
+          start_m: 0,
+          end_h: 22,
+          end_m: 0,
+          streamUrl: "https://nearfm.ie/livestream/",
+          archiveUrl: "",
+          timezone: 0
+        }
+      ],
+      2: [], // Tuesday
+      3: [ // Wednesday
+        {
+          name: "Rudeboy's Delight",
+          id: "rd",
+          recurrence: "weekly",
+          showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
+          station: "Wüste Welle",
+          stationUrl: "https://www.wueste-welle.de",
+          start_h: 22,
+          start_m: 0,
+          end_h: 23,
+          end_m: 0,
+          streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
+          archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
+          timezone: 1
+        },
+      ],
+      4: [], // Thursday    
+      5: [ // Friday
+        {
+          name: "File Under Ska",
+          id: "fus",
+          recurrence: "monthly",
+          showUrl: "https://www.file-under-ska.de",
+          station: "FRS",
+          stationUrl: "https://www.freies-radio.de",
+          start_h: 20,
+          start_m: 0,
+          end_h: 22,
+          end_m: 0,
+          streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
+          archiveUrl: "https://www.freies-radio.de/mediathek",
+          timezone: 1
+        }
+      ],
+      6: [ // Saturday
+        {
+          name: "Sydney Late Show",
+          id: "sls",
+          recurrence: "weekly",
+          showUrl: "",
+          station: "M5",
+          start_h: 14,
+          start_m: 15,
+          end_h: 15,
+          end_m: 45,
+          streamUrl: "",
+          archiveUrl: "",
+          timezone: 10
+        }
+      ],
+    };
+
+    // target timezones
+    const targetZones = [
+      { name: "PST", offset: -8 },
+      { name: "EST", offset: -5 },
+      { name: "GMT", offset: 0 },
+      { name: "CET", offset: 1 },
+      { name: "MSK", offset: 3 },
+      { name: "JST", offset: 9 },
+      { name: "AEST", offset: 10 }
+    ];
+
     function updateTimes() {
       const now = new Date();
       const formatter = new Intl.DateTimeFormat("en-GB", {
         timeZoneName: "short"
       });
+      // update local time on top
+      document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
+      // update UTC time on top
+      document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
       document.getElementById("timezone").innerHTML = formatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
-      document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
-      document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
+      // update timezone times
+      timeZoneElements.pst.textContent = formatInTimeZone(now, "America/Los_Angeles");
+      timeZoneElements.est.textContent = formatInTimeZone(now, "America/Jamaica");
+      timeZoneElements.gmt.textContent = formatInTimeZone(now, "Europe/London");
+      timeZoneElements.cet.textContent = formatInTimeZone(now, "Europe/Berlin");
+      timeZoneElements.msk.textContent = formatInTimeZone(now, "Europe/Moscow");
+      timeZoneElements.jst.textContent = formatInTimeZone(now, "Asia/Tokyo");
+      timeZoneElements.aest.textContent = formatInTimeZone(now, "Australia/Sydney");
+
+      for (let day = 0; day <= 6; day++) {
+        weeklySchedule[day].forEach(show => {
+          const idElement = document.getElementById(show.id + "_countdown");
+          if (isShowNoOn(show, day)) {
+            idElement.innerHTML = "NOW PLAYING!";
+            idElement.classList.add("blink-red");
+          } else {
+            const nextStartDate = getNextStartDate(show, day);
+            const remaining_sec = Math.floor((nextStartDate - now) / 1000);
+            idElement.innerHTML = formatDuration(remaining_sec);
+          }
+        });
+      }
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
@@ -62,10 +191,21 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderTable();
-      updateTimes();
-      setInterval(renderTable, 60_000);
-      setInterval(updateTimes, 1000);
+
+    timeZoneElements = {
+      pst: document.getElementById("pst"),
+      est: document.getElementById("est"),
+      gmt: document.getElementById("gmt"),
+      cet: document.getElementById("cet"),
+      msk: document.getElementById("msk"),
+      jst: document.getElementById("jst"),
+      aest: document.getElementById("aest")
+    };
+
+    renderTable();
+    updateTimes();
+    setInterval(renderTable, 60_000);
+    setInterval(updateTimes, 1000);
     });
   </script>
 </head>
@@ -149,103 +289,6 @@ NZDT          UTC+13     Pacific/Auckland
 -->
 
 <script>
-  // ---------------------------
-  // Show data
-  // ---------------------------
-  const weeklySchedule = {
-    0: [ // Sunday
-      {
-        name: "Blue Beat in my Soul",
-        recurrence: "2nd, 4th",
-        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
-        station: "Radio Flora",
-        stationUrl: "https://radioflora.de",
-        start_h: 20,
-        start_m: 0,
-        end_h: 22,
-        end_m: 0,
-        streamUrl: "https://radioflora.de",
-        archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
-        timezone: 1
-      }
-    ],
-    1: [ // Monday
-      {
-        name: "Ska Patrol",
-        recurrence: "weekly",
-        showUrl: "https://skapatrol.weebly.com",
-        station: "NEAR fm 90.3",
-        stationUrl: "https://nearfm.ie/",
-        start_h: 20,
-        start_m: 0,
-        end_h: 22,
-        end_m: 0,
-        streamUrl: "https://nearfm.ie/livestream/",
-        archiveUrl: "",
-        timezone: 0
-      }
-    ],
-    2: [], // Tuesday
-    3: [ // Wednesday
-      {
-        name: "Rudeboy's Delight",
-        recurrence: "weekly",
-        showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
-        station: "Wüste Welle",
-        stationUrl: "https://www.wueste-welle.de",
-        start_h: 22,
-        start_m: 0,
-        end_h: 23,
-        end_m: 0,
-        streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
-        archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
-        timezone: 1
-      },
-    ],
-    4: [], // Thursday    
-    5: [ // Friday
-      {
-        name: "File Under Ska",
-        recurrence: "monthly",
-        showUrl: "https://www.file-under-ska.de",
-        station: "FRS",
-        stationUrl: "https://www.freies-radio.de",
-        start_h: 20,
-        start_m: 0,
-        end_h: 22,
-        end_m: 0,
-        streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
-        archiveUrl: "https://www.freies-radio.de/mediathek",
-        timezone: 1
-      }
-    ],
-    6: [ // Saturday
-      {
-        name: "Sydney Late Show",
-        recurrence: "weekly",
-        showUrl: "",
-        station: "M5",
-        start_h: 14,
-        start_m: 15,
-        end_h: 15,
-        end_m: 45,
-        streamUrl: "",
-        archiveUrl: "",
-        timezone: 10
-      }
-    ],
-  };
-
-  // target timezones
-  const targetZones = [
-    { name: "PST", offset: -8 },
-    { name: "EST", offset: -5 },
-    { name: "GMT", offset: 0 },
-    { name: "CET", offset: 1 },
-    { name: "MSK", offset: 3 },
-    { name: "JST", offset: 9 },
-    { name: "AEST", offset: 10 }
-  ];
 
   // --------------------------
   // Helper functions
@@ -345,24 +388,6 @@ NZDT          UTC+13     Pacific/Auckland
   function renderTable() {
     const now = new Date();
 
-    const timeZoneElements = {
-      pst: document.getElementById("pst"),
-      est: document.getElementById("est"),
-      gmt: document.getElementById("gmt"),
-      cet: document.getElementById("cet"),
-      msk: document.getElementById("msk"),
-      jst: document.getElementById("jst"),
-      aest: document.getElementById("aest")
-    };
-
-    timeZoneElements.pst.textContent = formatInTimeZone(now, "America/Los_Angeles");
-    timeZoneElements.est.textContent = formatInTimeZone(now, "America/Jamaica");
-    timeZoneElements.gmt.textContent = formatInTimeZone(now, "Europe/London");
-    timeZoneElements.cet.textContent = formatInTimeZone(now, "Europe/Berlin");
-    timeZoneElements.msk.textContent = formatInTimeZone(now, "Europe/Moscow");
-    timeZoneElements.jst.textContent = formatInTimeZone(now, "Asia/Tokyo");
-    timeZoneElements.aest.textContent = formatInTimeZone(now, "Australia/Sydney");
-
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
@@ -390,17 +415,11 @@ NZDT          UTC+13     Pacific/Auckland
 
       // Time until next show, or is the show on playing?
       const waitOrPlayingTd = document.createElement("td");
-      if (isShowNoOn(show, day)) {
-        waitOrPlayingTd.textContent = "NOW PLAYING!";
-        waitOrPlayingTd.classList.add("blink-red");
-        tr.appendChild(waitOrPlayingTd);
-      } else {
-        const nextStartDate = getNextStartDate(show, day);
-        const remaining_sec = Math.floor((nextStartDate - now) / 1000);
-        waitOrPlayingTd.classList.add("nowrap-right");
-        waitOrPlayingTd.textContent = formatDuration(remaining_sec);
-        tr.appendChild(waitOrPlayingTd);
-      }
+      const span = document.createElement("span");
+      span.id = show.id + "_countdown";
+      waitOrPlayingTd.appendChild(span);
+      waitOrPlayingTd.classList.add("nowrap-right");
+      tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
       targetZones.forEach(zone => {
