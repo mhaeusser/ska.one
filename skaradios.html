@@ -9,7 +9,7 @@
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    function go() {
+    function updateTimes() {
       const now = new Date();
       const formatter = new Intl.DateTimeFormat("en-GB", {
         timeZoneName: "short"
@@ -18,7 +18,6 @@
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
-      setInterval(go, 1000);
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
@@ -63,9 +62,10 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      go();
+      updateTimes();
       renderTable();
       setInterval(renderTable, 1000);
+      setInterval(updateTimes, 1000);
     });
   </script>
 </head>
@@ -430,9 +430,6 @@ NZDT          UTC+13     Pacific/Auckland
       });
     }
   }
-
-  renderTable();
-  setInterval(renderTable, 1000);
 </script>
 
 
