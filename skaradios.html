@@ -21,6 +21,7 @@
           showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
           station: "Radio Flora",
           stationUrl: "https://radioflora.de",
+          stationTown: "Hannover",
           start_h: 20,
           start_m: 0,
           end_h: 22,
@@ -36,6 +37,7 @@
           showUrl: "https://rudies-back-in-town.blogspot.com/",
           station: "Radio libertaire",
           stationUrl: "https://radio-libertaire.org/agenda/",
+          stationTown: "Paris",
           start_h: 22,
           start_m: 0,
           end_h: 0,
@@ -53,6 +55,7 @@
           showUrl: "https://skapatrol.weebly.com",
           station: "NEAR fm 90.3",
           stationUrl: "https://nearfm.ie/",
+          stationTown: "Dublin",
           start_h: 20,
           start_m: 0,
           end_h: 22,
@@ -70,6 +73,7 @@
           showUrl: "https://www.dundalkfm.com/category/music/",
           station: "Dundalk FM",
           stationUrl: "https://www.dundalkfm.com/",
+          stationTown: "Dundalk",
           start_h: 19,
           start_m: 0,
           end_h: 21,
@@ -87,6 +91,7 @@
           showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
           station: "Wüste Welle",
           stationUrl: "https://www.wueste-welle.de",
+          stationTown: "Tübingen",
           start_h: 22,
           start_m: 0,
           end_h: 23,
@@ -105,6 +110,7 @@
           showUrl: "https://www.file-under-ska.de",
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
+          stationTown: "Stuttgart",
           start_h: 20,
           start_m: 0,
           end_h: 22,
@@ -121,6 +127,7 @@
           recurrence: "monthly",
           station: "FSK Hamburg",
           stationUrl: "https://www.fsk-hh.org",
+          stationTown: "Hamburg",
           start_h: 18,
           start_m: 0,
           end_h: 19,
@@ -390,7 +397,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     }).format(date);
   }
 
-  function addTd(tr, text, url, fallback) {
+  function addTd(tr, text, url, fallback, lineBelow) {
     const td = document.createElement("td");
     if (url) {
       const link = document.createElement("a");
@@ -401,6 +408,10 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       td.appendChild(link);
     } else {
       td.textContent = fallback ?? text;
+    }
+    if (lineBelow) {
+      td.appendChild(document.createElement("br"));
+      td.appendChild(document.createTextNode(lineBelow));
     }
     tr.appendChild(td);
   }
@@ -428,7 +439,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       addTd(tr, show.name, show.showUrl);
 
       // Station
-      addTd(tr, show.station, show.stationUrl);
+      addTd(tr, show.station, show.stationUrl, "", show.stationTown);
 
       // Stream
       addTd(tr, "Stream", show.streamUrl, "-");
