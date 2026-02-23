@@ -9,8 +9,6 @@
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    let timeZoneElements;
-
     // ---------------------------
     // Show data
     // ---------------------------
@@ -170,6 +168,9 @@ AEDT          UTC+11     Australia/Sydney
 NZST          UTC+12     Pacific/Auckland
 NZDT          UTC+13     Pacific/Auckland
 */
+
+    let timeZoneElements;
+
     // target timezones
     const targetZones = [
       { name: "PST", offset: -8 },
@@ -218,11 +219,11 @@ NZDT          UTC+13     Pacific/Auckland
 
     function formatDate(day, date, month, year, hour, minute, second) {
       let text = weekdays[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
-      if (hour < 10) { text += "0";}
+      if (hour < 10) { text += "0"; }
       text += '<span class="bold">' + hour + ':'
-      if (minute < 10) { text += "0";}
+      if (minute < 10) { text += "0"; }
       text += minute + ':'
-      if (second < 10) { text += "0";}
+      if (second < 10) { text += "0"; }
       return text + second + '</span>';
     }
 
@@ -259,20 +260,20 @@ NZDT          UTC+13     Pacific/Auckland
 
     window.addEventListener("DOMContentLoaded", () => {
 
-    timeZoneElements = {
-      pst: document.getElementById("pst"),
-      est: document.getElementById("est"),
-      gmt: document.getElementById("gmt"),
-      cet: document.getElementById("cet"),
-      msk: document.getElementById("msk"),
-      jst: document.getElementById("jst"),
-      aest: document.getElementById("aest")
-    };
+      timeZoneElements = {
+        pst: document.getElementById("pst"),
+        est: document.getElementById("est"),
+        gmt: document.getElementById("gmt"),
+        cet: document.getElementById("cet"),
+        msk: document.getElementById("msk"),
+        jst: document.getElementById("jst"),
+        aest: document.getElementById("aest")
+      };
 
-    renderTable();
-    updateTimes();
-    setInterval(renderTable, 60_000);
-    setInterval(updateTimes, 1000);
+      renderTable();
+      updateTimes();
+      setInterval(renderTable, 300_000);
+      setInterval(updateTimes, 1000);
     });
   </script>
 </head>
