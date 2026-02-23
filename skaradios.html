@@ -62,9 +62,9 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      updateTimes();
       renderTable();
-      setInterval(renderTable, 1000);
+      updateTimes();
+      setInterval(renderTable, 60_000);
       setInterval(updateTimes, 1000);
     });
   </script>
