@@ -178,7 +178,7 @@ NZDT          UTC+13     Pacific/Auckland
             idElement.classList.add("blink-red");
           } else {
             const nextStartDate = getNextStartDate(show, day);
-            const remaining_sec = Math.floor((nextStartDate - now) / 1000);
+            const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
             idElement.innerHTML = formatDuration(remaining_sec);
           }
         });
