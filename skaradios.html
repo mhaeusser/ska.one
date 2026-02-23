@@ -343,23 +343,14 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
   function getShowTimeInZone(show, showDay, zone) {
     const offset = zone.offset - show.timezone;
-    let start_h = show.start_h + offset;
-    let end_h = (show.end_h + offset + 24 ) % 24; // +24 avoids underflow
-    if (end_h == 0) end_h = 24;
+    const start = show.start_h + offset;
+    const end = show.end_h + offset;
 
-    let day = showDay;
-    // detect underflow
-    if (start_h < 0 && show.start_h >= 0) {
-      start_h += 24;
-      day = (day+6) % 7;
-    } else {
-      // detect overflow
-      if (start_h > 24) {
-        start_h -= 24;
-        day = (day+1) % 7;
-      }
-    }
-    if (start_h == 24) start_h = 0;
+    const dayShift = Math.floor(start / 24);
+    const start_h = ((start % 24) + 24) % 24;
+    const end_h = ((end % 24) + 24) % 24;
+
+    const day = (showDay + dayShift + 7) % 7;
 
     return {
       start_h: start_h,
