@@ -212,9 +212,9 @@ NZDT          UTC+13     Pacific/Auckland
     function updateTimes() {
       const now = new Date();
       // update local time on top
-      document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
+      document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
       // update UTC time on top
-      document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
+      document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
       document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       // update timezone times
@@ -229,7 +229,7 @@ NZDT          UTC+13     Pacific/Auckland
       for (let day = 0; day <= 6; day++) {
         weeklySchedule[day].forEach(show => {
           const idElement = document.getElementById(show.id + "_countdown");
-          if (isShowNoOn(show, day)) {
+          if (isShowNowOn(show, day)) {
             idElement.innerHTML = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
@@ -251,7 +251,7 @@ NZDT          UTC+13     Pacific/Auckland
       return text + second + '</span>';
     }
 
-    function whichWeek(day) {
+    function getWeekOfMonth(day) {
       if (day < 8) return 1;
       if (day < 15) return 2;
       if (day < 22) return 3;
@@ -266,8 +266,8 @@ NZDT          UTC+13     Pacific/Auckland
       return number + "<sup>th</sup>";
     }
 
-    function formatWeekInMonth(whichWeek, day) {
-      return '<span class="small-text"> (' + whichWeek + ' ' + weekdays[day] + ' this month)</span>';
+    function formatWeekInMonth(weekInMonth, day) {
+      return '<span class="small-text"> (' + weekInMonth + ' ' + weekdays[day] + ' this month)</span>';
     }
 
     function getGMTOffsetMessage() {
@@ -347,7 +347,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   // --------------------------
   // Helper functions
   // --------------------------
-  function makeDate(hours, minutes) {
+  function makeUTCDate(hours, minutes) {
     const date = new Date();
     date.setUTCHours(hours, minutes, 0, 0);
     return date;
@@ -355,7 +355,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
 
   function getNextStartDate(show, weekday) {
     const now = new Date();
-    const next = makeDate(show.start_h - show.timezone, show.start_m);
+    const next = makeUTCDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + diff);
 
@@ -394,12 +394,12 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  function isShowNoOn(show, weekday) {
+  function isShowNowOn(show, weekday) {
     const now = new Date();
-    const showStart = makeDate(show.start_h - show.timezone, show.start_m);
+    const showStart = makeUTCDate(show.start_h - show.timezone, show.start_m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
     showStart.setUTCDate(showStart.getUTCDate() + diff);
-    const showEnd = makeDate(show.end_h - show.timezone, show.end_m);
+    const showEnd = makeUTCDate(show.end_h - show.timezone, show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
     return showStart <= now && now <= showEnd;
   }
