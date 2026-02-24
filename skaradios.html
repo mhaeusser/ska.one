@@ -73,7 +73,7 @@
           stationTown: "Dundalk",
           start_h: 19,
           start_m: 0,
-          end_h: 23,
+          end_h: 21,
           end_m: 0,
           streamUrl: "https://www.dundalkfm.com/",
           archiveUrl: "https://www.dundalkfm.com/listen-again/",
@@ -208,6 +208,8 @@ NZDT          UTC+13     Pacific/Auckland
       { name: "AEST", offset: 10 }
     ];
 
+    const countdownSpans = {};
+
     function updateTimes() {
       const now = new Date();
       // update local time on top
@@ -227,11 +229,12 @@ NZDT          UTC+13     Pacific/Auckland
 
       for (let day = 0; day <= 6; day++) {
         weeklySchedule[day].forEach(show => {
-          const idElement = document.getElementById(show.id + "_countdown");
+          const idElement = countdownSpans[show.id];
           if (isShowNowOn(show, day)) {
             idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
+            idElement.classList.remove("blink-red");
             const nextStartDate = getNextStartDate(show, day);
             const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
@@ -440,6 +443,8 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   // Create the table
   // ---------------------------
   function renderTable() {
+    Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
+
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
@@ -468,7 +473,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
       // Time until next show, or is the show on playing?
       const waitOrPlayingTd = document.createElement("td");
       const span = document.createElement("span");
-      span.id = show.id + "_countdown";
+      countdownSpans[show.id] = span;
       waitOrPlayingTd.appendChild(span);
       waitOrPlayingTd.classList.add("nowrap-right");
       tr.appendChild(waitOrPlayingTd);
