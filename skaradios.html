@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Ska Radios</title>
   <link rel="stylesheet" href="styles.css">
-  <title>Ska Radios</title>
   <script type="text/javascript">
 
     // ---------------------------
@@ -230,12 +229,12 @@ NZDT          UTC+13     Pacific/Auckland
         weeklySchedule[day].forEach(show => {
           const idElement = document.getElementById(show.id + "_countdown");
           if (isShowNowOn(show, day)) {
-            idElement.innerHTML = "NOW PLAYING!";
+            idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
             const nextStartDate = getNextStartDate(show, day);
             const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
-            idElement.innerHTML = formatDuration(remaining_sec);
+            idElement.textContent = formatDuration(remaining_sec);
           }
         });
       }
@@ -296,7 +295,7 @@ NZDT          UTC+13     Pacific/Auckland
 
       renderTable();
       updateTimes();
-      setInterval(renderTable, 300_000);
+      setInterval(renderTable, 4_500_000); // update table every 15 minutes
       setInterval(updateTimes, 1000);
     });
   </script>
@@ -401,7 +400,7 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     showStart.setUTCDate(showStart.getUTCDate() + diff);
     const showEnd = makeUTCDate(show.end_h - show.timezone, show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
-    return showStart <= now && now <= showEnd;
+    return showStart <= now && now < showEnd;
   }
 
   function formatInTimeZone(date, timeZone) {
@@ -437,8 +436,6 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   // Create the table
   // ---------------------------
   function renderTable() {
-    const now = new Date();
-
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
