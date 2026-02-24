@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="styles.css">
   <title>Ska Radios</title>
   <script type="text/javascript">
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     // ---------------------------
     // Show data
@@ -191,6 +189,13 @@ NZST          UTC+12     Pacific/Auckland
 NZDT          UTC+13     Pacific/Auckland
 */
 
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+    const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", {
+      timeZoneName: "short"
+    });
+
     let timeZoneElements;
 
     // target timezones
@@ -206,14 +211,11 @@ NZDT          UTC+13     Pacific/Auckland
 
     function updateTimes() {
       const now = new Date();
-      const formatter = new Intl.DateTimeFormat("en-GB", {
-        timeZoneName: "short"
-      });
       // update local time on top
       document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getDate())), now.getDay());
       // update UTC time on top
       document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(whichWeek(now.getUTCDate())), now.getUTCDay());
-      document.getElementById("timezone").innerHTML = formatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+      document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       // update timezone times
       timeZoneElements.pst.textContent = formatInTimeZone(now, "America/Los_Angeles");
@@ -545,8 +547,8 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
   </tr>
   <tr>
     <td class="top">Ska Nation Radio with Beefy</td>
-    <td class="top"><a target="_parent" href="https://redcircle.com/shows/ska-nation-radio">redcircle.com/shows/ska-nation-radio</a></td>
-    <td class="top"><a target="_parent" href="https://www.facebook.com/SkaNationRadio/">Facebook</a></td>
+    <td class="top"><a target="_parent" href="https://www.iheart.com/podcast/269-beefys-ska-club-73944291/">iheart.com/podcast/269-beefys-ska-club-73944291/</a></td>
+    <td class="top"><a target="_parent" href="https://www.facebook.com/BeefySkaClub">Facebook</a></td>
     <td class="top"><a target="_parent" href="https://www.spotify.com/skanation/">Check</a></td>
   </tr>
   </tbody>
