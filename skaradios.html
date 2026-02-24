@@ -73,7 +73,7 @@
           stationTown: "Dundalk",
           start_h: 19,
           start_m: 0,
-          end_h: 21,
+          end_h: 23,
           end_m: 0,
           streamUrl: "https://www.dundalkfm.com/",
           archiveUrl: "https://www.dundalkfm.com/listen-again/",
@@ -400,6 +400,10 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     showStart.setUTCDate(showStart.getUTCDate() + diff);
     const showEnd = makeUTCDate(show.end_h - show.timezone, show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
+    // handle overnight shows
+    if (showEnd <= showStart) {
+      showEnd.setUTCDate(showEnd.getUTCDate() + 1);
+    }
     return showStart <= now && now < showEnd;
   }
 
