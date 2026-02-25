@@ -516,10 +516,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
-      targetZonesOld.forEach(zone => {
+      targetZonesNew.forEach(zone => {
         const td = document.createElement("td");
         console.log(zone);
-        const offset = getOffsetByAbbreviation(zone.name);
+        const offset = getOffsetByAbbreviation(zone);
         console.log(offset);
         const showTimeInZone = getShowTimeInZone(show, day, offset);
 
