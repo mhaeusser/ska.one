@@ -352,10 +352,25 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
-  function getOffsetByIana(iana) {
-    const tz = TIMEZONES.find(t => t.iana === iana);
-    if (!tz) return null;
-    return parseUtcOffset(tz.offset);
+  function getOffsetByIana(timeZone) {
+    const now = new Date();
+    const dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      timeZoneName: "shortOffset"
+    });
+
+    const parts = dtf.formatToParts(now);
+    const tzPart = parts.find(p => p.type === "timeZoneName");
+
+    if (!tzPart) return null;
+
+    const match = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+    if (!match) return null;
+
+    const hours = parseInt(match[1], 10);
+    const minutes = match[2] ? parseInt(match[2], 10) : 0;
+
+    return hours + minutes / 60;
   }
 
   function parseUtcOffset(offsetStr) {
