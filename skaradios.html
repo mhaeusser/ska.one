@@ -25,7 +25,7 @@
           end_m: 0,
           streamUrl: "https://radioflora.de",
           archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
-          timezone: 1
+          timezone: "Europe/Berlin"
         },
         {
           name: "Rudie’s back in town",
@@ -41,7 +41,7 @@
           end_m: 0,
           streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
           archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
-          timezone: 1
+          timezone: "Europe/Berlin"
         }
       ],
       1: [ // Monday
@@ -59,7 +59,7 @@
           end_m: 0,
           streamUrl: "https://nearfm.ie/livestream/",
           archiveUrl: "",
-          timezone: 0
+          timezone: "Europe/London"
         }
       ],
       2: [ // Tuesday
@@ -77,7 +77,7 @@
           end_m: 0,
           streamUrl: "https://www.dundalkfm.com/",
           archiveUrl: "https://www.dundalkfm.com/listen-again/",
-          timezone: 0
+          timezone: "Europe/London"
         }
       ],
       3: [ // Wednesday
@@ -95,7 +95,7 @@
           end_m: 0,
           streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
           archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
-          timezone: 1
+          timezone: "Europe/Berlin"
         },
         {
           name: "Offbeat",
@@ -110,7 +110,7 @@
           end_h: 22,
           end_m: 0,
           streamUrl: "https://tripleafm.net.au/stream",
-          timezone: 10
+          timezone: "Australia/Sydney"
         }
       ],
       4: [], // Thursday    
@@ -129,7 +129,7 @@
           end_m: 0,
           streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
           archiveUrl: "https://www.freies-radio.de/mediathek",
-          timezone: 1
+          timezone: "Europe/Berlin"
         }
       ],
       6: [ // Saturday
@@ -146,7 +146,7 @@
           end_m: 30,
           streamUrl: "https://streaming.fueralle.org/fsk.mp3",
           archiveUrl: "https://www.fsk-hh.org/archive",
-          timezone: 1
+          timezone: "Europe/Berlin"
         }
       ],
     };
@@ -167,8 +167,8 @@
       { abbr: "NST",  offset: "UTC-3:30",  iana: "America/St_Johns" },
       { abbr: "GMT",  offset: "UTC+0",     iana: "Europe/London" },
       { abbr: "UTC",  offset: "UTC+0",     iana: "UTC" },
-      { abbr: "CET",  offset: "UTC+1",     iana: "Europe/Paris" },
-      { abbr: "CEST", offset: "UTC+2",     iana: "Europe/Paris" },
+      { abbr: "CET",  offset: "UTC+1",     iana: "Europe/Berlin" },
+      { abbr: "CEST", offset: "UTC+2",     iana: "Europe/Berlin" },
       { abbr: "EET",  offset: "UTC+2",     iana: "Europe/Helsinki" },
       { abbr: "EEST", offset: "UTC+3",     iana: "Europe/Helsinki" },
       { abbr: "MSK",  offset: "UTC+3",     iana: "Europe/Moscow" },
@@ -352,9 +352,26 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
+  function getOffsetByIana(iana) {
+    const tz = TIMEZONES.find(t => t.iana === iana);
+    if (!tz) return null;
+    return parseUtcOffset(tz.offset);
+  }
+
+  function parseUtcOffset(offsetStr) {
+    const match = offsetStr.match(/^UTC([+-])(\d+)(?::(\d+))?$/);
+    if (!match) return null;
+
+    const sign = match[1] === "+" ? 1 : -1;
+    const hours = parseInt(match[2], 10);
+    const minutes = match[3] ? parseInt(match[3], 10) : 0;
+
+    return sign * (hours + minutes / 60);
+  }
+
   function getNextStartDate(show, weekday) {
     const now = new Date();
-    const next = makeUTCDate(show.start_h - show.timezone, show.start_m);
+    const next = makeUTCDate(show.start_h - getOffsetByIana(show.timezone), show.start_m);
     const diff = (weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + diff);
 
@@ -366,7 +383,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getShowTimeInZone(show, showDay, zone) {
-    const offset = zone.offset - show.timezone;
+    const offset = zone.offset - getOffsetByIana(show.timezone);
     const start = show.start_h + offset;
     const end = show.end_h + offset;
 
@@ -395,10 +412,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function isShowNowOn(show, weekday) {
     const now = new Date();
-    const showStart = makeUTCDate(show.start_h - show.timezone, show.start_m);
+    const showStart = makeUTCDate(show.start_h - getOffsetByIana(show.timezone), show.start_m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
     showStart.setUTCDate(showStart.getUTCDate() + diff);
-    const showEnd = makeUTCDate(show.end_h - show.timezone, show.end_m);
+    const showEnd = makeUTCDate(show.end_h - getOffsetByIana(show.timezone), show.end_m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
     // handle overnight shows
     if (showEnd <= showStart) {
@@ -492,7 +509,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         if (day != showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + weekdays[showTimeInZone.day] + "</span>";
         }
-        if (zone.offset === show.timezone) {
+        if (zone.offset === getOffsetByIana(show.timezone)) {
           td.classList.add("bold");
         }
         td.classList.add("center-top", "nowrap");
