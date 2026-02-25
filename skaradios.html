@@ -185,6 +185,12 @@
       { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland" }
     ];
 
+    function getOffsetByAbbreviation(abbr) {
+      const tz = TIMEZONES.find(t => t.abbr === abbr);
+      if (!tz) return null;
+      return tz.offset;
+    }
+
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
@@ -195,7 +201,7 @@
     let timeZoneElements;
 
     // target timezones
-    const targetZones = [
+    const targetZonesOld = [
       { name: "PST", offset: -8 },
       { name: "EST", offset: -5 },
       { name: "GMT", offset: 0 },
@@ -204,6 +210,8 @@
       { name: "JST", offset: 9 },
       { name: "AEST", offset: 10 }
     ];
+
+      const targetZonesNew = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
 
     const countdownSpans = {};
 
@@ -508,8 +516,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
-      targetZones.forEach(zone => {
+      targetZonesOld.forEach(zone => {
         const td = document.createElement("td");
+        console.log(zone);
+        const offset = getOffsetByAbbreviation(zone.name);
+        console.log(offset);
         const showTimeInZone = getShowTimeInZone(show, day, zone);
 
         let startTime = showTimeInZone.start_h + ":" + showTimeInZone.start_m;
@@ -524,7 +535,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         if (day != showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + weekdays[showTimeInZone.day] + "</span>";
         }
-        if (zone.offset === getOffsetByIana(show.timezone)) {
+        if (offset === getOffsetByIana(show.timezone)) {
           td.classList.add("bold");
         }
         td.classList.add("center-top", "nowrap");
