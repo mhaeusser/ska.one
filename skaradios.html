@@ -201,17 +201,7 @@
     let timeZoneElements;
 
     // target timezones
-    const targetZonesOld = [
-      { name: "PST", offset: -8 },
-      { name: "EST", offset: -5 },
-      { name: "GMT", offset: 0 },
-      { name: "CET", offset: 1 },
-      { name: "MSK", offset: 3 },
-      { name: "JST", offset: 9 },
-      { name: "AEST", offset: 10 }
-    ];
-
-      const targetZonesNew = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
+    const targetZones = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
 
     const countdownSpans = {};
 
@@ -516,11 +506,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
-      targetZonesNew.forEach(zone => {
+      targetZones.forEach(zone => {
         const td = document.createElement("td");
-        console.log(zone);
         const offset = getOffsetByAbbreviation(zone);
-        console.log(offset);
         const showTimeInZone = getShowTimeInZone(show, day, offset);
 
         let startTime = showTimeInZone.start_h + ":" + showTimeInZone.start_m;
