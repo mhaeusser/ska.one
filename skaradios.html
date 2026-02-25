@@ -151,42 +151,39 @@
       ],
     };
 
-/*
-Timezones
-
-Abbreviation  GMT Offset IANA Time Zone (City)
-HST           UTC−10     Pacific/Honolulu
-AKST          UTC−9      America/Anchorage
-AKDT          UTC−8      America/Anchorage
-PST           UTC−8      America/Los_Angeles
-PDT           UTC−7      America/Los_Angeles
-MST           UTC−7      America/Denver
-MDT           UTC−6      America/Denver
-CST           UTC−6      America/Chicago
-CDT           UTC−5      America/Chicago
-EST           UTC−5      America/New_York
-EDT           UTC−4      America/New_York
-AST           UTC−4      America/Halifax
-NST           UTC−3:30   America/St_Johns
-GMT           UTC+0      Europe/London
-UTC           UTC+0      UTC
-CET           UTC+1      Europe/Paris
-CEST          UTC+2      Europe/Paris
-EET           UTC+2      Europe/Helsinki
-EEST          UTC+3      Europe/Helsinki
-MSK           UTC+3      Europe/Moscow
-PKT           UTC+5      Asia/Karachi
-IST           UTC+5:30   Asia/Kolkata
-AWST          UTC+8      Australia/Perth
-JST           UTC+9      Asia/Tokyo
-KST           UTC+9      Asia/Seoul
-ACST          UTC+9:30   Australia/Adelaide
-AEST          UTC+10     Australia/Sydney
-ACST (DST)    UTC+10:30  Australia/Adelaide
-AEDT          UTC+11     Australia/Sydney
-NZST          UTC+12     Pacific/Auckland
-NZDT          UTC+13     Pacific/Auckland
-*/
+    const TIMEZONES = [
+      { abbr: "HST",  offset: "UTC-10",    iana: "Pacific/Honolulu" },
+      { abbr: "AKST", offset: "UTC-9",     iana: "America/Anchorage" },
+      { abbr: "AKDT", offset: "UTC-8",     iana: "America/Anchorage" },
+      { abbr: "PST",  offset: "UTC-8",     iana: "America/Los_Angeles" },
+      { abbr: "PDT",  offset: "UTC-7",     iana: "America/Los_Angeles" },
+      { abbr: "MST",  offset: "UTC-7",     iana: "America/Denver" },
+      { abbr: "MDT",  offset: "UTC-6",     iana: "America/Denver" },
+      { abbr: "CST",  offset: "UTC-6",     iana: "America/Chicago" },
+      { abbr: "CDT",  offset: "UTC-5",     iana: "America/Chicago" },
+      { abbr: "EST",  offset: "UTC-5",     iana: "America/New_York" },
+      { abbr: "EDT",  offset: "UTC-4",     iana: "America/New_York" },
+      { abbr: "AST",  offset: "UTC-4",     iana: "America/Halifax" },
+      { abbr: "NST",  offset: "UTC-3:30",  iana: "America/St_Johns" },
+      { abbr: "GMT",  offset: "UTC+0",     iana: "Europe/London" },
+      { abbr: "UTC",  offset: "UTC+0",     iana: "UTC" },
+      { abbr: "CET",  offset: "UTC+1",     iana: "Europe/Paris" },
+      { abbr: "CEST", offset: "UTC+2",     iana: "Europe/Paris" },
+      { abbr: "EET",  offset: "UTC+2",     iana: "Europe/Helsinki" },
+      { abbr: "EEST", offset: "UTC+3",     iana: "Europe/Helsinki" },
+      { abbr: "MSK",  offset: "UTC+3",     iana: "Europe/Moscow" },
+      { abbr: "PKT",  offset: "UTC+5",     iana: "Asia/Karachi" },
+      { abbr: "IST",  offset: "UTC+5:30",  iana: "Asia/Kolkata" },
+      { abbr: "AWST", offset: "UTC+8",     iana: "Australia/Perth" },
+      { abbr: "JST",  offset: "UTC+9",     iana: "Asia/Tokyo" },
+      { abbr: "KST",  offset: "UTC+9",     iana: "Asia/Seoul" },
+      { abbr: "ACST", offset: "UTC+9:30",  iana: "Australia/Adelaide" },
+      { abbr: "AEST", offset: "UTC+10",    iana: "Australia/Sydney" },
+      { abbr: "ACDT", offset: "UTC+10:30", iana: "Australia/Adelaide" },
+      { abbr: "AEDT", offset: "UTC+11",    iana: "Australia/Sydney" },
+      { abbr: "NZST", offset: "UTC+12",    iana: "Pacific/Auckland" },
+      { abbr: "NZDT", offset: "UTC+13",    iana: "Pacific/Auckland" }
+    ];
 
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
