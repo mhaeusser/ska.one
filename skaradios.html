@@ -191,6 +191,9 @@
       return tz.offset;
     }
 
+    // target timezones
+    const targetZones = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
+
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
@@ -199,9 +202,6 @@
     });
 
     let timeZoneElements;
-
-    // target timezones
-    const targetZones = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
 
     const countdownSpans = {};
 
