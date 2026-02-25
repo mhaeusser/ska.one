@@ -14,7 +14,7 @@
         {
           name: "Blue Beat in my Soul",
           id: "bbims",
-          recurrence: "2nd, 4th",
+          recurrence: "2<sup>nd</sup>, 4<sup>th</sup>",
           showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
           station: "Radio Flora",
           stationUrl: "https://radioflora.de",
@@ -116,7 +116,7 @@
       4: [], // Thursday    
       5: [ // Friday
         {
-          name: "File Under Ska",
+          name: "File Under Ska<br/><sub>part of Suchtstation</sub>",
           id: "fus",
           recurrence: "monthly",
           showUrl: "https://www.file-under-ska.de",
@@ -425,12 +425,12 @@ The Facebook Group: <a target="_parent" href="https://www.facebook.com/groups/44
     if (url) {
       const link = document.createElement("a");
       link.href = url;
-      link.textContent = text;
+      link.innerHTML = text;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       td.appendChild(link);
     } else {
-      td.textContent = fallback ?? text;
+      td.innerHTML = fallback ?? text;
     }
     if (lineBelow) {
       td.appendChild(document.createElement("br"));
