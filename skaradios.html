@@ -405,8 +405,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return next;
   }
 
-  function getShowTimeInZone(show, showDay, zone) {
-    const offset = zone.offset - getOffsetByIana(show.timezone);
+  function getShowTimeInZone(show, showDay, zoneOffset) {
+    const offset = zoneOffset - getOffsetByIana(show.timezone);
     const start = show.start_h + offset;
     const end = show.end_h + offset;
 
@@ -521,7 +521,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         console.log(zone);
         const offset = getOffsetByAbbreviation(zone.name);
         console.log(offset);
-        const showTimeInZone = getShowTimeInZone(show, day, zone);
+        const showTimeInZone = getShowTimeInZone(show, day, offset);
 
         let startTime = showTimeInZone.start_h + ":" + showTimeInZone.start_m;
         if (showTimeInZone.start_h < 10) startTime = "0" + startTime;
