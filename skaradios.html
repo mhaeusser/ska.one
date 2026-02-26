@@ -193,7 +193,7 @@
     // target timezones
     const targetZones = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
 
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -238,7 +238,7 @@
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
-      let text = weekdays[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
+      let text = WEEKDAYS[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
       if (hour < 10) { text += "0"; }
       text += '<span class="bold">' + hour + ':'
       if (minute < 10) { text += "0"; }
@@ -263,7 +263,7 @@
     }
 
     function formatWeekInMonth(weekInMonth, day) {
-      return '<span class="small-text"> (' + weekInMonth + ' ' + weekdays[day] + ' this month)</span>';
+      return '<span class="small-text"> (' + weekInMonth + ' ' + WEEKDAYS[day] + ' this month)</span>';
     }
 
     function getGMTOffsetMessage() {
@@ -477,7 +477,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const tr = document.createElement("tr");
 
       // Day
-      addTd(tr, weekdays[day]);
+      addTd(tr, WEEKDAYS[day]);
 
       // Recurrence
       addTd(tr, show.recurrence);
@@ -518,7 +518,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         
         td.innerHTML = startTime + " - " + endTime;
         if (day != showTimeInZone.day) {
-          td.innerHTML += '<br/><span class="small-text">' + weekdays[showTimeInZone.day] + "</span>";
+          td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
         }
         if (offset === getOffsetByIana(show.timezone)) {
           td.classList.add("bold");
