@@ -19,10 +19,8 @@
           station: "Radio Flora",
           stationUrl: "https://radioflora.de",
           stationTown: "Hannover",
-          start_h: 20,
-          start_m: 0,
-          end_h: 22,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
           streamUrl: "https://radioflora.de",
           archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
           timezone: "Europe/Berlin"
@@ -34,10 +32,8 @@
           showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
           station: "Dirty Radio",
           stationUrl: "https://dirtyradio.fm",
-          start_h: 20,
-          start_m: 0,
-          end_h: 22,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
           streamUrl: "http://albireo.shoutca.st:8815/;",
           timezone: "America/Los_Angeles"
         },
@@ -49,10 +45,8 @@
           station: "Radio libertaire",
           stationUrl: "https://radio-libertaire.org/agenda/",
           stationTown: "Paris",
-          start_h: 22,
-          start_m: 0,
-          end_h: 0,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 0, m: 0 },
           streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
           archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
           timezone: "Europe/Berlin"
@@ -67,10 +61,8 @@
           station: "NEAR fm 90.3",
           stationUrl: "https://nearfm.ie/",
           stationTown: "Dublin",
-          start_h: 20,
-          start_m: 0,
-          end_h: 22,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
           streamUrl: "https://nearfm.ie/livestream/",
           archiveUrl: "",
           timezone: "Europe/London"
@@ -85,10 +77,8 @@
           station: "Dundalk FM",
           stationUrl: "https://www.dundalkfm.com/",
           stationTown: "Dundalk",
-          start_h: 19,
-          start_m: 0,
-          end_h: 21,
-          end_m: 0,
+          start: { h: 19, m: 0 },
+          end: { h: 21, m: 0 },
           streamUrl: "https://www.dundalkfm.com/",
           archiveUrl: "https://www.dundalkfm.com/listen-again/",
           timezone: "Europe/London"
@@ -103,10 +93,8 @@
           station: "Wüste Welle",
           stationUrl: "https://www.wueste-welle.de",
           stationTown: "Tübingen",
-          start_h: 22,
-          start_m: 0,
-          end_h: 23,
-          end_m: 0,
+          start: { h: 22, m: 0 },
+          end: { h: 23, m: 0 },
           streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
           archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
           timezone: "Europe/Berlin"
@@ -119,10 +107,8 @@
           station: "Triple AAA FM",
           stationUrl: "https://tripleafm.net.au",
           stationTown: "Wagga Wagga",
-          start_h: 20,
-          start_m: 0,
-          end_h: 22,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
           streamUrl: "https://tripleafm.net.au/stream",
           timezone: "Australia/Sydney"
         }
@@ -140,10 +126,8 @@
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
           stationTown: "Stuttgart",
-          start_h: 20,
-          start_m: 0,
-          end_h: 22,
-          end_m: 0,
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
           streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
           archiveUrl: "https://www.freies-radio.de/mediathek",
           timezone: "Europe/Berlin"
@@ -157,10 +141,8 @@
           station: "FSK Hamburg",
           stationUrl: "https://www.fsk-hh.org",
           stationTown: "Hamburg",
-          start_h: 18,
-          start_m: 0,
-          end_h: 19,
-          end_m: 30,
+          start: { h: 18, m: 0 },
+          end: { h: 19, m: 30 },
           streamUrl: "https://streaming.fueralle.org/fsk.mp3",
           archiveUrl: "https://www.fsk-hh.org/archive",
           timezone: "Europe/Berlin"
@@ -208,8 +190,14 @@
       return tz.offset;
     }
 
+    function getOffsetByIana(iana) {
+      const tz = TIMEZONES.find(t => t.iana === iana);
+      if (!tz) return null;
+      return tz.offset;
+    }
+
     // target timezones
-    const targetZones = ["PST", "EST", "GMT", "CET", "MSK", "JST", "AEST"];
+    const targetZones = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
 
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -310,7 +298,7 @@
 
       renderTable();
       updateTimes();
-      setInterval(renderTable, 4_500_000); // update table every 15 minutes
+      setInterval(renderTable, 15 * 60 * 1000); // recreate table every 15 minutes
       setInterval(updateTimes, 1000);
     });
   </script>
@@ -401,7 +389,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function getNextStartDate(show, weekday) {
     const now = new Date();
-    const next = makeUTCDate(show.start_h - getOffsetByIana(show.timezone), show.start_m);
+    const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const diff = (weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + diff);
 
@@ -414,8 +402,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function getShowTimeInZone(show, showDay, zoneOffset) {
     const offset = zoneOffset - getOffsetByIana(show.timezone);
-    const start = show.start_h + offset;
-    const end = show.end_h + offset;
+    const start = show.start.h + offset;
+    const end = show.end.h + offset;
 
     const dayShift = Math.floor(start / 24);
     const start_h = ((start % 24) + 24) % 24;
@@ -424,10 +412,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const day = (showDay + dayShift + 7) % 7;
 
     return {
-      start_h: start_h,
-      start_m: show.start_m,
-      end_h: end_h,
-      end_m: show.end_m,
+      start: { h: start_h, m: show.start.m },
+      end: { h: end_h, m: show.end.m },
       day: day
     }
   }
@@ -442,10 +428,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function isShowNowOn(show, weekday) {
     const now = new Date();
-    const showStart = makeUTCDate(show.start_h - getOffsetByIana(show.timezone), show.start_m);
+    const showStart = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const diff = (weekday - showStart.getUTCDay() + 7) % 7;
     showStart.setUTCDate(showStart.getUTCDate() + diff);
-    const showEnd = makeUTCDate(show.end_h - getOffsetByIana(show.timezone), show.end_m);
+    const showEnd = makeUTCDate(show.end.h - getOffsetByIana(show.timezone), show.end.m);
     showEnd.setUTCDate(showEnd.getUTCDate() + diff);
     // handle overnight shows
     if (showEnd <= showStart) {
@@ -525,16 +511,16 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       // traverse timezones
       targetZones.forEach(zone => {
         const td = document.createElement("td");
-        const offset = getOffsetByAbbreviation(zone);
+        const offset = getOffsetByIana(zone);
         const showTimeInZone = getShowTimeInZone(show, day, offset);
 
-        let startTime = showTimeInZone.start_h + ":" + showTimeInZone.start_m;
-        if (showTimeInZone.start_h < 10) startTime = "0" + startTime;
-        if (showTimeInZone.start_m === 0) startTime += "0";
+        let startTime = showTimeInZone.start.h + ":" + showTimeInZone.start.m;
+        if (showTimeInZone.start.h < 10) startTime = "0" + startTime;
+        if (showTimeInZone.start.m === 0) startTime += "0";
 
-        let endTime = showTimeInZone.end_h + ":" + showTimeInZone.end_m;
-        if (showTimeInZone.end_h < 10) endTime = "0" + endTime;
-        if (showTimeInZone.end_m === 0) endTime += "0";
+        let endTime = showTimeInZone.end.h + ":" + showTimeInZone.end.m;
+        if (showTimeInZone.end.h < 10) endTime = "0" + endTime;
+        if (showTimeInZone.end.m === 0) endTime += "0";
         
         td.innerHTML = startTime + " - " + endTime;
         if (day != showTimeInZone.day) {
