@@ -194,7 +194,7 @@
     const targetZones = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
 
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", {
       timeZoneName: "short"
@@ -238,7 +238,7 @@
     }
 
     function formatDate(day, date, month, year, hour, minute, second) {
-      let text = WEEKDAYS[day] + ', ' + date + '. ' + months[month] + ' ' + year + ', ';
+      let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
       if (hour < 10) { text += "0"; }
       text += '<span class="bold">' + hour + ':'
       if (minute < 10) { text += "0"; }
