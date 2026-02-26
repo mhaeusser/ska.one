@@ -184,12 +184,6 @@
       { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland" }
     ];
 
-    function getOffsetByAbbreviation(abbr) {
-      const tz = TIMEZONES.find(t => t.abbr === abbr);
-      if (!tz) return null;
-      return tz.offset;
-    }
-
     function getOffsetByIana(iana) {
       const tz = TIMEZONES.find(t => t.iana === iana);
       if (!tz) return null;
