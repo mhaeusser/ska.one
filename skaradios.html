@@ -370,17 +370,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return hours + minutes / 60;
   }
 
-  function parseUtcOffset(offsetStr) {
-    const match = offsetStr.match(/^UTC([+-])(\d+)(?::(\d+))?$/);
-    if (!match) return null;
-
-    const sign = match[1] === "+" ? 1 : -1;
-    const hours = parseInt(match[2], 10);
-    const minutes = match[3] ? parseInt(match[3], 10) : 0;
-
-    return sign * (hours + minutes / 60);
-  }
-
   function getNextStartDate(show, weekday) {
     const now = new Date();
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
