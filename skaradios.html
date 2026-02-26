@@ -191,7 +191,7 @@
     }
 
     // target timezones
-    const targetZones = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
+    const TARGET_TIMEZONES = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
 
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -503,7 +503,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
-      targetZones.forEach(zone => {
+      TARGET_TIMEZONES.forEach(zone => {
         const td = document.createElement("td");
         const offset = getOffsetByIana(zone);
         const showTimeInZone = getShowTimeInZone(show, day, offset);
