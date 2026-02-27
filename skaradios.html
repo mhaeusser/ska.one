@@ -122,6 +122,7 @@
           name: "File Under Ska<br/><sub>part of Suchtstation</sub>",
           id: "fus",
           recurrence: "monthly",
+          showdates: [ "2026-03-20", "2026-04-17" ],
           showUrl: "https://www.file-under-ska.de",
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
@@ -429,6 +430,18 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     tr.appendChild(td);
   }
 
+  // showdates: [ "2026-03-20", "2026-04-17" ],
+  function formatRecurrence(show) {
+    if (show.recurrence === "weekly") return "weekly";
+    if (show.recurrence === "monthly") {
+      if (show.showdates) {
+        return "monthly, next:<br/>" + show.showdates[0];
+      }
+      return "monthly";
+    }
+    return show.recurrence;
+  }
+
   // ---------------------------
   // Create the table
   // ---------------------------
@@ -443,7 +456,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const tr = document.createElement("tr");
 
       // Day, Recurrence
-      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + show.recurrence + "</span>");
+      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(show) + "</span>");
 
       // Show
       addTd(tr, show.name, show.showUrl);
