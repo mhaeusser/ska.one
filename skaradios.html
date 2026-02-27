@@ -351,6 +351,36 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextStartDate(show, weekday, now) {
+    if (show.recurrence === "weeksInMonth") return getNextStartByWeek(show, weekday, now);
+    if (show.recurrence === "monthly") return getNextStartDateMonthly(show, weekday, now);
+    /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, weekday, now);
+  }
+
+  function getNextStartByWeek(show, weekday, now) {
+    const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
+    next.setUTCDate(next.getUTCDate() + daysToWait);
+
+    if (next <= now) {
+      next.setUTCDate(next.getUTCDate() + 7);
+    }
+
+    return next;
+  }
+
+  function getNextStartDateWeekly(show, weekday, now) {
+    const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
+    next.setUTCDate(next.getUTCDate() + daysToWait);
+
+    if (next <= now) {
+      next.setUTCDate(next.getUTCDate() + 7);
+    }
+
+    return next;
+  }
+
+  function getNextStartDateMonthly(show, weekday, now) {
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + daysToWait);
