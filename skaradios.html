@@ -420,6 +420,68 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return null;
   }
 
+  function getCurrentOrLastStartDate(show, weekday, now) {
+
+    // weekly
+    if (show.recurrence === "weekly") {
+      const start = getNextStartDateWeekly(show, weekday, now);
+      start.setUTCDate(start.getUTCDate() - 7);
+      return start;
+    }
+
+    // weeks in month
+    if (show.recurrence === "weeksInMonth") {
+      return getLastStartByWeek(show, now);
+    }
+
+    // monthly / bi-weekly (explicit dates)
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
+      return getLastStartDateByDate(show, now);
+    }
+
+    return null;
+  }
+
+  function getLastStartDateByDate(show, now) {
+    if (!show.showdates) return null;
+
+    const tz = show.timezone;
+
+    function buildUTCInstant(year, month, day) {
+      const wall = new Date(Date.UTC(
+        year, month, day,
+        show.start.h, show.start.m, 0, 0
+      ));
+      const zoned = new Date(
+        wall.toLocaleString("en-US", { timeZone: tz })
+      );
+      return new Date(wall.getTime() + (wall - zoned));
+    }
+
+    const past = show.showdates
+      .map(d => {
+        const [y, m, day] = d.split("-").map(Number);
+        return buildUTCInstant(y, m - 1, day);
+      })
+      .filter(d => d <= now)
+      .sort((a, b) => b - a);
+
+    return past.length ? past[0] : null;
+  }
+
+  function getLastStartByWeek(show, now) {
+    const next = getNextStartByWeek(show, now);
+    if (!next) return null;
+
+    // previous possible window is max 4 weeks back
+    for (let i = 1; i <= 5; i++) {
+      const candidate = new Date(next);
+      candidate.setUTCDate(candidate.getUTCDate() - i * 7);
+      if (candidate <= now) return candidate;
+    }
+    return null;
+  }
+
   function getNextStartDateWeekly(show, weekday, now) {
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
@@ -487,16 +549,23 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function isShowNowOn(show, weekday) {
     const now = new Date();
-    const showStart = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const diff = (weekday - showStart.getUTCDay() + 7) % 7;
-    showStart.setUTCDate(showStart.getUTCDate() + diff);
-    const showEnd = makeUTCDate(show.end.h - getOffsetByIana(show.timezone), show.end.m);
-    showEnd.setUTCDate(showEnd.getUTCDate() + diff);
-    // handle overnight shows
-    if (showEnd <= showStart) {
-      showEnd.setUTCDate(showEnd.getUTCDate() + 1);
+
+    const start = getCurrentOrLastStartDate(show, weekday, now);
+    if (!start) return false;
+
+    const end = new Date(start);
+
+    end.setUTCHours(
+      end.getUTCHours() + (show.end.h - show.start.h),
+      show.end.m - show.start.m
+    );
+
+    // overnight handling
+    if (end <= start) {
+      end.setUTCDate(end.getUTCDate() + 1);
     }
-    return showStart <= now && now < showEnd;
+
+    return start <= now && now < end;
   }
 
   function formatInTimeZone(date, timeZone) {
