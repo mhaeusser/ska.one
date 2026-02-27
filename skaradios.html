@@ -14,7 +14,8 @@
         {
           name: "Blue Beat in my Soul",
           id: "bbims",
-          recurrence: "2<sup>nd</sup>, 4<sup>th</sup>",
+          recurrence: "weeksInMonth",
+          showdates: [ 2, 4 ],
           showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
           station: "Radio Flora",
           stationUrl: "https://radioflora.de",
@@ -430,9 +431,20 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     tr.appendChild(td);
   }
 
-  // showdates: [ "2026-03-20", "2026-04-17" ],
+  // showdates for monthly e.g. [ "2026-03-20", "2026-04-17" ],
+  // showdates for weeksInMonth e.g. [ 1, 3 ],
   function formatRecurrence(show) {
     if (show.recurrence === "weekly") return "weekly";
+
+    if (show.recurrence === "weeksInMonth") {
+      var weeks = "";
+      show.showdates.forEach((weekIndex, index) => {
+        if (index > 0) weeks += ", ";
+        weeks += formatOrdinal(weekIndex);
+      })
+      return weeks;
+    }
+
     if (show.recurrence === "monthly") {
       if (show.showdates) {
         return "monthly, next:<br/>" + show.showdates[0];
