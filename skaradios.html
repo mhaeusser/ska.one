@@ -433,22 +433,16 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   // TODO test and simplify
-function getNextStartDateByDate(show, now) {
+  function getNextStartDateByDate(show, now) {
+    if (!show.showdates || show.showdates.length === 0) return null;
 
-  if (!show.showdates || show.showdates.length === 0) {
-    return null;
-  }
+    const tz = show.timezone;
 
-  const tz = show.timezone;
-
-  function buildUTCInstant(year, month, day) {
+    function buildUTCInstant(year, month, day) {
     // build wall-clock time as if UTC
     const wall = new Date(Date.UTC(year, month, day, show.start.h, show.start.m, 0, 0));
-
     // resolve actual UTC instant for that local time
-    const zoned = new Date(
-      wall.toLocaleString("en-US", { timeZone: tz })
-    );
+    const zoned = new Date(wall.toLocaleString("en-US", { timeZone: tz }));
 
     const offset = wall.getTime() - zoned.getTime();
     return new Date(wall.getTime() + offset);
@@ -462,8 +456,9 @@ function getNextStartDateByDate(show, now) {
     .filter(date => date > now)
     .sort((a, b) => a - b);
 
-  return candidates.length > 0 ? candidates[0] : null;
-}
+    return candidates.length > 0 ? candidates[0] : null;
+  }
+
   function getShowTimeInZone(show, showDay, zoneOffset) {
     const offset = zoneOffset - getOffsetByIana(show.timezone);
     const start = show.start.h + offset;
