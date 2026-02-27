@@ -321,7 +321,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   <thead>
   <tr>
     <th>Day</th>
-    <th>Recurrence</th>
     <th>Show</th>
     <th>Station</th>
     <th>Stream</th>
@@ -444,11 +443,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       weeklySchedule[day].forEach(show => {
       const tr = document.createElement("tr");
 
-      // Day
-      addTd(tr, WEEKDAYS[day]);
-
-      // Recurrence
-      addTd(tr, show.recurrence);
+      // Day, Recurrence
+      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + show.recurrence + "</span>");
 
       // Show
       addTd(tr, show.name, show.showUrl);
