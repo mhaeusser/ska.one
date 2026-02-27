@@ -41,7 +41,8 @@
         {
           name: "Rudie’s back in town",
           id: "rbit",
-          recurrence: "fortnightly (?)",
+          recurrence: "bi-weekly",
+          showdates: [ "2026-03-08", "2026-03-22" ],
           showUrl: "https://rudies-back-in-town.blogspot.com/",
           station: "Radio libertaire",
           stationUrl: "https://radio-libertaire.org/agenda/",
@@ -544,6 +545,13 @@ function getNextStartDateMonthly(show, now) {
         weeks += formatOrdinal(weekIndex);
       })
       return weeks;
+    }
+
+    if (show.recurrence === "bi-weekly") {
+      if (show.showdates) {
+        return "bi-weekly, next:<br/>" + show.showdates[0];
+      }
+      return "bi-weekly";
     }
 
     if (show.recurrence === "monthly") {
