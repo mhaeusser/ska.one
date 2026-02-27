@@ -349,12 +349,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextStartDate(show, weekday) {
-    const now = new Date();
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const diff = (weekday - next.getUTCDay() + 7) % 7;
-    next.setUTCDate(next.getUTCDate() + diff);
+      const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
+      next.setUTCDate(next.getUTCDate() + daysToWait);
 
-    if (next <= now) {
+      if (next <= new Date()) {
       next.setUTCDate(next.getUTCDate() + 7);
     }
 
