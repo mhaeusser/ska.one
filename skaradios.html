@@ -354,7 +354,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function getNextStartDate(show, weekday, now) {
     if (show.recurrence === "weeksInMonth") return getNextStartByWeek(show, now);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDateByDate(show, weekday, now);
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDateByDate(show, now);
     /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, weekday, now);
   }
 
