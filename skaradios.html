@@ -229,7 +229,7 @@
             idElement.classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
-            const nextStartDate = getNextStartDate(show, day);
+            const nextStartDate = getNextStartDate(show, day, now);
             const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
           }
@@ -348,12 +348,12 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
-  function getNextStartDate(show, weekday) {
+  function getNextStartDate(show, weekday, now) {
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
       const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
       next.setUTCDate(next.getUTCDate() + daysToWait);
 
-      if (next <= new Date()) {
+      if (next <= now) {
       next.setUTCDate(next.getUTCDate() + 7);
     }
 
