@@ -227,6 +227,7 @@
 
       for (let day = 0; day <= 6; day++) {
         weeklySchedule[day].forEach(show => {
+          show.weekday = day;
           const idElement = countdownSpans[show.id];
           if (isShowNowOn(show, day)) {
             idElement.textContent = "NOW PLAYING!";
@@ -352,22 +353,20 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
-  function getNextStartDate(show, weekday, now) {
+  function getNextStartDate(show, now) {
     if (show.recurrence === "weeksInMonth") return getNextStartByWeek(show, now);
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDateByDate(show, now);
-    /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, weekday, now);
+    /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, now);
   }
 
   // TODO test and simplify
   function getNextStartByWeek(show, now) {
-    const weekday = Object.keys(weeklySchedule).find(day => weeklySchedule[day].includes(show));
-    const targetWeekday = Number(weekday); // 0–6
     const tz = show.timezone;
 
     function buildUTCInstant(year, month, day) {
       // build wall-clock time as if UTC
       const wall = new Date(Date.UTC(year, month, day, show.start.h, show.start.m, 0, 0));
-        // resolve actual UTC instant for that local time
+      // resolve actual UTC instant for that local time
       const zoned = new Date(wall.toLocaleString("en-US", { timeZone: tz }));
 
       const offset = wall.getTime() - zoned.getTime();
@@ -379,7 +378,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const date = new Date(year, month, 1);
 
       while (date.getMonth() === month) {
-        if (date.getDay() === targetWeekday) {
+        if (date.getDay() === show.weekday) {
           dates.push(date.getDate());
         }
         date.setDate(date.getDate() + 1);
@@ -420,11 +419,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return null;
   }
 
-  function getCurrentOrLastStartDate(show, weekday, now) {
+  function getCurrentOrLastStartDate(show, now) {
 
     // weekly
     if (show.recurrence === "weekly") {
-      const start = getNextStartDateWeekly(show, weekday, now);
+      const start = getNextStartDateWeekly(show, now);
       start.setUTCDate(start.getUTCDate() - 7);
       return start;
     }
@@ -482,9 +481,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return null;
   }
 
-  function getNextStartDateWeekly(show, weekday, now) {
+  function getNextStartDateWeekly(show, now) {
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const daysToWait = (weekday - next.getUTCDay() + 7) % 7;
+    const daysToWait = (show.weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + daysToWait);
 
     if (next <= now) {
@@ -547,10 +546,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  function isShowNowOn(show, weekday) {
+  function isShowNowOn(show) {
     const now = new Date();
 
-    const start = getCurrentOrLastStartDate(show, weekday, now);
+    const start = getCurrentOrLastStartDate(show, now);
     if (!start) return false;
 
     const end = new Date(start);
