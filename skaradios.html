@@ -354,6 +354,12 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextStartDate(show, now) {
+    if (show.recurrence === "weeksInMonth") return getNextStartDateWeekly(show, now); // TODO
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDateWeekly(show, now); // TODO
+    /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, now);
+  }
+
+  function getNextStartDateWeekly(show, now) {
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const daysToWait = (show.weekday - next.getUTCDay() + 7) % 7;
     next.setUTCDate(next.getUTCDate() + daysToWait);
