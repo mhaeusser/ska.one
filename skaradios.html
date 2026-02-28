@@ -14,8 +14,7 @@
         {
           name: "Blue Beat in my Soul",
           id: "bbims",
-          recurrence: "weeksInMonth",
-          showdates: [ 2, 4 ],
+          recurrence: "2<sup>nd</sup>, 4<sup>th</sup>",
           showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
           station: "Radio Flora",
           stationUrl: "https://radioflora.de",
@@ -41,8 +40,7 @@
         {
           name: "Rudie’s back in town",
           id: "rbit",
-          recurrence: "bi-weekly",
-          showdates: [ "2026-03-08", "2026-03-22" ],
+          recurrence: "fortnightly (?)",
           showUrl: "https://rudies-back-in-town.blogspot.com/",
           station: "Radio libertaire",
           stationUrl: "https://radio-libertaire.org/agenda/",
@@ -124,7 +122,6 @@
           name: "File Under Ska<br/><sub>part of Suchtstation</sub>",
           id: "fus",
           recurrence: "monthly",
-          showdates: [ "2026-03-20", "2026-04-17" ],
           showUrl: "https://www.file-under-ska.de",
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
@@ -141,7 +138,6 @@
           name: "SkaTime FS-Ska",
           id: "st",
           recurrence: "monthly",
-          showdates: [ "2026-02-28", "2026-03-28" ],
           station: "FSK Hamburg",
           stationUrl: "https://www.fsk-hh.org",
           stationTown: "Hamburg",
@@ -227,14 +223,13 @@
 
       for (let day = 0; day <= 6; day++) {
         weeklySchedule[day].forEach(show => {
-          show.weekday = day;
           const idElement = countdownSpans[show.id];
           if (isShowNowOn(show, day)) {
             idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
-            const nextStartDate = getNextStartDate(show, day, now);
+            const nextStartDate = getNextStartDate(show, day);
             const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
           }
@@ -353,171 +348,17 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
-  function getNextStartDate(show, now) {
-    if (show.recurrence === "weeksInMonth") return getNextStartByWeek(show, now);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDateByDate(show, now);
-    /*if (show.recurrence === "weekly")*/ return getNextStartDateWeekly(show, now);
-  }
-
-  // TODO test and simplify
-  function getNextStartByWeek(show, now) {
-    const tz = show.timezone;
-
-    function buildUTCInstant(year, month, day) {
-      // build wall-clock time as if UTC
-      const wall = new Date(Date.UTC(year, month, day, show.start.h, show.start.m, 0, 0));
-      // resolve actual UTC instant for that local time
-      const zoned = new Date(wall.toLocaleString("en-US", { timeZone: tz }));
-
-      const offset = wall.getTime() - zoned.getTime();
-      return new Date(wall.getTime() + offset);
-    }
-
-    function getCandidateDates(year, month) {
-      const dates = [];
-      const date = new Date(year, month, 1);
-
-      while (date.getMonth() === month) {
-        if (date.getDay() === show.weekday) {
-          dates.push(date.getDate());
-        }
-        date.setDate(date.getDate() + 1);
-      }
-
-      return show.showdates.map(weekIndex => dates[weekIndex - 1]).filter(Boolean);
-    }
-
-    // get "now" in show timezone to determine month/year
-    const nowParts = Object.fromEntries(
-      new Intl.DateTimeFormat("en-CA", {
-        timeZone: tz,
-        year: "numeric",
-        month: "numeric"
-      }).formatToParts(now).map(p => [p.type, p.value])
-    );
-
-    let year = Number(nowParts.year);
-    let month = Number(nowParts.month) - 1;
-
-    for (let i = 0; i < 2; i++) { // check this month + next month
-      const candidates = getCandidateDates(year, month)
-        .map(day => buildUTCInstant(year, month, day))
-        .filter(date => date > now)
-        .sort((a, b) => a - b);
-
-      if (candidates.length > 0) {
-        return candidates[0];
-      }
-
-      month++;
-      if (month > 11) {
-        month = 0;
-        year++;
-      }
-    }
-
-    return null;
-  }
-
-  function getCurrentOrLastStartDate(show, now) {
-
-    // weekly
-    if (show.recurrence === "weekly") {
-      const start = getNextStartDateWeekly(show, now);
-      start.setUTCDate(start.getUTCDate() - 7);
-      return start;
-    }
-
-    // weeks in month
-    if (show.recurrence === "weeksInMonth") {
-      return getLastStartByWeek(show, now);
-    }
-
-    // monthly / bi-weekly (explicit dates)
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
-      return getLastStartDateByDate(show, now);
-    }
-
-    return null;
-  }
-
-  function getLastStartDateByDate(show, now) {
-    if (!show.showdates) return null;
-
-    const tz = show.timezone;
-
-    function buildUTCInstant(year, month, day) {
-      const wall = new Date(Date.UTC(
-        year, month, day,
-        show.start.h, show.start.m, 0, 0
-      ));
-      const zoned = new Date(
-        wall.toLocaleString("en-US", { timeZone: tz })
-      );
-      return new Date(wall.getTime() + (wall - zoned));
-    }
-
-    const past = show.showdates
-      .map(d => {
-        const [y, m, day] = d.split("-").map(Number);
-        return buildUTCInstant(y, m - 1, day);
-      })
-      .filter(d => d <= now)
-      .sort((a, b) => b - a);
-
-    return past.length ? past[0] : null;
-  }
-
-  function getLastStartByWeek(show, now) {
-    const next = getNextStartByWeek(show, now);
-    if (!next) return null;
-
-    // previous possible window is max 4 weeks back
-    for (let i = 1; i <= 5; i++) {
-      const candidate = new Date(next);
-      candidate.setUTCDate(candidate.getUTCDate() - i * 7);
-      if (candidate <= now) return candidate;
-    }
-    return null;
-  }
-
-  function getNextStartDateWeekly(show, now) {
+  function getNextStartDate(show, weekday) {
+    const now = new Date();
     const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const daysToWait = (show.weekday - next.getUTCDay() + 7) % 7;
-    next.setUTCDate(next.getUTCDate() + daysToWait);
+    const diff = (weekday - next.getUTCDay() + 7) % 7;
+    next.setUTCDate(next.getUTCDate() + diff);
 
     if (next <= now) {
       next.setUTCDate(next.getUTCDate() + 7);
     }
 
     return next;
-  }
-
-  // TODO test and simplify
-  function getNextStartDateByDate(show, now) {
-    if (!show.showdates || show.showdates.length === 0) return null;
-
-    const tz = show.timezone;
-
-    function buildUTCInstant(year, month, day) {
-    // build wall-clock time as if UTC
-    const wall = new Date(Date.UTC(year, month, day, show.start.h, show.start.m, 0, 0));
-    // resolve actual UTC instant for that local time
-    const zoned = new Date(wall.toLocaleString("en-US", { timeZone: tz }));
-
-    const offset = wall.getTime() - zoned.getTime();
-    return new Date(wall.getTime() + offset);
-  }
-
-  const candidates = show.showdates
-    .map(dateStr => {
-      const [year, month, day] = dateStr.split("-").map(Number);
-      return buildUTCInstant(year, month - 1, day);
-    })
-    .filter(date => date > now)
-    .sort((a, b) => a - b);
-
-    return candidates.length > 0 ? candidates[0] : null;
   }
 
   function getShowTimeInZone(show, showDay, zoneOffset) {
@@ -546,25 +387,18 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  function isShowNowOn(show) {
+  function isShowNowOn(show, weekday) {
     const now = new Date();
-
-    const start = getCurrentOrLastStartDate(show, now);
-    if (!start) return false;
-
-    const end = new Date(start);
-
-    end.setUTCHours(
-      end.getUTCHours() + (show.end.h - show.start.h),
-      show.end.m - show.start.m
-    );
-
-    // overnight handling
-    if (end <= start) {
-      end.setUTCDate(end.getUTCDate() + 1);
+    const showStart = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const diff = (weekday - showStart.getUTCDay() + 7) % 7;
+    showStart.setUTCDate(showStart.getUTCDate() + diff);
+    const showEnd = makeUTCDate(show.end.h - getOffsetByIana(show.timezone), show.end.m);
+    showEnd.setUTCDate(showEnd.getUTCDate() + diff);
+    // handle overnight shows
+    if (showEnd <= showStart) {
+      showEnd.setUTCDate(showEnd.getUTCDate() + 1);
     }
-
-    return start <= now && now < end;
+    return showStart <= now && now < showEnd;
   }
 
   function formatInTimeZone(date, timeZone) {
@@ -596,37 +430,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     tr.appendChild(td);
   }
 
-  // showdates for weeksInMonth e.g. [ 1, 3 ],
-  // showdates for monthly or bi-weekly e.g. [ "2026-03-20", "2026-04-17" ],
-  function formatRecurrence(show) {
-    if (show.recurrence === "weekly") return "weekly";
-
-    if (show.recurrence === "weeksInMonth") {
-      var weeks = "";
-      show.showdates.forEach((weekIndex, index) => {
-        if (index > 0) weeks += ", ";
-        weeks += formatOrdinal(weekIndex);
-      })
-      return weeks;
-    }
-
-    if (show.recurrence === "bi-weekly") {
-      if (show.showdates) {
-        return "bi-weekly, next:<br/>" + show.showdates[0];
-      }
-      return "bi-weekly";
-    }
-
-    if (show.recurrence === "monthly") {
-      if (show.showdates) {
-        return "monthly, next:<br/>" + show.showdates[0];
-      }
-      return "monthly";
-    }
-
-    return show.recurrence;
-  }
-
   // ---------------------------
   // Create the table
   // ---------------------------
@@ -641,7 +444,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const tr = document.createElement("tr");
 
       // Day, Recurrence
-      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(show) + "</span>");
+      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + show.recurrence + "</span>");
 
       // Show
       addTd(tr, show.name, show.showUrl);
