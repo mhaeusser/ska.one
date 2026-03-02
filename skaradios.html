@@ -372,8 +372,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return next;
   }
 
-  function getShowTimeInZone(show, showDay, zoneOffset) {
-    const offset = zoneOffset - getOffsetByIana(show.timezone);
+  function getShowTimeInZone(show, showDay, timezone) {
+    const offset = getOffsetByIana(timezone) - getOffsetByIana(show.timezone);
     const start = show.start.h + offset;
     const end = show.end.h + offset;
 
@@ -511,8 +511,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       // traverse timezones
       TARGET_TIMEZONES.forEach(timezone => {
         const td = document.createElement("td");
-        const offset = getOffsetByIana(timezone);
-        const showTimeInZone = getShowTimeInZone(show, day, offset);
+        //const offset = getOffsetByIana(timezone);
+        const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
         let startTime = showTimeInZone.start.h + ":" + showTimeInZone.start.m;
         if (showTimeInZone.start.h < 10) startTime = "0" + startTime;
@@ -526,7 +526,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         if (day != showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
         }
-        if (offset === getOffsetByIana(show.timezone)) {
+        if (timezone === show.timezone) {
           td.classList.add("bold");
         }
         td.classList.add("center-top", "nowrap");
