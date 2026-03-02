@@ -154,6 +154,7 @@
       ],
     };
 
+/*
     const TIMEZONES = [
       { abbr: "HST",  offset: -10,  iana: "Pacific/Honolulu" },
       { abbr: "AKST", offset: -9,   iana: "America/Anchorage" },
@@ -187,11 +188,34 @@
       { abbr: "NZST", offset: 12,   iana: "Pacific/Auckland" },
       { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland" }
     ];
+*/
 
-    function getOffsetByIana(iana) {
-      const tz = TIMEZONES.find(t => t.iana === iana);
-      if (!tz) return null;
-      return tz.offset;
+/*
+Temporal (Node 20+, modern browsers soon):
+
+const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
+  .offsetNanoseconds / 3_600_000_000_000;
+*/
+
+      function getOffsetByIana(iana, date = new Date()) {
+        const dtf = new Intl.DateTimeFormat("en-US", {
+        timeZone: iana,
+        hour12: false,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+
+      const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
+      const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+
+      // difference in minutes → avoids floating point drift
+      const offsetMinutes = Math.round((localMs - date.getTime()) / 60000);
+
+      return offsetMinutes / 60;
     }
 
     // target timezones
