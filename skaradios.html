@@ -509,9 +509,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // traverse timezones
-      TARGET_TIMEZONES.forEach(zone => {
+      TARGET_TIMEZONES.forEach(timezone => {
         const td = document.createElement("td");
-        const offset = getOffsetByIana(zone);
+        const offset = getOffsetByIana(timezone);
         const showTimeInZone = getShowTimeInZone(show, day, offset);
 
         let startTime = showTimeInZone.start.h + ":" + showTimeInZone.start.m;
