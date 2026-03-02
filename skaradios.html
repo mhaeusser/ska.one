@@ -385,15 +385,15 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextStartDateWeekly(show, now) {
-    const next = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const daysToWait = (show.weekday - next.getUTCDay() + 7) % 7;
-    next.setUTCDate(next.getUTCDate() + daysToWait);
+    const nextDate = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const daysToWait = (show.weekday - nextDate.getUTCDay() + 7) % 7;
+    nextDate.setUTCDate(nextDate.getUTCDate() + daysToWait);
 
-    if (next <= now) {
-      next.setUTCDate(next.getUTCDate() + 7);
+    if (nextDate <= now) {
+      nextDate.setUTCDate(nextDate.getUTCDate() + 7);
     }
 
-    return next;
+    return nextDate;
   }
 
   function getShowTimeInZone(show, showDay, timezone) {
