@@ -258,7 +258,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
             idElement.classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
-            const nextStartDate = getNextStartDate(show, day, now);
+            const nextStartDate = getNextStartDate(show, now);
             const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
           }
