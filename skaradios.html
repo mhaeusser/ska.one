@@ -524,7 +524,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       // Archive
       addTd(tr, "Archive", show.archiveUrl, "-");
 
-      // Time until next show, or is the show on playing?
+      // Time until next show, or is the show now playing?
       const waitOrPlayingTd = document.createElement("td");
       const span = document.createElement("span");
       countdownSpans[show.id] = span;
@@ -535,7 +535,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       // traverse timezones
       TARGET_TIMEZONES.forEach(timezone => {
         const td = document.createElement("td");
-        //const offset = getOffsetByIana(timezone);
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
         let startTime = showTimeInZone.start.h + ":" + showTimeInZone.start.m;
