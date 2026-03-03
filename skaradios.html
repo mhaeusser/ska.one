@@ -258,8 +258,8 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
             idElement.classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
-            const nextStartDate = getNextStartDate(show, now);
-            const remaining_sec = Math.ceil((nextStartDate - now) / 1000);
+            const nextStartDate = getNextShowTime(show, now);
+            const remaining_sec = Math.ceil((nextStartDate.start - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
           }
         });
@@ -375,6 +375,104 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const date = new Date();
     date.setUTCHours(hours, minutes, 0, 0);
     return date;
+  }
+
+  function findDaysInMonth(weekday, nums) {
+    const today = new Date();
+    const year = today.getUTCFullYear();
+    const month = today.getUTCMonth(); // 0–11
+    const todayDay = today.getUTCDate();
+
+    const wanted = new Set(nums);
+    const results = [];
+
+    let occurrence = 0;
+
+    for (let day = 1; day <= 31; day++) {
+      const d = new Date(Date.UTC(year, month, day));
+
+      // stop at end of month
+      if (d.getUTCMonth() !== month) break;
+
+      // skip past dates
+      if (day < todayDay) continue;
+
+      if (d.getUTCDay() === weekday) {
+        occurrence++;
+
+        if (wanted.has(occurrence)) {
+          const yyyy = year;
+          const mm = String(month + 1).padStart(2, "0");
+          const dd = String(day).padStart(2, "0");
+
+          results.push(`${yyyy}-${mm}-${dd}`);
+        }
+      }
+    }
+
+    return results;
+  }
+
+  // in minutes
+  function getShowLength(show) {
+    let hours = show.start.h - show.end.h;
+    if (hours < 0) hours += 24;
+    return hours * 60 + show.start.h - show.end.m;
+  }
+
+  // TODO getNextShowTime, damit auch isShowNowOn
+  function getNextShowTime(show, now) {
+    if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDate_Dates(show, now, show.showdates); // TODO
+    // show.recurrence === "weekly
+    return getNextShowTime_Weekly(show, now);
+  }
+
+  function getNextStartDate_Dates(show, now, dates) {
+    const theDates = getTheNextStartDate_Dates(show, now, dates);
+    return theDates;
+  }
+
+  function getTheNextStartDate_Dates(show, now, dates) {
+    const nowMs = now.getTime();
+    for (const dateStr of dates) {
+      const [year, month, day] = dateStr.split("-").map(Number);
+      const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h, show.start.m, 0, 0));
+
+      if (nextStartDate.getTime() > nowMs) {
+        const length = getShowLength(show);
+        const nextEndDate = new Date(nextStartDate.getTime + length * 60_000);
+        return {
+          start: nextStartDate,
+          end: nextEndDate
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function getNextShowTime_WeeksInMonth(show, now) {
+    const dates = findDaysInMonth(show.weekday, show.showdates);
+    return getNextStartDate_Dates(show, now, dates);
+  }
+
+  function getNextShowTime_Weekly(show, now) {
+    const nextStartDate = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
+    nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
+
+    if (nextStartDate <= now) {
+      nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
+    }
+
+    const length = getShowLength(show);
+    const nextEndDate = new Date(nextStartDate.getTime + length * 60_000);
+
+    return {
+      start: nextStartDate,
+      end: nextEndDate
+    }
   }
 
   // TODO getNextShowTime, damit auch isShowNowOn
