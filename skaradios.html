@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ska Radios</title>
+  <title>Ska Radios of the World — Live Schedule</title>
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript">
 
@@ -423,7 +423,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   // returns show's end date
   function calcEndDate(show, startDate) {
     const length = getShowLength(show);
-    return new Date(startDate.getTime + length * 60_000);
+    return new Date(startDate.getTime() + length * 60_000);
   }
 
   // TODO getNextShowTime, damit auch isShowNowOn
@@ -546,7 +546,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     if (show.recurrence === "weekly") return "weekly";
 
     if (show.recurrence === "weeksInMonth") {
-      var weeks = "";
+      let weeks = "";
       show.showdates.forEach((weekIndex, index) => {
         if (index > 0) weeks += ", ";
         weeks += formatOrdinal(weekIndex);
