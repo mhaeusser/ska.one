@@ -417,7 +417,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function getShowLength(show) {
     let hours = show.start.h - show.end.h;
     if (hours < 0) hours += 24;
-    return hours * 60 + show.start.h - show.end.m;
+    return (show.start.h + hours) * 60 - show.end.m;
   }
 
   // returns show's end date
