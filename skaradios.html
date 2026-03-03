@@ -429,17 +429,17 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   // TODO getNextShowTime, damit auch isShowNowOn
   function getNextShowTime(show, now) {
     if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDate_Dates(show, now, show.showdates); // TODO
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(show, now, show.showdates); // TODO
     // default: show.recurrence === "weekly"
     return getNextShowTime_Weekly(show, now);
   }
 
   function getNextShowTime_WeeksInMonth(show, now) {
     const dates = findDaysInMonth(show.weekday, show.showdates);
-    return getNextStartDate_Dates(show, now, dates);
+    return getNextShowTime_Dates(show, now, dates);
   }
 
-  function getNextStartDate_Dates(show, now, dates) {
+  function getNextShowTime_Dates(show, now, dates) {
     const nowMs = now.getTime();
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
