@@ -424,8 +424,13 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function getNextShowTime(show, now) {
     if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextStartDate_Dates(show, now, show.showdates); // TODO
-    // show.recurrence === "weekly
+    // default: show.recurrence === "weekly"
     return getNextShowTime_Weekly(show, now);
+  }
+
+  function getNextShowTime_WeeksInMonth(show, now) {
+    const dates = findDaysInMonth(show.weekday, show.showdates);
+    return getNextStartDate_Dates(show, now, dates);
   }
 
   function getNextStartDate_Dates(show, now, dates) {
@@ -445,11 +450,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     }
 
     return null;
-  }
-
-  function getNextShowTime_WeeksInMonth(show, now) {
-    const dates = findDaysInMonth(show.weekday, show.showdates);
-    return getNextStartDate_Dates(show, now, dates);
   }
 
   function getNextShowTime_Weekly(show, now) {
