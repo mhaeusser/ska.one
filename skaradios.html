@@ -429,11 +429,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextStartDate_Dates(show, now, dates) {
-    const theDates = getTheNextStartDate_Dates(show, now, dates);
-    return theDates;
-  }
-
-  function getTheNextStartDate_Dates(show, now, dates) {
     const nowMs = now.getTime();
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
