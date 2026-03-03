@@ -141,7 +141,7 @@
           name: "SkaTime FS-Ska",
           id: "st",
           recurrence: "monthly",
-          showdates: [ "2026-02-28", "2026-03-28" ],
+          showdates: [ "2026-03-28", "2026-04-25" ],
           station: "FSK Hamburg",
           stationUrl: "https://www.fsk-hh.org",
           stationTown: "Hamburg",
@@ -213,7 +213,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
 
       // difference in minutes → avoids floating point drift
-      const offsetMinutes = Math.round((localMs - date.getTime()) / 60000);
+      const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
 
       return offsetMinutes / 60;
     }
