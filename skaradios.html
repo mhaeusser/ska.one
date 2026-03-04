@@ -253,13 +253,13 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
         weeklySchedule[day].forEach(show => {
           show.weekday = day;
           const idElement = countdownSpans[show.id];
+          const nextShowTime = getNextShowTime(show, now);
           if (isShowNowOn(show, day)) {
             idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
-            const nextStartDate = getNextShowTime(show, now);
-            const remaining_sec = Math.ceil((nextStartDate.start - now) / 1000);
+            const remaining_sec = Math.ceil((nextShowTime.start - now) / 1000);
             idElement.textContent = formatDuration(remaining_sec);
           }
         });
