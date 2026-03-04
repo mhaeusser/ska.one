@@ -415,9 +415,12 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   // returns show length in minutes
   function getShowLength(show) {
-    let hours = show.start.h - show.end.h;
-    if (hours < 0) hours += 24;
-    return (show.start.h + hours) * 60 - show.end.m;
+    const startMinutes = show.start.h * 60 + show.start.m;
+    const endMinutes = show.end.h * 60 + show.end.m;
+    let length = endMinutes - startMinutes;
+    // if show passes midnight
+    if (length < 0) length += 24 * 60;
+    return length;
   }
 
   // returns show's end date
