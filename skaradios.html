@@ -447,11 +447,12 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
       const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h, show.start.m, 0, 0));
+      const nextEndDate = calcEndDate(show, nextStartDate);
 
       if (nextStartDate.getTime() > nowMs) {
         return {
           start: nextStartDate,
-          end: calcEndDate(show, nextStartDate)
+          end: nextEndDate
         }
       }
     }
@@ -463,6 +464,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const nextStartDate = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
+    const nextEndDate = calcEndDate(show, nextStartDate);
 
     if (nextStartDate <= now) {
       nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
@@ -470,7 +472,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
     return {
       start: nextStartDate,
-      end: calcEndDate(show, nextStartDate)
+      end: nextEndDate
     }
   }
 
