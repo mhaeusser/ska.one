@@ -443,13 +443,13 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextShowTime_Dates(show, now, dates) {
-    const nowMs = now.getTime();
+    const nowMsec = now.getTime();
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
-      const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h, show.start.m, 0, 0));
+      const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - getOffsetByIana(show.timezone), show.start.m, 0, 0));
       const nextEndDate = calcEndDate(show, nextStartDate);
 
-      if (nextStartDate.getTime() > nowMs) {
+      if (nextStartDate.getTime() > nowMsec) {
         return {
           start: nextStartDate,
           end: nextEndDate
