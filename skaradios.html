@@ -254,7 +254,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
           show.weekday = day;
           const idElement = countdownSpans[show.id];
           const nextShowTime = getNextShowTime(show, now);
-          if (isShowNowOn(show, day)) {
+          if (nextShowTime.start.getTime() <= now.getTime() && now.getTime() < nextShowTime.end.getTime()) {
             idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
@@ -450,7 +450,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - getOffsetByIana(show.timezone), show.start.m, 0, 0));
       const nextEndDate = calcEndDate(show, nextStartDate);
 
-      if (nextStartDate.getTime() > nowMsec) {
+      if (nextEndDate.getTime() < nowMsec) {
+        //console.log('remove past data ' + dateStr);
+      } else {
         return {
           start: nextStartDate,
           end: nextEndDate
@@ -503,20 +505,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const minutes = Math.floor(sec / 60) % 60;
     const seconds = sec % 60;
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
-  }
-
-  function isShowNowOn(show) {
-    const now = new Date();
-    const showStart = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
-    const diff = (show.weekday - showStart.getUTCDay() + 7) % 7;
-    showStart.setUTCDate(showStart.getUTCDate() + diff);
-    const showEnd = makeUTCDate(show.end.h - getOffsetByIana(show.timezone), show.end.m);
-    showEnd.setUTCDate(showEnd.getUTCDate() + diff);
-    // handle overnight shows
-    if (showEnd <= showStart) {
-      showEnd.setUTCDate(showEnd.getUTCDate() + 1);
-    }
-    return showStart <= now && now < showEnd;
   }
 
   function formatInTimeZone(date, timeZone) {
