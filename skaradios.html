@@ -442,6 +442,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return getNextShowTime_Dates(show, now, dates);
   }
 
+  // Depends on show end!
   function getNextShowTime_Dates(show, now, dates) {
     const nowMsec = now.getTime();
     for (const dateStr of dates) {
@@ -457,6 +458,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       }
     }
 
+    // no date found
+    // TODO how to handle?
     return null;
   }
 
@@ -466,7 +469,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
     const nextEndDate = calcEndDate(show, nextStartDate);
 
-    if (nextStartDate <= now) {
+    if (nextEndDate <= now) {
       nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
     }
 
