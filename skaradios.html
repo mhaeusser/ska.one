@@ -125,13 +125,13 @@
           name: "File Under Ska",
           subtitle: "part of Suchtstation",
           id: "fus",
-          recurrence: "monthly",
+          recurrence: "weekly",
           showdates: [ "2026-03-20", "2026-04-17" ],
           showUrl: "https://www.file-under-ska.de",
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
           stationTown: "Stuttgart",
-          start: { h: 20, m: 0 },
+          start: { h: 17, m: 0 },
           end: { h: 22, m: 0 },
           streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
           archiveUrl: "https://www.freies-radio.de/mediathek",
@@ -252,7 +252,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
           show.weekday = day;
           const idElement = countdownSpans[show.id];
           const nextShowTime = getNextShowTime(show, now);
-          if (nextShowTime.start.getTime() <= now.getTime() && now.getTime() < nextShowTime.end.getTime()) {
+          if (nextShowTime.start <= now && now < nextShowTime.end) {
             idElement.textContent = "NOW PLAYING!";
             idElement.classList.add("blink-red");
           } else {
