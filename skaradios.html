@@ -235,7 +235,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       STANDARD_TIMEZONES.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
       // also compute offsets for show source timezones
       Object.values(weeklySchedule).flat().forEach(show => {
-        if (!timezoneOffsets[show.timezone]) {
+        if (!(show.timezone in timezoneOffsets)) {
           timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
         }
       });
