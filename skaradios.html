@@ -219,12 +219,16 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     // target timezones
-    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+    //const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+
     const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     let timezones = [...STANDARD_TIMEZONES];
-    if (!timezones.includes(visitorTimezone)) {
+    if (!timezones.some(t => t.iana === visitorTimezone)) {
       timezones.push(visitorTimezone);
+      const now = new Date();
+      timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
     }
 
     const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
@@ -234,7 +238,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
     function computeTimezoneOffsets(now) {
       timezoneOffsets = {};
-      STANDARD_TIMEZONES.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+      timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
       // also compute offsets for show source timezones
       Object.values(weeklySchedule).flat().forEach(show => {
         if (!(show.timezone in timezoneOffsets)) {
@@ -252,7 +256,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       // update timezone times
-      STANDARD_TIMEZONES.forEach(timezone => {
+      timezones.forEach(timezone => {
         const id = "tz-" + timezone.replace("/", "-");
         document.getElementById(id).textContent = formatInTimeZone(now, timezone);
       });
@@ -559,7 +563,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // Timezone columns
-      STANDARD_TIMEZONES.forEach(timezone => {
+      timezones.forEach(timezone => {
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
