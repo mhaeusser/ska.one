@@ -226,8 +226,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
     const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
-    let timeZoneElements;
-
     const countdownSpans = {};
 
     function updateTimes() {
@@ -300,16 +298,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      timeZoneElements = {
-        pst: document.getElementById("pst"),
-        est: document.getElementById("est"),
-        gmt: document.getElementById("gmt"),
-        cet: document.getElementById("cet"),
-        msk: document.getElementById("msk"),
-        jst: document.getElementById("jst"),
-        aest: document.getElementById("aest")
-      };
-
       renderTable();
       updateTimes();
       setInterval(renderTable, 60 * 60 * 1000); // recreate table every hour
