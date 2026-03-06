@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ska Radios of the World — Live Schedule</title>
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript">
@@ -39,7 +40,7 @@
           timezone: "America/Los_Angeles"
         },
         {
-          name: "Rudie’s back in town",
+          name: "Rudie's back in town",
           id: "rbit",
           recurrence: "bi-weekly",
           showdates: [ "2026-03-08", "2026-03-22" ],
@@ -121,7 +122,8 @@
       4: [], // Thursday    
       5: [ // Friday
         {
-          name: "File Under Ska<br/><sub>part of Suchtstation</sub>",
+          name: "File Under Ska",
+          subtitle: "part of Suchtstation",
           id: "fus",
           recurrence: "monthly",
           showdates: [ "2026-03-20", "2026-04-17" ],
@@ -214,7 +216,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
       // difference in minutes → avoids floating point drift
       const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
-
       return offsetMinutes / 60;
     }
 
@@ -224,9 +225,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", {
-      timeZoneName: "short"
-    });
+    const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
     let timeZoneElements;
 
@@ -268,11 +267,11 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
     function formatDate(day, date, month, year, hour, minute, second) {
       let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
-      if (hour < 10) { text += "0"; }
-      text += '<span class="bold">' + hour + ':'
-      if (minute < 10) { text += "0"; }
-      text += minute + ':'
-      if (second < 10) { text += "0"; }
+      if (hour < 10) text += "0";
+      text += '<span class="bold">' + hour + ':';
+      if (minute < 10) text += "0";
+      text += minute + ':';
+      if (second < 10) text += "0";
       return text + second + '</span>';
     }
 
@@ -297,18 +296,14 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
     function getGMTOffsetMessage() {
       const offsetMinutes = new Date().getTimezoneOffset();
-      if (offsetMinutes === 0) {
-        return "You are in GMT.";
-      }
+      if (offsetMinutes === 0) return "You are in GMT.";
       const offsetHours = Math.abs(offsetMinutes) / 60;
       const hourLabel = offsetHours === 1 ? "hour" : "hours";
       const direction = offsetMinutes > 0 ? "behind" : "ahead of";
-
       return `You are ${offsetHours} ${hourLabel} ${direction} GMT.`;
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-
       timeZoneElements = {
         pst: document.getElementById("pst"),
         est: document.getElementById("est"),
@@ -382,7 +377,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const year = today.getUTCFullYear();
     const month = today.getUTCMonth(); // 0–11
     const todayDay = today.getUTCDate();
-
     const wanted = new Set(nums);
     const results = [];
 
@@ -401,15 +395,12 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         occurrence++;
 
         if (wanted.has(occurrence)) {
-          const yyyy = year;
           const mm = String(month + 1).padStart(2, "0");
           const dd = String(day).padStart(2, "0");
-
-          results.push(`${yyyy}-${mm}-${dd}`);
+          results.push(`${year}-${mm}-${dd}`);
         }
       }
     }
-
     return results;
   }
 
@@ -425,14 +416,13 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   // returns show's end date
   function calcEndDate(show, startDate) {
-    const length = getShowLength(show);
-    return new Date(startDate.getTime() + length * 60_000);
+    return new Date(startDate.getTime() + getShowLength(show) * 60_000);
   }
 
   // TODO getNextShowTime, damit auch isShowNowOn
   function getNextShowTime(show, now) {
     if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(show, now, show.showdates); // TODO
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(show, now, show.showdates);
     // default: show.recurrence === "weekly"
     return getNextShowTime_Weekly(show, now);
   }
@@ -453,10 +443,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       if (nextEndDate.getTime() < nowMsec) {
         //console.log('remove past data ' + dateStr);
       } else {
-        return {
-          start: nextStartDate,
-          end: nextEndDate
-        }
+        return { start: nextStartDate, end: nextEndDate }
       }
     }
 
@@ -485,7 +472,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const offset = getOffsetByIana(timezone) - getOffsetByIana(show.timezone);
     const start = show.start.h + offset;
     const end = show.end.h + offset;
-
     const dayShift = Math.floor(start / 24);
     const start_h = ((start % 24) + 24) % 24;
     const end_h = ((end % 24) + 24) % 24;
@@ -509,11 +495,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
   function formatInTimeZone(date, timeZone) {
     return new Intl.DateTimeFormat("en-GB", {
-      timeZone: timeZone,
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false
+      timeZone, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
     }).format(date);
   }
 
@@ -583,8 +565,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       // Day, Recurrence
       addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(show) + "</span>");
 
-      // Show
-      addTd(tr, show.name, show.showUrl);
+      // Show name + optional subtitle
+      const showLabel = show.subtitle
+        ? show.name + '<br/><sub>' + show.subtitle + '</sub>'
+        : show.name;
+      addTd(tr, showLabel, show.showUrl);
 
       // Station
       addTd(tr, show.station, show.stationUrl, "", show.stationTown);
@@ -678,8 +663,8 @@ Ska Nation Radio (?)
   </tr>
   </tbody>
 </table>
-<p>
-<p>
+
+<br/>
 <h2>Podcasts</h2>
 <table>
   <tbody>
