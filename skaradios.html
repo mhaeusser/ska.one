@@ -213,7 +213,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
       const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
       const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
-
       // difference in minutes → avoids floating point drift
       const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
       return offsetMinutes / 60;
@@ -442,9 +441,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
       if (nextEndDate.getTime() < nowMsec) {
         //console.log('remove past data ' + dateStr);
-      } else {
-        return { start: nextStartDate, end: nextEndDate }
-      }
+      } else return { start: nextStartDate, end: nextEndDate }
     }
 
     // no date found
@@ -458,14 +455,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
     const nextEndDate = calcEndDate(show, nextStartDate);
 
-    if (nextEndDate <= now) {
-      nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
-    }
+    if (nextEndDate <= now) nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
 
-    return {
-      start: nextStartDate,
-      end: nextEndDate
-    }
+    return { start: nextStartDate, end: nextEndDate };
   }
 
   function getShowTimeInZone(show, showDay, timezone) {
@@ -473,16 +465,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const start = show.start.h + offset;
     const end = show.end.h + offset;
     const dayShift = Math.floor(start / 24);
-    const start_h = ((start % 24) + 24) % 24;
-    const end_h = ((end % 24) + 24) % 24;
-
-    const day = (showDay + dayShift + 7) % 7;
-
     return {
-      start: { h: start_h, m: show.start.m },
-      end: { h: end_h, m: show.end.m },
-      day: day
-    }
+      start: { h: ((start % 24) + 24) % 24, m: show.start.m },
+      end: { h:  ((end % 24) + 24) % 24, m: show.end.m },
+      day: (showDay + dayShift + 7) % 7
+    };
   }
 
   function formatDuration(sec) {
@@ -522,30 +509,17 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   // showdates for monthly or bi-weekly e.g. [ "2026-03-20", "2026-04-17" ],
   function formatRecurrence(show) {
     if (show.recurrence === "weekly") return "weekly";
-
     if (show.recurrence === "weeksInMonth") {
       let weeks = "";
-      show.showdates.forEach((weekIndex, index) => {
-        if (index > 0) weeks += ", ";
-        weeks += formatOrdinal(weekIndex);
-      })
+      show.showdates.forEach((weekIndex, index) => { if (index > 0) weeks += ", "; weeks += formatOrdinal(weekIndex); });
       return weeks;
     }
-
     if (show.recurrence === "bi-weekly") {
-      if (show.showdates) {
-        return "bi-weekly, next:<br/>" + show.showdates[0];
-      }
-      return "bi-weekly";
+      return show.showdates ? "bi-weekly, next:<br/>" + show.showdates[0] : "bi-weekly";
     }
-
     if (show.recurrence === "monthly") {
-      if (show.showdates) {
-        return "monthly, next:<br/>" + show.showdates[0];
-      }
-      return "monthly";
+      return show.showdates ? "monthly, next:<br/>" + show.showdates[0] : "monthly";
     }
-
     return show.recurrence;
   }
 
@@ -588,7 +562,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       waitOrPlayingTd.classList.add("nowrap-right");
       tr.appendChild(waitOrPlayingTd);
 
-      // traverse timezones
+      // Timezone columns
       TARGET_TIMEZONES.forEach(timezone => {
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
@@ -602,7 +576,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         if (showTimeInZone.end.m === 0) endTime += "0";
         
         td.innerHTML = startTime + " - " + endTime;
-        if (day != showTimeInZone.day) {
+        if (day !== showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
         }
         if (timezone === show.timezone) {
@@ -632,7 +606,7 @@ www.facebook.com/chrismurrayroots www.facebook.com/BluebeatLivestream
 www.mixcloud.com/F10DJManagement/rhoda-dakar-dj-set/
 Ska Nation Radio (?)
 -->
-<p>
+<br/>
 <h2>24/7 Streams</h2>
 <table>
   <tbody>
@@ -705,7 +679,7 @@ Ska Nation Radio (?)
   </tr>
   </tbody>
 </table>
-<p>
+<br/>
 <a href="about.html">About this page.</a>
 </body>
 </html>
