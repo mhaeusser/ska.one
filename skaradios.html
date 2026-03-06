@@ -125,7 +125,7 @@
           name: "File Under Ska",
           subtitle: "part of Suchtstation",
           id: "fus",
-          recurrence: "weekly",
+          recurrence: "monthly",
           showdates: [ "2026-03-20", "2026-04-17" ],
           showUrl: "https://www.file-under-ska.de",
           station: "FRS",
@@ -219,7 +219,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     }
 
     // target timezones
-    const TARGET_TIMEZONES = ["America/Los_Angeles", "America/New_York", "Europe/London", "Europe/Berlin", "Europe/Moscow", "Asia/Tokyo", "Australia/Sydney"];
+    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -557,7 +557,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       tr.appendChild(waitOrPlayingTd);
 
       // Timezone columns
-      TARGET_TIMEZONES.forEach(timezone => {
+      STANDARD_TIMEZONES.forEach(timezone => {
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
