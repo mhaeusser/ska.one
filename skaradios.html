@@ -239,13 +239,11 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       // update timezone times
-      timeZoneElements.pst.textContent = formatInTimeZone(now, "America/Los_Angeles");
-      timeZoneElements.est.textContent = formatInTimeZone(now, "America/New_York");
-      timeZoneElements.gmt.textContent = formatInTimeZone(now, "Europe/London");
-      timeZoneElements.cet.textContent = formatInTimeZone(now, "Europe/Berlin");
-      timeZoneElements.msk.textContent = formatInTimeZone(now, "Europe/Moscow");
-      timeZoneElements.jst.textContent = formatInTimeZone(now, "Asia/Tokyo");
-      timeZoneElements.aest.textContent = formatInTimeZone(now, "Australia/Sydney");
+      STANDARD_TIMEZONES.forEach(timezone => {
+        const id = "tz-" + timezone.replace("/", "-");
+        const el = document.getElementById(id);
+        if (el) el.textContent = formatInTimeZone(now, timezone);
+      });
       // update times until shows start
       for (let day = 0; day <= 6; day++) {
         weeklySchedule[day].forEach(show => {
@@ -349,13 +347,13 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     <th>Stream</th>
     <th>Archive</th>
     <th>Time until next show</th>
-    <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="pst"></span></th>
-    <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="est"></span></th>
-    <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="gmt"></span></th>
-    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="cet"></span></th>
-    <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="msk"></span></th>
-    <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span><br/><span id="jst"></span></th>
-    <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span><br/><span id="aest"></span></th>
+    <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="tz-America-Los_Angeles"></span></th>
+    <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="tz-America-New_York"></span></th>
+    <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="tz-Europe-London"></span></th>
+    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="tz-Europe-Berlin"></span></th>
+    <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="tz-Europe-Moscow"></span></th>
+    <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span><br/><span id="tz-Asia-Tokyo"></span></th>
+    <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span><br/><span id="tz-Australia-Sydney"></span></th>
   </tr>
   </thead>
   <tbody></tbody>
