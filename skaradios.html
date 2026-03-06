@@ -228,6 +228,19 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
     const countdownSpans = {};
 
+    let timezoneOffsets = {};
+
+    function computeTimezoneOffsets(now) {
+      timezoneOffsets = {};
+      STANDARD_TIMEZONES.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+      // also compute offsets for show source timezones
+      Object.values(weeklySchedule).flat().forEach(show => {
+        if (!timezoneOffsets[show.timezone]) {
+          timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
+        }
+      });
+    }
+
     function updateTimes() {
       const now = new Date();
       // update local time on top
@@ -415,7 +428,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function getNextShowTime_Dates(show, now, dates) {
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
-      const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - getOffsetByIana(show.timezone), show.start.m, 0, 0));
+      const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
       const nextEndDate = calcEndDate(show, nextStartDate);
 
       if (nextEndDate < now) {
@@ -429,7 +442,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextShowTime_Weekly(show, now) {
-    const nextStartDate = makeUTCDate(show.start.h - getOffsetByIana(show.timezone), show.start.m);
+    const nextStartDate = makeUTCDate(show.start.h - timezoneOffsets[show.timezone], show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
     const nextEndDate = calcEndDate(show, nextStartDate);
@@ -440,7 +453,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getShowTimeInZone(show, showDay, timezone) {
-    const offset = getOffsetByIana(timezone) - getOffsetByIana(show.timezone);
+    const offset = timezoneOffsets[timezone] - timezoneOffsets[show.timezone];
     const start = show.start.h + offset;
     const end = show.end.h + offset;
     const dayShift = Math.floor(start / 24);
@@ -506,6 +519,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   // Create the table
   // ---------------------------
   function renderTable() {
+    computeTimezoneOffsets(new Date());
+
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
 
     const tbody = document.querySelector("#radioTable tbody");
