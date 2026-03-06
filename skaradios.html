@@ -241,8 +241,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       // update timezone times
       STANDARD_TIMEZONES.forEach(timezone => {
         const id = "tz-" + timezone.replace("/", "-");
-        const el = document.getElementById(id);
-        if (el) el.textContent = formatInTimeZone(now, timezone);
+        document.getElementById(id).textContent = formatInTimeZone(now, timezone);
       });
       // update times until shows start
       for (let day = 0; day <= 6; day++) {
