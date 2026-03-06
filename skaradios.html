@@ -374,25 +374,20 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function findDaysInMonth(weekday, nums) {
     const today = new Date();
     const year = today.getUTCFullYear();
-    const month = today.getUTCMonth(); // 0–11
+    const month = today.getUTCMonth();
     const todayDay = today.getUTCDate();
     const wanted = new Set(nums);
     const results = [];
 
     let occurrence = 0;
-
     for (let day = 1; day <= 31; day++) {
       const d = new Date(Date.UTC(year, month, day));
-
       // stop at end of month
       if (d.getUTCMonth() !== month) break;
-
       // skip past dates
       if (day < todayDay) continue;
-
       if (d.getUTCDay() === weekday) {
         occurrence++;
-
         if (wanted.has(occurrence)) {
           const mm = String(month + 1).padStart(2, "0");
           const dd = String(day).padStart(2, "0");
@@ -579,9 +574,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         if (day !== showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
         }
-        if (timezone === show.timezone) {
-          td.classList.add("bold");
-        }
+        if (timezone === show.timezone) td.classList.add("bold");
         td.classList.add("center-top", "nowrap");
         tr.appendChild(td);
       });
@@ -679,6 +672,7 @@ Ska Nation Radio (?)
   </tr>
   </tbody>
 </table>
+
 <br/>
 <a href="about.html">About this page.</a>
 </body>
