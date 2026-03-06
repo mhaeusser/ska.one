@@ -131,7 +131,7 @@
           station: "FRS",
           stationUrl: "https://www.freies-radio.de",
           stationTown: "Stuttgart",
-          start: { h: 17, m: 0 },
+          start: { h: 20, m: 0 },
           end: { h: 22, m: 0 },
           streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
           archiveUrl: "https://www.freies-radio.de/mediathek",
@@ -218,16 +218,21 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       return offsetMinutes / 60;
     }
 
-    // target timezones
-    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
-
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+    // target timezones
+    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+    const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    let timezones = [...STANDARD_TIMEZONES];
+    if (!timezones.includes(visitorTimezone)) {
+      timezones.push(visitorTimezone);
+    }
 
     const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
     const countdownSpans = {};
-
     let timezoneOffsets = {};
 
     function computeTimezoneOffsets(now) {
