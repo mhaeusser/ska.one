@@ -196,7 +196,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   .offsetNanoseconds / 3_600_000_000_000;
 */
 
-      function getOffsetByIana(iana, date = new Date()) {
+      function getOffsetByIana(iana, date) {
         const dtf = new Intl.DateTimeFormat("en-US", {
         timeZone: iana,
         hour12: false,
