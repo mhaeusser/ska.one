@@ -166,8 +166,8 @@
       { abbr: "MDT",  offset: -6,   iana: "America/Denver",      place1: "Denver", place2: "Salt Lake City" },
       { abbr: "CST",  offset: -6,   iana: "America/Chicago",     place1: "Chicago", place2: "Dallas" },
       { abbr: "CDT",  offset: -5,   iana: "America/Chicago",     place1: "Chicago", place2: "Houston" },
-      { abbr: "EST",  offset: -5,   iana: "America/New_York",    place1: "New York", place2: "Toronto" },
-      { abbr: "EDT",  offset: -4,   iana: "America/New_York",    place1: "New York", place2: "Washington" },
+      { abbr: "EST",  offset: -5,   iana: "America/New_York",    place1: "New York", place2: "Kingston" },
+      { abbr: "EDT",  offset: -4,   iana: "America/New_York",    place1: "New York", place2: "Toronto" },
       { abbr: "AST",  offset: -4,   iana: "America/Halifax",     place1: "Halifax", place2: "San Juan" },
       { abbr: "NST",  offset: -3.5, iana: "America/St_Johns",    place1: "St. John's", place2: "Corner Brook" },
       { abbr: "GMT",  offset: 0,    iana: "Europe/London",       place1: "London", place2: "Dublin" },
@@ -176,16 +176,16 @@
       { abbr: "CEST", offset: 2,    iana: "Europe/Berlin",       place1: "Stuttgart", place2: "Skaska" },
       { abbr: "EET",  offset: 2,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Athens" },
       { abbr: "EEST", offset: 3,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Bucharest" },
-      { abbr: "MSK",  offset: 3,    iana: "Europe/Moscow",       place1: "Moscow", place2: "St. Petersburg" },
+      { abbr: "MSK",  offset: 3,    iana: "Europe/Moscow",       place1: "St. Petersburg", place2: "Moscow" },
       { abbr: "PKT",  offset: 5,    iana: "Asia/Karachi",        place1: "Karachi", place2: "Islamabad" },
       { abbr: "IST",  offset: 5.5,  iana: "Asia/Kolkata",        place1: "Delhi", place2: "Mumbai" },
       { abbr: "AWST", offset: 8,    iana: "Australia/Perth",     place1: "Perth", place2: "Broome" },
       { abbr: "JST",  offset: 9,    iana: "Asia/Tokyo",          place1: "Tokyo", place2: "Perth" },
       { abbr: "KST",  offset: 9,    iana: "Asia/Seoul",          place1: "Seoul", place2: "Busan" },
       { abbr: "ACST", offset: 9.5,  iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Darwin" },
-      { abbr: "AEST", offset: 10,   iana: "Australia/Sydney",    place1: "Sydney", place2: "Melbourne" },
+      { abbr: "AEST", offset: 10,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
       { abbr: "ACDT", offset: 10.5, iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Alice Springs" },
-      { abbr: "AEDT", offset: 11,   iana: "Australia/Sydney",    place1: "Sydney", place2: "Melbourne" },
+      { abbr: "AEDT", offset: 11,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
       { abbr: "NZST", offset: 12,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Wellington" },
       { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Christchurch" }
     ];
@@ -222,7 +222,10 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
     //const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
-    const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // TODO injects other timezones for testing
+    let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    visitorTimezone = "America/Halifax";
+    console.log("visitorTimezone = " + visitorTimezone);
 
     let timezones = [...STANDARD_TIMEZONES];
     if (!timezones.some(t => t.iana === visitorTimezone)) {
@@ -317,6 +320,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      renderTimezoneHeaders();
       renderTable();
       updateTimes();
       setInterval(renderTable, 60 * 60 * 1000); // recreate table every hour
@@ -346,13 +350,14 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 
 <table id="radioTable">
   <thead>
-  <tr>
+  <tr id="headerRow">
     <th>Day</th>
     <th>Show</th>
     <th>Station</th>
     <th>Stream</th>
     <th>Archive</th>
     <th>Time until next show</th>
+    <!--
     <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="tz-America-Los_Angeles"></span></th>
     <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="tz-America-New_York"></span></th>
     <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="tz-Europe-London"></span></th>
@@ -360,6 +365,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="tz-Europe-Moscow"></span></th>
     <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span><br/><span id="tz-Asia-Tokyo"></span></th>
     <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span><br/><span id="tz-Australia-Sydney"></span></th>
+    -->
   </tr>
   </thead>
   <tbody></tbody>
@@ -519,6 +525,24 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       return show.showdates ? "monthly, next:<br/>" + show.showdates[0] : "monthly";
     }
     return show.recurrence;
+  }
+
+  function renderTimezoneHeaders() {
+    const headerRow = document.getElementById("headerRow");
+    timezones.forEach(timezone => {
+      const meta = TIMEZONES.find(t => t.iana === timezone);
+      if (!meta) return;
+      const th = document.createElement("th");
+      th.classList.add("center", "nowrap");
+      const sign = meta.offset >= 0 ? "+" : "";
+      const offset = `UTC${sign}${meta.offset}`;
+      th.innerHTML =
+        `${meta.place1}<br/>` +
+        `${meta.place2}<br/>` +
+        `<span class="small-text">${meta.abbr} (${offset})</span><br/>` +
+        `<span id="tz-${timezone.replace("/", "-")}"></span>`;
+      headerRow.appendChild(th);
+    });
   }
 
   // ---------------------------
