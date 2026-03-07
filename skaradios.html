@@ -7,219 +7,218 @@
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript">
 
-    // ---------------------------
-    // Show data
-    // ---------------------------
-    const weeklySchedule = {
-      0: [ // Sunday
-        {
-          name: "Blue Beat in my Soul",
-          id: "bbims",
-          recurrence: "weeksInMonth",
-          showdates: [ 2, 4 ],
-          showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
-          station: "Radio Flora",
-          stationUrl: "https://radioflora.de",
-          stationTown: "Hannover",
-          start: { h: 20, m: 0 },
-          end: { h: 22, m: 0 },
-          streamUrl: "https://radioflora.de",
-          archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
-          timezone: "Europe/Berlin"
-        },
-        {
-          name: "Ska Parade",
-          id: "sp",
-          recurrence: "weekly",
-          showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
-          station: "Dirty Radio",
-          stationUrl: "https://dirtyradio.fm",
-          start: { h: 20, m: 0 },
-          end: { h: 22, m: 0 },
-          streamUrl: "http://albireo.shoutca.st:8815/;",
-          timezone: "America/Los_Angeles"
-        },
-        {
-          name: "Rudie's back in town",
-          id: "rbit",
-          recurrence: "bi-weekly",
-          showdates: [ "2026-03-08", "2026-03-22" ],
-          showUrl: "https://rudies-back-in-town.blogspot.com/",
-          station: "Radio libertaire",
-          stationUrl: "https://radio-libertaire.org/agenda/",
-          stationTown: "Paris",
-          start: { h: 20, m: 0 },
-          end: { h: 0, m: 0 },
-          streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
-          archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
-          timezone: "Europe/Berlin"
-        }
-      ],
-      1: [ // Monday
-        {
-          name: "Ska Patrol",
-          id: "spl",
-          recurrence: "weekly",
-          showUrl: "https://skapatrol.weebly.com",
-          station: "NEAR fm 90.3",
-          stationUrl: "https://nearfm.ie/",
-          stationTown: "Dublin",
-          start: { h: 20, m: 0 },
-          end: { h: 22, m: 0 },
-          streamUrl: "https://nearfm.ie/livestream/",
-          archiveUrl: "",
-          timezone: "Europe/London"
-        }
-      ],
-      2: [ // Tuesday
-        {
-          name: "Rock Steady Rhythms",
-          id: "rsr",
-          recurrence: "weekly",
-          showUrl: "https://www.dundalkfm.com/category/music/",
-          station: "Dundalk FM",
-          stationUrl: "https://www.dundalkfm.com/",
-          stationTown: "Dundalk",
-          start: { h: 19, m: 0 },
-          end: { h: 21, m: 0 },
-          streamUrl: "https://www.dundalkfm.com/",
-          archiveUrl: "https://www.dundalkfm.com/listen-again/",
-          timezone: "Europe/London"
-        }
-      ],
-      3: [ // Wednesday
-        {
-          name: "Rudeboy's Delight",
-          id: "rd",
-          recurrence: "weekly",
-          showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
-          station: "Wüste Welle",
-          stationUrl: "https://www.wueste-welle.de",
-          stationTown: "Tübingen",
-          start: { h: 22, m: 0 },
-          end: { h: 23, m: 0 },
-          streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
-          archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
-          timezone: "Europe/Berlin"
-        },
-        {
-          name: "Offbeat",
-          id: "o",
-          recurrence: "weekly",
-          showUrl: "https://www.facebook.com/RiverinaRudeboy",
-          station: "Triple AAA FM",
-          stationUrl: "https://tripleafm.net.au",
-          stationTown: "Wagga Wagga",
-          start: { h: 20, m: 0 },
-          end: { h: 22, m: 0 },
-          streamUrl: "https://tripleafm.net.au/stream",
-          timezone: "Australia/Sydney"
-        }
-        // 7pm on 96.7 2GHR in the Greater Hume and Albury Wodonga
-        // 8pm on Triple AAA Fm in Wagga, Coolamon, Junee and Gundagai
-        // And online from those station's websites at those times, or via any good radio app.
-      ],
-      4: [], // Thursday    
-      5: [ // Friday
-        {
-          name: "File Under Ska",
-          subtitle: "part of Suchtstation",
-          id: "fus",
-          recurrence: "monthly",
-          showdates: [ "2026-03-20", "2026-04-17" ],
-          showUrl: "https://www.file-under-ska.de",
-          station: "FRS",
-          stationUrl: "https://www.freies-radio.de",
-          stationTown: "Stuttgart",
-          start: { h: 20, m: 0 },
-          end: { h: 22, m: 0 },
-          streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
-          archiveUrl: "https://www.freies-radio.de/mediathek",
-          timezone: "Europe/Berlin"
-        }
-      ],
-      6: [ // Saturday
-        {
-          name: "SkaTime FS-Ska",
-          id: "st",
-          recurrence: "monthly",
-          showdates: [ "2026-03-28", "2026-04-25" ],
-          station: "FSK Hamburg",
-          stationUrl: "https://www.fsk-hh.org",
-          stationTown: "Hamburg",
-          start: { h: 18, m: 0 },
-          end: { h: 19, m: 30 },
-          streamUrl: "https://streaming.fueralle.org/fsk.mp3",
-          archiveUrl: "https://www.fsk-hh.org/archive",
-          timezone: "Europe/Berlin"
-        }
-      ],
-    };
+  // ---------------------------
+  // Show data
+  // ---------------------------
+  const weeklySchedule = {
+    0: [ // Sunday
+      {
+        name: "Blue Beat in my Soul",
+        id: "bbims",
+        recurrence: "weeksInMonth",
+        showdates: [ 2, 4 ],
+        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
+        station: "Radio Flora",
+        stationUrl: "https://radioflora.de",
+        stationTown: "Hannover",
+        start: { h: 20, m: 0 },
+        end: { h: 22, m: 0 },
+        streamUrl: "https://radioflora.de",
+        archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
+        timezone: "Europe/Berlin"
+      },
+      {
+        name: "Ska Parade",
+        id: "sp",
+        recurrence: "weekly",
+        showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
+        station: "Dirty Radio",
+        stationUrl: "https://dirtyradio.fm",
+        start: { h: 20, m: 0 },
+        end: { h: 22, m: 0 },
+        streamUrl: "http://albireo.shoutca.st:8815/;",
+        timezone: "America/Los_Angeles"
+      },
+      {
+        name: "Rudie's back in town",
+        id: "rbit",
+        recurrence: "bi-weekly",
+        showdates: [ "2026-03-08", "2026-03-22" ],
+        showUrl: "https://rudies-back-in-town.blogspot.com/",
+        station: "Radio libertaire",
+        stationUrl: "https://radio-libertaire.org/agenda/",
+        stationTown: "Paris",
+        start: { h: 20, m: 0 },
+        end: { h: 0, m: 0 },
+        streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
+        archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
+        timezone: "Europe/Berlin"
+      }
+    ],
+    1: [ // Monday
+      {
+        name: "Ska Patrol",
+        id: "spl",
+        recurrence: "weekly",
+        showUrl: "https://skapatrol.weebly.com",
+        station: "NEAR fm 90.3",
+        stationUrl: "https://nearfm.ie/",
+        stationTown: "Dublin",
+        start: { h: 20, m: 0 },
+        end: { h: 22, m: 0 },
+        streamUrl: "https://nearfm.ie/livestream/",
+        archiveUrl: "",
+        timezone: "Europe/London"
+      }
+    ],
+    2: [ // Tuesday
+      {
+        name: "Rock Steady Rhythms",
+        id: "rsr",
+        recurrence: "weekly",
+        showUrl: "https://www.dundalkfm.com/category/music/",
+        station: "Dundalk FM",
+        stationUrl: "https://www.dundalkfm.com/",
+        stationTown: "Dundalk",
+        start: { h: 19, m: 0 },
+        end: { h: 21, m: 0 },
+        streamUrl: "https://www.dundalkfm.com/",
+        archiveUrl: "https://www.dundalkfm.com/listen-again/",
+        timezone: "Europe/London"
+      }
+    ],
+    3: [ // Wednesday
+      {
+        name: "Rudeboy's Delight",
+        id: "rd",
+        recurrence: "weekly",
+        showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
+        station: "Wüste Welle",
+        stationUrl: "https://www.wueste-welle.de",
+        stationTown: "Tübingen",
+        start: { h: 22, m: 0 },
+        end: { h: 23, m: 0 },
+        streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
+        archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
+        timezone: "Europe/Berlin"
+      },
+      {
+        name: "Offbeat",
+        id: "o",
+        recurrence: "weekly",
+        showUrl: "https://www.facebook.com/RiverinaRudeboy",
+        station: "Triple AAA FM",
+        stationUrl: "https://tripleafm.net.au",
+        stationTown: "Wagga Wagga",
+        start: { h: 20, m: 0 },
+        end: { h: 22, m: 0 },
+        streamUrl: "https://tripleafm.net.au/stream",
+        timezone: "Australia/Sydney"
+      }
+      // 7pm on 96.7 2GHR in the Greater Hume and Albury Wodonga
+      // 8pm on Triple AAA Fm in Wagga, Coolamon, Junee and Gundagai
+      // And online from those station's websites at those times, or via any good radio app.
+    ],
+    4: [], // Thursday    
+    5: [ // Friday
+      {
+        name: "File Under Ska",
+        subtitle: "part of Suchtstation",
+        id: "fus",
+        recurrence: "monthly",
+        showdates: [ "2026-03-20", "2026-04-17" ],
+        showUrl: "https://www.file-under-ska.de",
+        station: "FRS",
+        stationUrl: "https://www.freies-radio.de",
+        stationTown: "Stuttgart",
+        start: { h: 20, m: 0 },
+        end: { h: 22, m: 0 },
+        streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
+        archiveUrl: "https://www.freies-radio.de/mediathek",
+        timezone: "Europe/Berlin"
+      }
+    ],
+    6: [ // Saturday
+      {
+        name: "SkaTime FS-Ska",
+        id: "st",
+        recurrence: "monthly",
+        showdates: [ "2026-03-28", "2026-04-25" ],
+        station: "FSK Hamburg",
+        stationUrl: "https://www.fsk-hh.org",
+        stationTown: "Hamburg",
+        start: { h: 18, m: 0 },
+        end: { h: 19, m: 30 },
+        streamUrl: "https://streaming.fueralle.org/fsk.mp3",
+        archiveUrl: "https://www.fsk-hh.org/archive",
+        timezone: "Europe/Berlin"
+      }
+    ],
+  };
 
-    const TIMEZONES = [
-      { abbr: "HST",  offset: -10,  iana: "Pacific/Honolulu",    place1: "Honolulu", place2: "Hilo" },
-      { abbr: "AKST", offset: -9,   iana: "America/Anchorage",   place1: "Anchorage", place2: "Fairbanks" },
-      { abbr: "AKDT", offset: -8,   iana: "America/Anchorage",   place1: "Anchorage", place2: "Juneau" },
-      { abbr: "PST",  offset: -8,   iana: "America/Los_Angeles", place1: "Vancouver", place2: "Los Angeles" },
-      { abbr: "PDT",  offset: -7,   iana: "America/Los_Angeles", place1: "Vancouver", place2: "Los Angeles" },
-      { abbr: "MST",  offset: -7,   iana: "America/Denver",      place1: "Phoenix", place2: "Denver" },
-      { abbr: "MDT",  offset: -6,   iana: "America/Denver",      place1: "Denver", place2: "Salt Lake City" },
-      { abbr: "CST",  offset: -6,   iana: "America/Chicago",     place1: "Chicago", place2: "Dallas" },
-      { abbr: "CDT",  offset: -5,   iana: "America/Chicago",     place1: "Chicago", place2: "Houston" },
-      { abbr: "EST",  offset: -5,   iana: "America/New_York",    place1: "New York", place2: "Kingston" },
-      { abbr: "EDT",  offset: -4,   iana: "America/New_York",    place1: "New York", place2: "Toronto" },
-      { abbr: "AST",  offset: -4,   iana: "America/Halifax",     place1: "Halifax", place2: "San Juan" },
-      { abbr: "NST",  offset: -3.5, iana: "America/St_Johns",    place1: "St. John's", place2: "Corner Brook" },
-      { abbr: "GMT",  offset: 0,    iana: "Europe/London",       place1: "London", place2: "Dublin" },
-      { abbr: "UTC",  offset: 0,    iana: "UTC",                 place1: "Reykjavík", place2: "Accra" },
-      { abbr: "CET",  offset: 1,    iana: "Europe/Berlin",       place1: "Stuttgart", place2: "Skaska" },
-      { abbr: "CEST", offset: 2,    iana: "Europe/Berlin",       place1: "Stuttgart", place2: "Skaska" },
-      { abbr: "EET",  offset: 2,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Athens" },
-      { abbr: "EEST", offset: 3,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Bucharest" },
-      { abbr: "MSK",  offset: 3,    iana: "Europe/Moscow",       place1: "St. Petersburg", place2: "Moscow" },
-      { abbr: "PKT",  offset: 5,    iana: "Asia/Karachi",        place1: "Karachi", place2: "Islamabad" },
-      { abbr: "IST",  offset: 5.5,  iana: "Asia/Kolkata",        place1: "Delhi", place2: "Mumbai" },
-      { abbr: "AWST", offset: 8,    iana: "Australia/Perth",     place1: "Perth", place2: "Broome" },
-      { abbr: "JST",  offset: 9,    iana: "Asia/Tokyo",          place1: "Tokyo", place2: "Perth" },
-      { abbr: "KST",  offset: 9,    iana: "Asia/Seoul",          place1: "Seoul", place2: "Busan" },
-      { abbr: "ACST", offset: 9.5,  iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Darwin" },
-      { abbr: "AEST", offset: 10,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
-      { abbr: "ACDT", offset: 10.5, iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Alice Springs" },
-      { abbr: "AEDT", offset: 11,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
-      { abbr: "NZST", offset: 12,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Wellington" },
-      { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Christchurch" }
-    ];
+  const TIMEZONES = [
+    { abbr: "HST",  offset: -10,  iana: "Pacific/Honolulu",    place1: "Honolulu", place2: "Hilo" },
+    { abbr: "AKST", offset: -9,   iana: "America/Anchorage",   place1: "Anchorage", place2: "Fairbanks" },
+    { abbr: "AKDT", offset: -8,   iana: "America/Anchorage",   place1: "Anchorage", place2: "Juneau" },
+    { abbr: "PST",  offset: -8,   iana: "America/Los_Angeles", place1: "Vancouver", place2: "Los Angeles" },
+    { abbr: "PDT",  offset: -7,   iana: "America/Los_Angeles", place1: "Vancouver", place2: "Los Angeles" },
+    { abbr: "MST",  offset: -7,   iana: "America/Denver",      place1: "Phoenix", place2: "Denver" },
+    { abbr: "MDT",  offset: -6,   iana: "America/Denver",      place1: "Denver", place2: "Salt Lake City" },
+    { abbr: "CST",  offset: -6,   iana: "America/Chicago",     place1: "Chicago", place2: "Dallas" },
+    { abbr: "CDT",  offset: -5,   iana: "America/Chicago",     place1: "Chicago", place2: "Houston" },
+    { abbr: "EST",  offset: -5,   iana: "America/New_York",    place1: "New York", place2: "Kingston" },
+    { abbr: "EDT",  offset: -4,   iana: "America/New_York",    place1: "New York", place2: "Toronto" },
+    { abbr: "AST",  offset: -4,   iana: "America/Halifax",     place1: "Halifax", place2: "San Juan" },
+    { abbr: "NST",  offset: -3.5, iana: "America/St_Johns",    place1: "St. John's", place2: "Corner Brook" },
+    { abbr: "GMT",  offset: 0,    iana: "Europe/London",       place1: "London", place2: "Dublin" },
+    { abbr: "UTC",  offset: 0,    iana: "UTC",                 place1: "Reykjavík", place2: "Accra" },
+    { abbr: "CET",  offset: 1,    iana: "Europe/Berlin",       place1: "Stuttgart", place2: "Skaska" },
+    { abbr: "CEST", offset: 2,    iana: "Europe/Berlin",       place1: "Stuttgart", place2: "Skaska" },
+    { abbr: "EET",  offset: 2,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Athens" },
+    { abbr: "EEST", offset: 3,    iana: "Europe/Helsinki",     place1: "Helsinki", place2: "Bucharest" },
+    { abbr: "MSK",  offset: 3,    iana: "Europe/Moscow",       place1: "St. Petersburg", place2: "Moscow" },
+    { abbr: "PKT",  offset: 5,    iana: "Asia/Karachi",        place1: "Karachi", place2: "Islamabad" },
+    { abbr: "IST",  offset: 5.5,  iana: "Asia/Kolkata",        place1: "Delhi", place2: "Mumbai" },
+    { abbr: "AWST", offset: 8,    iana: "Australia/Perth",     place1: "Perth", place2: "Broome" },
+    { abbr: "JST",  offset: 9,    iana: "Asia/Tokyo",          place1: "Tokyo", place2: "Perth" },
+    { abbr: "KST",  offset: 9,    iana: "Asia/Seoul",          place1: "Seoul", place2: "Busan" },
+    { abbr: "ACST", offset: 9.5,  iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Darwin" },
+    { abbr: "AEST", offset: 10,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
+    { abbr: "ACDT", offset: 10.5, iana: "Australia/Adelaide",  place1: "Adelaide", place2: "Alice Springs" },
+    { abbr: "AEDT", offset: 11,   iana: "Australia/Sydney",    place1: "Melbourne", place2: "Sydney" },
+    { abbr: "NZST", offset: 12,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Wellington" },
+    { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland",    place1: "Auckland", place2: "Christchurch" }
+  ];
+
 /*
 Temporal (Node 20+, modern browsers soon):
-
 const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   .offsetNanoseconds / 3_600_000_000_000;
 */
 
-      function getOffsetByIana(iana, date) {
-        const dtf = new Intl.DateTimeFormat("en-US", {
-          timeZone: iana,
-          hour12: false,
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
+  function getOffsetByIana(iana, date) {
+    const dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: iana,
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+    const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
+    const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+    // difference in minutes → avoids floating point drift
+    const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
+    return offsetMinutes / 60;
+  }
 
-      const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
-      const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
-      // difference in minutes → avoids floating point drift
-      const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
-      return offsetMinutes / 60;
-    }
+  const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-    // standard timezones
-    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+  // standard timezones
+  const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
     // TODO injects other timezones for testing
     let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -356,15 +355,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     <th>Stream</th>
     <th>Archive</th>
     <th>Time until next show</th>
-    <!--
-    <th class="center nowrap">Vancouver<br/>Los Angeles<br/><span class="small-text">PST (UTC-8)</span><br/><span id="tz-America-Los_Angeles"></span></th>
-    <th class="center nowrap">New York<br/>Kingston<br/><span class="small-text">EST (UTC-5)</span><br/><span id="tz-America-New_York"></span></th>
-    <th class="center nowrap">London<br/>Dublin<br/><span class="small-text">GMT (UTC)</span><br/><span id="tz-Europe-London"></span></th>
-    <th class="center nowrap">Stuttgart<br/>Skaska<br/><span class="small-text">CET (UTC+1)</span><br/><span id="tz-Europe-Berlin"></span></th>
-    <th class="center nowrap">St. Petersburg<br/>Москва<br/><span class="small-text">MSK (UTC+3)</span><br/><span id="tz-Europe-Moscow"></span></th>
-    <th class="center nowrap">Tokyo<br/>Perth<br/><span class="small-text">JST (UTC+9)</span><br/><span id="tz-Asia-Tokyo"></span></th>
-    <th class="center nowrap">Melbourne<br/>Sydney<br/><span class="small-text">AEST (UTC+10)</span><br/><span id="tz-Australia-Sydney"></span></th>
-    -->
+    <!-- timezones go here -->
   </tr>
   </thead>
   <tbody></tbody>
