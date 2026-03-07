@@ -218,15 +218,15 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    // target timezones
-    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
-    //const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+    // standard timezones
+    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
     // TODO injects other timezones for testing
     let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     visitorTimezone = "America/Halifax";
     console.log("visitorTimezone = " + visitorTimezone);
 
+    // target timezones: add visitor timezone, if not in standard
     let timezones = [...STANDARD_TIMEZONES];
     if (!timezones.some(t => t.iana === visitorTimezone)) {
       timezones.push(visitorTimezone);
@@ -530,16 +530,14 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function renderTimezoneHeaders() {
     const headerRow = document.getElementById("headerRow");
     timezones.forEach(timezone => {
-      const meta = TIMEZONES.find(t => t.iana === timezone);
-      if (!meta) return;
+      const tz = TIMEZONES.find(t => t.iana === timezone);
+      if (!tz) return;
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
-      const sign = meta.offset >= 0 ? "+" : "";
-      const offset = `UTC${sign}${meta.offset}`;
-      th.innerHTML =
-        `${meta.place1}<br/>` +
-        `${meta.place2}<br/>` +
-        `<span class="small-text">${meta.abbr} (${offset})</span><br/>` +
+      const sign = tz.offset >= 0 ? "+" : "";
+      const offset = `UTC${sign}${tz.offset}`;
+      th.innerHTML =`${tz.place1}<br/>${tz.place2}<br/>` +
+        `<span class="small-text">${tz.abbr} (${offset})</span><br/>` +
         `<span id="tz-${timezone.replace("/", "-")}"></span>`;
       headerRow.appendChild(th);
     });
