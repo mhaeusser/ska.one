@@ -220,110 +220,110 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   // standard timezones
   const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
-    // TODO injects other timezones for testing
-    let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    visitorTimezone = "America/Halifax";
-    console.log("visitorTimezone = " + visitorTimezone);
+  // TODO injects other timezones for testing
+  let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  visitorTimezone = "America/Halifax";
+  console.log("visitorTimezone = " + visitorTimezone);
 
-    // target timezones: add visitor timezone, if not in standard
-    let timezones = [...STANDARD_TIMEZONES];
-    if (!timezones.some(t => t.iana === visitorTimezone)) {
-      timezones.push(visitorTimezone);
-      const now = new Date();
-      timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
-    }
+  // target timezones: add visitor timezone, if not in standard
+  let timezones = [...STANDARD_TIMEZONES];
+  if (!timezones.some(t => t.iana === visitorTimezone)) {
+    timezones.push(visitorTimezone);
+    const now = new Date();
+    timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
+  }
 
-    const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
+  const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
-    const countdownSpans = {};
-    let timezoneOffsets = {};
+  const countdownSpans = {};
+  let timezoneOffsets = {};
 
-    function computeTimezoneOffsets(now) {
-      timezoneOffsets = {};
-      timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
-      // also compute offsets for show source timezones
-      Object.values(weeklySchedule).flat().forEach(show => {
-        if (!(show.timezone in timezoneOffsets)) {
-          timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
+  function computeTimezoneOffsets(now) {
+    timezoneOffsets = {};
+    timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+    // also compute offsets for show source timezones
+    Object.values(weeklySchedule).flat().forEach(show => {
+      if (!(show.timezone in timezoneOffsets)) {
+        timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
+      }
+    });
+  }
+
+  function updateTimes() {
+    const now = new Date();
+    // update local time on top
+    document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
+    // update UTC time on top
+    document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
+    document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+    document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();
+    // update timezone times
+    timezones.forEach(timezone => {
+      document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
+    });
+    // update times until shows start
+    for (let day = 0; day <= 6; day++) {
+      weeklySchedule[day].forEach(show => {
+        show.weekday = day;
+        const idElement = countdownSpans[show.id];
+        const nextShowTime = getNextShowTime(show, now);
+        if (nextShowTime.start <= now && now < nextShowTime.end) {
+          idElement.textContent = "NOW PLAYING!";
+          idElement.classList.add("blink-red");
+        } else {
+          idElement.classList.remove("blink-red");
+          const remaining_sec = Math.ceil((nextShowTime.start - now) / 1000);
+          idElement.textContent = formatDuration(remaining_sec);
         }
       });
     }
+  }
 
-    function updateTimes() {
-      const now = new Date();
-      // update local time on top
-      document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
-      // update UTC time on top
-      document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
-      document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
-      document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
-      // update timezone times
-      timezones.forEach(timezone => {
-        document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
-      });
-      // update times until shows start
-      for (let day = 0; day <= 6; day++) {
-        weeklySchedule[day].forEach(show => {
-          show.weekday = day;
-          const idElement = countdownSpans[show.id];
-          const nextShowTime = getNextShowTime(show, now);
-          if (nextShowTime.start <= now && now < nextShowTime.end) {
-            idElement.textContent = "NOW PLAYING!";
-            idElement.classList.add("blink-red");
-          } else {
-            idElement.classList.remove("blink-red");
-            const remaining_sec = Math.ceil((nextShowTime.start - now) / 1000);
-            idElement.textContent = formatDuration(remaining_sec);
-          }
-        });
-      }
-    }
+  function formatDate(day, date, month, year, hour, minute, second) {
+    let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
+    if (hour < 10) text += "0";
+    text += '<span class="bold">' + hour + ':';
+    if (minute < 10) text += "0";
+    text += minute + ':';
+    if (second < 10) text += "0";
+    return text + second + '</span>';
+  }
 
-    function formatDate(day, date, month, year, hour, minute, second) {
-      let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
-      if (hour < 10) text += "0";
-      text += '<span class="bold">' + hour + ':';
-      if (minute < 10) text += "0";
-      text += minute + ':';
-      if (second < 10) text += "0";
-      return text + second + '</span>';
-    }
+  function getWeekOfMonth(day) {
+    if (day < 8) return 1;
+    if (day < 15) return 2;
+    if (day < 22) return 3;
+    if (day < 29) return 4;
+    return 5;
+  }
 
-    function getWeekOfMonth(day) {
-      if (day < 8) return 1;
-      if (day < 15) return 2;
-      if (day < 22) return 3;
-      if (day < 29) return 4;
-      return 5;
-    }
+  function formatOrdinal(number) {
+    if (number === 1) return "1<sup>st</sup>";
+    if (number === 2) return "2<sup>nd</sup>";
+    if (number === 3) return "3<sup>rd</sup>";
+    return number + "<sup>th</sup>";
+  }
 
-    function formatOrdinal(number) {
-      if (number === 1) return "1<sup>st</sup>";
-      if (number === 2) return "2<sup>nd</sup>";
-      if (number === 3) return "3<sup>rd</sup>";
-      return number + "<sup>th</sup>";
-    }
+  function formatWeekInMonth(weekInMonth, day) {
+    return '<span class="small-text"> (' + weekInMonth + ' ' + WEEKDAYS[day] + ' this month)</span>';
+  }
 
-    function formatWeekInMonth(weekInMonth, day) {
-      return '<span class="small-text"> (' + weekInMonth + ' ' + WEEKDAYS[day] + ' this month)</span>';
-    }
+  function getGMTOffsetMessage() {
+    const offsetMinutes = new Date().getTimezoneOffset();
+    if (offsetMinutes === 0) return "You are in GMT.";
+    const offsetHours = Math.abs(offsetMinutes) / 60;
+    const hourLabel = offsetHours === 1 ? "hour" : "hours";
+    const direction = offsetMinutes > 0 ? "behind" : "ahead of";
+    return `You are ${offsetHours} ${hourLabel} ${direction} GMT.`;
+  }
 
-    function getGMTOffsetMessage() {
-      const offsetMinutes = new Date().getTimezoneOffset();
-      if (offsetMinutes === 0) return "You are in GMT.";
-      const offsetHours = Math.abs(offsetMinutes) / 60;
-      const hourLabel = offsetHours === 1 ? "hour" : "hours";
-      const direction = offsetMinutes > 0 ? "behind" : "ahead of";
-      return `You are ${offsetHours} ${hourLabel} ${direction} GMT.`;
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      renderTimezoneHeaders();
-      renderTable();
-      updateTimes();
-      setInterval(renderTable, 60 * 60 * 1000); // recreate table every hour
-      setInterval(updateTimes, 1000);
-    });
+  window.addEventListener("DOMContentLoaded", () => {
+    renderTimezoneHeaders();
+    renderTable();
+    updateTimes();
+    setInterval(renderTable, 60 * 60 * 1000); // recreate table every hour
+    setInterval(updateTimes, 1000);
+  });
   </script>
 </head>
 
