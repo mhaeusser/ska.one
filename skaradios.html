@@ -260,8 +260,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();  
       // update timezone times
       timezones.forEach(timezone => {
-        const id = "tz-" + timezone.replace("/", "-");
-        document.getElementById(id).textContent = formatInTimeZone(now, timezone);
+        document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
       });
       // update times until shows start
       for (let day = 0; day <= 6; day++) {
@@ -536,11 +535,14 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       th.classList.add("center", "nowrap");
       const sign = tz.offset >= 0 ? "+" : "";
       const offset = `UTC${sign}${tz.offset}`;
-      th.innerHTML =`${tz.place1}<br/>${tz.place2}<br/>` +
-        `<span class="small-text">${tz.abbr} (${offset})</span><br/>` +
-        `<span id="tz-${timezone.replace("/", "-")}"></span>`;
+      th.innerHTML = tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + tz.abbr + ' (' + offset
+        + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span>';
       headerRow.appendChild(th);
     });
+  }
+
+  function timezoneToId(timezone) {
+    return "tz-" + timezone.replace("/", "-");
   }
 
   // ---------------------------
