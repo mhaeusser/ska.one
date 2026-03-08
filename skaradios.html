@@ -538,6 +538,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return "tz-" + timezone.replace("/", "-");
   }
 
+  function formatHM(h, m) {
+    return String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0");
+  }
+
   // ---------------------------
   // Create the table
   // ---------------------------
@@ -584,13 +588,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
-        let startTime = showTimeInZone.start.h + ":" + showTimeInZone.start.m;
-        if (showTimeInZone.start.h < 10) startTime = "0" + startTime;
-        if (showTimeInZone.start.m === 0) startTime += "0";
-
-        let endTime = showTimeInZone.end.h + ":" + showTimeInZone.end.m;
-        if (showTimeInZone.end.h < 10) endTime = "0" + endTime;
-        if (showTimeInZone.end.m === 0) endTime += "0";
+        const startTime = formatHM(showTimeInZone.start.h, showTimeInZone.start.m);
+        const endTime = formatHM(showTimeInZone.end.h, showTimeInZone.end.m);
         
         td.innerHTML = startTime + " - " + endTime;
         if (day !== showTimeInZone.day) {
