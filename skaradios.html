@@ -225,7 +225,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   // target timezones: add visitor timezone, if not in standard
   let timezones = [...STANDARD_TIMEZONES];
-  if (!timezones.some(t => t === visitorTimezone)) {
+  if (!timezones.includes(visitorTimezone)) {
     timezones.push(visitorTimezone);
     const now = new Date();
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
