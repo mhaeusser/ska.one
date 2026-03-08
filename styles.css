@@ -66,6 +66,19 @@ th.center {
   text-align: center;
 }
 
+td.visitor-tz {
+  border-top: 3px solid #f0a500;
+}
+
+th.visitor-tz {
+  border-top: 3px solid #f0a500;
+}
+
+th.visitor-tz,
+td.visitor-tz {
+  background-color: #5A5A5A; /* dark grey */
+}
+
 .blink-red {
   font-weight: bold;
   text-align: center;

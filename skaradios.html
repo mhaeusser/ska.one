@@ -222,12 +222,13 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   // TODO injects other timezones for testing
   let visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  visitorTimezone = "America/Halifax";
+
+  //visitorTimezone = "America/Halifax"; // TODO test only
   console.log("visitorTimezone = " + visitorTimezone);
 
   // target timezones: add visitor timezone, if not in standard
   let timezones = [...STANDARD_TIMEZONES];
-  if (!timezones.some(t => t.iana === visitorTimezone)) {
+  if (!timezones.some(t => t === visitorTimezone)) {
     timezones.push(visitorTimezone);
     const now = new Date();
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
@@ -594,6 +595,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
           td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
         }
         if (timezone === show.timezone) td.classList.add("bold");
+        if (timezone === visitorTimezone) td.classList.add("visitor-tz");
         td.classList.add("center-top", "nowrap");
         tr.appendChild(td);
       });
