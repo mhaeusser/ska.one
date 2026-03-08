@@ -472,9 +472,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  function formatInTimeZone(date, timeZone) {
+  function formatInTimeZone(date, timezone) {
     return new Intl.DateTimeFormat("en-GB", {
-      timeZone, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      timezone, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
     }).format(date);
   }
 
