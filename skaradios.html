@@ -525,6 +525,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       if (!tz) return;
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
+      if (timezone === visitorTimezone) th.classList.add("visitor-tz");
       const sign = tz.offset >= 0 ? "+" : "";
       th.innerHTML = tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + tz.abbr
         + ' (UTC' + sign + tz.offset + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span>';
