@@ -277,6 +277,10 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     }
   }
 
+  function formatShowtime(showtime) {
+    return String(showtime.h).padStart(2,"0") + ":" + String(showtime.m).padStart(2,"0");
+  }
+
   function formatDate(day, date, month, year, hour, minute, second) {
     let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
     if (hour < 10) text += "0";
@@ -538,10 +542,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return "tz-" + timezone.replace("/", "-");
   }
 
-  function formatHM(h, m) {
-    return String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0");
-  }
-
   // ---------------------------
   // Create the table
   // ---------------------------
@@ -588,8 +588,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
-        const startTime = formatHM(showTimeInZone.start.h, showTimeInZone.start.m);
-        const endTime = formatHM(showTimeInZone.end.h, showTimeInZone.end.m);
+        const startTime = formatShowtime(showTimeInZone.start);
+        const endTime = formatShowtime(showTimeInZone.end);
         
         td.innerHTML = startTime + " - " + endTime;
         if (day !== showTimeInZone.day) {
