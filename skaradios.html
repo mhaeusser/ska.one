@@ -253,8 +253,8 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
     // update UTC time on top
     document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
-    document.getElementById("timezone").innerHTML = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
-    document.getElementById("gmtOffsetMessage").innerHTML = getGMTOffsetMessage();
+    document.getElementById("timezone").textContent = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+    document.getElementById("gmtOffsetMessage").textContent = getGMTOffsetMessage();
     // update timezone times
     timezones.forEach(timezone => {
       document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
