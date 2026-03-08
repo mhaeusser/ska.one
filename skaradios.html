@@ -319,6 +319,8 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     return `You are ${offsetHours} ${hourLabel} ${direction} GMT.`;
   }
 
+  const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
+
   window.addEventListener("DOMContentLoaded", () => {
     renderTimezoneHeaders();
     renderTable();
@@ -526,7 +528,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   function renderTimezoneHeaders() {
     const headerRow = document.getElementById("headerRow");
     timezones.forEach(timezone => {
-      const tz = TIMEZONES.find(t => t.iana === timezone);
+      const tz = TIMEZONE_MAP[timezone];
       if (!tz) return;
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
