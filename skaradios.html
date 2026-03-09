@@ -49,7 +49,7 @@
         stationUrl: "https://radio-libertaire.org/agenda/",
         stationTown: "Paris",
         start: { h: 20, m: 0 },
-        end: { h: 0, m: 0 },
+        end: { h: 22, m: 0 },
         streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
         archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
         timezone: "Europe/Berlin"
@@ -458,13 +458,15 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getShowTimeInZone(show, showDay, timezone) {
-    const offset = timezoneOffsets[timezone] - timezoneOffsets[show.timezone];
-    const start = show.start.h + offset;
-    const end = show.end.h + offset;
-    const dayShift = Math.floor(start / 24);
+    const offsetMins = (timezoneOffsets[timezone] - timezoneOffsets[show.timezone]) * 60;
+    const startMins  = show.start.h * 60 + show.start.m + offsetMins;
+    const endMins    = show.end.h   * 60 + show.end.m   + offsetMins;
+    const dayShift   = Math.floor(startMins / (24 * 60));
+    const toHM = m => ({ h: Math.floor(((m % (24*60)) + 24*60) % (24*60) / 60),
+               m: ((m % 60) + 60) % 60 });
     return {
-      start: { h: ((start % 24) + 24) % 24, m: show.start.m },
-      end: { h:  ((end % 24) + 24) % 24, m: show.end.m },
+      start: toHM(startMins),
+      end: toHM(endMins),
       day: (showDay + dayShift + 7) % 7
     };
   }
