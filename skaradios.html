@@ -264,7 +264,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
       weeklySchedule[day].forEach(show => {
         show.weekday = day;
         const idElement = countdownSpans[show.id];
-        const nextShowTime = getNextShowTime(show, now);
+        const nextShowTime = getNextShowTime(now, show);
         if (nextShowTime.start <= now && now < nextShowTime.end) {
           idElement.textContent = "NOW PLAYING!";
           idElement.classList.add("blink-red");
@@ -417,20 +417,20 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return new Date(startDate.getTime() + getShowLength(show) * 60_000);
   }
 
-  function getNextShowTime(show, now) {
-    if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(show, now, show.showdates);
+  function getNextShowTime(now, show) {
+    if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(now, show);
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(now, show, show.showdates);
     // default: show.recurrence === "weekly"
-    return getNextShowTime_Weekly(show, now);
+    return getNextShowTime_Weekly(now, show);
   }
 
-  function getNextShowTime_WeeksInMonth(show, now) {
+  function getNextShowTime_WeeksInMonth(now, show) {
     const dates = findDaysInMonth(show.weekday, show.showdates);
-    return getNextShowTime_Dates(show, now, dates);
+    return getNextShowTime_Dates(now, show, dates);
   }
 
   // Depends on show end!
-  function getNextShowTime_Dates(show, now, dates) {
+  function getNextShowTime_Dates(now, show, dates) {
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
       const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
@@ -446,7 +446,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return null;
   }
 
-  function getNextShowTime_Weekly(show, now) {
+  function getNextShowTime_Weekly(now, show) {
     const nextStartDate = makeUTCDate(show.start.h - timezoneOffsets[show.timezone], show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
