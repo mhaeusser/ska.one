@@ -375,11 +375,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return date;
   }
 
-  function findDaysInMonth(weekday, nums) {
-    const today = new Date();
-    const year = today.getUTCFullYear();
-    const month = today.getUTCMonth();
-    const todayDay = today.getUTCDate();
+  function findDaysInMonth(now, weekday, nums) {
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth();
+    const todayDay = now.getUTCDate();
     const wanted = new Set(nums);
     const results = [];
 
@@ -425,7 +424,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextShowTime_WeeksInMonth(now, show) {
-    const dates = findDaysInMonth(show.weekday, show.showdates);
+    const dates = findDaysInMonth(now, show.weekday, show.showdates);
     return getNextShowTime_Dates(now, show, dates);
   }
 
@@ -462,8 +461,10 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const startMins  = show.start.h * 60 + show.start.m + offsetMins;
     const endMins    = show.end.h   * 60 + show.end.m   + offsetMins;
     const dayShift   = Math.floor(startMins / (24 * 60));
-    const toHM = m => ({ h: Math.floor(((m % (24*60)) + 24*60) % (24*60) / 60),
-               m: ((m % 60) + 60) % 60 });
+    const toHM = totalMins => {
+      const normalized = ((totalMins % (24 * 60)) + 24 * 60) % (24 * 60);
+      return { h: Math.floor(normalized / 60), m: normalized % 60 };
+    };
     return {
       start: toHM(startMins),
       end: toHM(endMins),
