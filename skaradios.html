@@ -449,9 +449,11 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     const nextStartDate = makeUTCDate(now, show.start.h - timezoneOffsets[show.timezone], show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
-    const nextEndDate = calcEndDate(show, nextStartDate);
-
-    if (nextEndDate <= now) nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
+    let nextEndDate = calcEndDate(show, nextStartDate);
+    if (nextEndDate <= now) {
+      nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 7);
+      nextEndDate = calcEndDate(show, nextStartDate);
+    }
 
     return { start: nextStartDate, end: nextEndDate };
   }
