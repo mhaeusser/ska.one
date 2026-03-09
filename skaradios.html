@@ -369,8 +369,8 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   // --------------------------
   // Helper functions
   // --------------------------
-  function makeUTCDate(hours, minutes) {
-    const date = new Date();
+  function makeUTCDate(now, hours, minutes) {
+    const date = new Date(now);
     date.setUTCHours(hours, minutes, 0, 0);
     return date;
   }
@@ -447,7 +447,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function getNextShowTime_Weekly(now, show) {
-    const nextStartDate = makeUTCDate(show.start.h - timezoneOffsets[show.timezone], show.start.m);
+    const nextStartDate = makeUTCDate(now, show.start.h - timezoneOffsets[show.timezone], show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
     const nextEndDate = calcEndDate(show, nextStartDate);
