@@ -417,7 +417,6 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
     return new Date(startDate.getTime() + getShowLength(show) * 60_000);
   }
 
-  // TODO getNextShowTime, damit auch isShowNowOn
   function getNextShowTime(show, now) {
     if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(show, now);
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(show, now, show.showdates);
