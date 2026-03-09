@@ -254,7 +254,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     // update UTC time on top
     document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
     document.getElementById("timezone").textContent = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
-    document.getElementById("gmtOffsetMessage").textContent = getGMTOffsetMessage();
+    document.getElementById("gmtOffsetMessage").textContent = getGMTOffsetMessage(now);
     // update timezone times
     timezones.forEach(timezone => {
       document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
@@ -310,8 +310,8 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     return '<span class="small-text"> (' + weekInMonth + ' ' + WEEKDAYS[day] + ' this month)</span>';
   }
 
-  function getGMTOffsetMessage() {
-    const offsetMinutes = new Date().getTimezoneOffset();
+  function getGMTOffsetMessage(now) {
+    const offsetMinutes = now.getTimezoneOffset();
     if (offsetMinutes === 0) return "You are in GMT.";
     const offsetHours = Math.abs(offsetMinutes) / 60;
     const hourLabel = offsetHours === 1 ? "hour" : "hours";
