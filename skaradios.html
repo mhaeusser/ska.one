@@ -434,14 +434,9 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
       const [year, month, day] = dateStr.split("-").map(Number);
       const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
       const nextEndDate = calcEndDate(show, nextStartDate);
-
-      if (nextEndDate < now) {
-        //console.log('remove past data ' + dateStr);
-      } else return { start: nextStartDate, end: nextEndDate }
+      if (nextEndDate >= now) return { start: nextStartDate, end: nextEndDate };
     }
-
-    // no date found
-    // TODO how to handle?
+    // no future date found - showdates needs updating
     return null;
   }
 
