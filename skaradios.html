@@ -221,7 +221,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
 
   const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  //const visitorTimezone = "America/Halifax"; // TODO injects other timezones for testing
+  //const visitorTimezone = "America/St_Johns"; // TODO injects other timezones for testing
 
   // target timezones: add visitor timezone, if not in standard
   let timezones = [...STANDARD_TIMEZONES];
