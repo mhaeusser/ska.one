@@ -198,14 +198,9 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   function getOffsetByIana(iana, date) {
     const dtf = new Intl.DateTimeFormat("en-US", {
-      timeZone: iana,
-      hour12: false,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
+      timeZone: iana, hour12: false,
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
     });
     const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
     const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
@@ -249,6 +244,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   function updateTimes() {
     const now = new Date();
+    const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
     // update local time on top
     document.getElementById("now").innerHTML =
 	    formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())
@@ -291,16 +287,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   function formatDate(day, date, month, year) {
     return WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year;
-  }
-
-  function formatTime(hour, minute, second) {
-    let text = hour;
-    if (hour < 10) text = "0" + text;
-    text += ":";
-    if (minute < 10) text += "0";
-    text += minute + ':';
-    if (second < 10) text += "0";
-    return text + second;
   }
 
   function getWeekInMonth(day) {
