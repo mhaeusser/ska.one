@@ -248,13 +248,11 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     // update local time on top
     document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
         + `<span class="hours">${formatTime(now.getHours(), now.getMinutes(), now.getSeconds())}</span> `
-		+ `<span class="small-text"> (${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
+		+ `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
     // update UTC time on top
-    document.getElementById("utc").innerHTML =
-	    formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())
-		+ `, <span class="hours">`
-		+ formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
-		+ `</span><span class="small-text"> (` + formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay()) + ")</span>";
+    document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
+        + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
+        + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay())})</span>`;
     document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
     document.getElementById("gmtOffsetMessage").textContent = makeGMTOffsetMessage(now);
     // update timezone times
