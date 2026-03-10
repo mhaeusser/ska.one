@@ -231,7 +231,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
   }
 
-  const localTimeZoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
+  const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
   const countdownSpans = {};
   let timezoneOffsets = {};
@@ -253,7 +253,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
     // update UTC time on top
     document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
-    document.getElementById("timezone").textContent = localTimeZoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
+    document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
     document.getElementById("gmtOffsetMessage").textContent = getGMTOffsetMessage(now);
     // update timezone times
     timezones.forEach(timezone => {
@@ -338,7 +338,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
 <br/>
 <table>
   <tr>
-    <td>Your local time (<span id="timezone"></span>):</td><td><span id="now"></span></td>
+    <td>Your local time (<span id="localTimezone"></span>):</td><td><span id="now"></span></td>
   </tr>
   <tr>
     <td><a target="_blank" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT)</a>:</td><td><span id="utc"></span></td>
