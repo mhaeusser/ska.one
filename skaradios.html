@@ -250,9 +250,17 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   function updateTimes() {
     const now = new Date();
     // update local time on top
-    document.getElementById("now").innerHTML = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear(), now.getHours(), now.getMinutes(), now.getSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
+    document.getElementById("now").innerHTML =
+	    formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())
+		+ ", <span class='hours'>"
+		+ formatTime(now.getHours(), now.getMinutes(), now.getSeconds())
+		+ "</span>" + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getDate())), now.getDay());
     // update UTC time on top
-    document.getElementById("utc").innerHTML = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()) + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
+    document.getElementById("utc").innerHTML =
+	    formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())
+		+ `, <span class="hours">`
+		+ formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())
+		+ "</span>" + formatWeekInMonth(formatOrdinal(getWeekOfMonth(now.getUTCDate())), now.getUTCDay());
     document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value;
     document.getElementById("gmtOffsetMessage").textContent = getGMTOffsetMessage(now);
     // update timezone times
@@ -281,14 +289,18 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     return String(showtime.h).padStart(2,"0") + ":" + String(showtime.m).padStart(2,"0");
   }
 
-  function formatDate(day, date, month, year, hour, minute, second) {
-    let text = WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year + ', ';
-    if (hour < 10) text += "0";
-    text += '<span class="bold">' + hour + ':';
+  function formatDate(day, date, month, year) {
+    return WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year;
+  }
+
+  function formatTime(hour, minute, second) {
+    let text = hour;
+    if (hour < 10) text = "0" + text;
+    text += ":";
     if (minute < 10) text += "0";
     text += minute + ':';
     if (second < 10) text += "0";
-    return text + second + '</span>';
+    return text + second;
   }
 
   function getWeekOfMonth(day) {
