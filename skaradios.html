@@ -540,7 +540,7 @@ The Facebook Group: <a target="_blank" href="https://www.facebook.com/groups/444
   }
 
   function timezoneToId(timezone) {
-    return "tz-" + timezone.replace("/", "-");
+    return "tz-" + timezone.replaceAll("/", "-");
   }
 
   // ---------------------------
