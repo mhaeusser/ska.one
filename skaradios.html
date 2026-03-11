@@ -157,38 +157,50 @@
   };
 
   const TIMEZONES = [
-    { abbr: "HST",  offset: -10,  iana: "Pacific/Honolulu",    place1: "Honolulu",       place2: "Hilo" },
-    { abbr: "AKST", offset: -9,   iana: "America/Anchorage",   place1: "Anchorage",      place2: "Fairbanks" },
-    { abbr: "AKDT", offset: -8,   iana: "America/Anchorage",   place1: "Anchorage",      place2: "Juneau" },
-    { abbr: "PST",  offset: -8,   iana: "America/Los_Angeles", place1: "Vancouver",      place2: "Los Angeles" },
-    { abbr: "PDT",  offset: -7,   iana: "America/Los_Angeles", place1: "Vancouver",      place2: "Los Angeles" },
-    { abbr: "MST",  offset: -7,   iana: "America/Denver",      place1: "Phoenix",        place2: "Denver" },
-    { abbr: "MDT",  offset: -6,   iana: "America/Denver",      place1: "Denver",         place2: "Salt Lake City" },
-    { abbr: "CST",  offset: -6,   iana: "America/Chicago",     place1: "Chicago",        place2: "Dallas" },
-    { abbr: "CDT",  offset: -5,   iana: "America/Chicago",     place1: "Chicago",        place2: "Houston" },
-    { abbr: "EST",  offset: -5,   iana: "America/New_York",    place1: "New York",       place2: "Kingston" },
-    { abbr: "EDT",  offset: -4,   iana: "America/New_York",    place1: "New York",       place2: "Toronto" },
-    { abbr: "AST",  offset: -4,   iana: "America/Halifax",     place1: "Halifax",        place2: "San Juan" },
-    { abbr: "NST",  offset: -3.5, iana: "America/St_Johns",    place1: "St. John's",     place2: "Corner Brook" },
-    { abbr: "GMT",  offset: 0,    iana: "Europe/London",       place1: "London",         place2: "Dublin" },
-    { abbr: "UTC",  offset: 0,    iana: "UTC",                 place1: "Reykjavík",      place2: "Accra" },
-    { abbr: "CET",  offset: 1,    iana: "Europe/Berlin",       place1: "Stuttgart",      place2: "Skaska" },
-    { abbr: "CEST", offset: 2,    iana: "Europe/Berlin",       place1: "Stuttgart",      place2: "Skaska" },
-    { abbr: "EET",  offset: 2,    iana: "Europe/Helsinki",     place1: "Helsinki",       place2: "Athens" },
-    { abbr: "EEST", offset: 3,    iana: "Europe/Helsinki",     place1: "Helsinki",       place2: "Bucharest" },
-    { abbr: "MSK",  offset: 3,    iana: "Europe/Moscow",       place1: "St. Petersburg", place2: "Moscow" },
-    { abbr: "PKT",  offset: 5,    iana: "Asia/Karachi",        place1: "Karachi",        place2: "Islamabad" },
-    { abbr: "IST",  offset: 5.5,  iana: "Asia/Kolkata",        place1: "Delhi",          place2: "Mumbai" },
-    { abbr: "AWST", offset: 8,    iana: "Australia/Perth",     place1: "Perth",          place2: "Broome" },
-    { abbr: "JST",  offset: 9,    iana: "Asia/Tokyo",          place1: "Tokyo",          place2: "Nagoya" },
-    { abbr: "KST",  offset: 9,    iana: "Asia/Seoul",          place1: "Seoul",          place2: "Busan" },
-    { abbr: "ACST", offset: 9.5,  iana: "Australia/Adelaide",  place1: "Adelaide",       place2: "Darwin" },
-    { abbr: "AEST", offset: 10,   iana: "Australia/Sydney",    place1: "Melbourne",      place2: "Sydney" },
-    { abbr: "ACDT", offset: 10.5, iana: "Australia/Adelaide",  place1: "Adelaide",       place2: "Alice Springs" },
-    { abbr: "AEDT", offset: 11,   iana: "Australia/Sydney",    place1: "Melbourne",      place2: "Sydney" },
-    { abbr: "NZST", offset: 12,   iana: "Pacific/Auckland",    place1: "Auckland",       place2: "Wellington" },
-    { abbr: "NZDT", offset: 13,   iana: "Pacific/Auckland",    place1: "Auckland",       place2: "Christchurch" }
+    { iana: "Pacific/Honolulu",   place1: "Honolulu",       place2: "Hilo"         }, // HST
+    { iana: "America/Anchorage",  place1: "Anchorage",      place2: "Fairbanks"    }, // AKST / AKDT
+    { iana: "America/Los_Angeles",place1: "Vancouver",      place2: "Los Angeles"  }, // PST / PDT
+    { iana: "America/Denver",     place1: "Denver",         place2: "Phoenix"      }, // MST / MDT
+    { iana: "America/Chicago",    place1: "Chicago",        place2: "Dallas"       }, // CST / CDT
+    { iana: "America/New_York",   place1: "New York",       place2: "Kingston"     }, // EST / EDT
+    { iana: "America/Halifax",    place1: "Halifax",        place2: "San Juan"     }, // AST / ADT
+    { iana: "America/St_Johns",   place1: "St. John's",     place2: "Corner Brook" }, // NST / NDT
+    { iana: "Europe/London",      place1: "London",         place2: "Dublin"       }, // GMT / BST
+    { iana: "Europe/Berlin",      place1: "Stuttgart",      place2: "Skaska"       }, // CET / CEST
+    { iana: "Europe/Helsinki",    place1: "Helsinki",       place2: "Athens"       }, // EET / EEST
+    { iana: "Europe/Moscow",      place1: "St. Petersburg", place2: "Moscow"       }, // MSK
+    { iana: "Asia/Karachi",       place1: "Karachi",        place2: "Islamabad"    }, // PKT
+    { iana: "Asia/Kolkata",       place1: "Delhi",          place2: "Mumbai"       }, // IST
+    { iana: "Australia/Perth",    place1: "Perth",          place2: "Broome"       }, // AWST
+    { iana: "Asia/Tokyo",         place1: "Tokyo",          place2: "Nagoya"       }, // JST
+    { iana: "Asia/Seoul",         place1: "Seoul",          place2: "Busan"        }, // KST
+    { iana: "Australia/Adelaide", place1: "Adelaide",       place2: "Darwin"       }, // ACST / ACDT
+    { iana: "Australia/Sydney",   place1: "Melbourne",      place2: "Sydney"       }, // AEST / AEDT
+    { iana: "Pacific/Auckland",   place1: "Auckland",       place2: "Wellington"   }  // NZST / NZDT
   ];
+
+  const TIMEZONE_ABBRS = {
+    "Pacific/Honolulu":    { [-10]: "HST" },
+    "America/Anchorage":  { [-9]: "AKST", [-8]: "AKDT" },
+    "America/Los_Angeles":{ [-8]: "PST",  [-7]: "PDT"  },
+    "America/Denver":     { [-7]: "MST",  [-6]: "MDT"  },
+    "America/Chicago":    { [-6]: "CST",  [-5]: "CDT"  },
+    "America/New_York":   { [-5]: "EST",  [-4]: "EDT"  },
+    "America/Halifax":    { [-4]: "AST",  [-3]: "ADT"  },
+    "America/St_Johns":   { [-3.5]: "NST",[-2.5]: "NDT"},
+    "Europe/London":      { [0]: "GMT",   [1]: "BST"   },
+    "Europe/Berlin":      { [1]: "CET",   [2]: "CEST"  },
+    "Europe/Helsinki":    { [2]: "EET",   [3]: "EEST"  },
+    "Europe/Moscow":      { [3]: "MSK" },
+    "Asia/Karachi":       { [5]: "PKT" },
+    "Asia/Kolkata":       { [5.5]: "IST" },
+    "Australia/Perth":    { [8]: "AWST" },
+    "Asia/Tokyo":         { [9]: "JST" },
+    "Asia/Seoul":         { [9]: "KST" },
+    "Australia/Adelaide": { [9.5]: "ACST", [10.5]: "ACDT" },
+    "Australia/Sydney":   { [10]: "AEST",  [11]: "AEDT"   },
+    "Pacific/Auckland":   { [12]: "NZST",  [13]: "NZDT"   },
+  };
 
 /*
 Temporal (Node 20+, modern browsers soon):
@@ -213,7 +225,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
   const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   // standard timezones
-  const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney"];
+  const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
 
   const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   //const visitorTimezone = "America/St_Johns"; // TODO injects other timezones for testing
@@ -529,11 +541,33 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
       if (timezone === visitorTimezone) th.classList.add("visitor-tz");
-      const sign = tz.offset >= 0 ? "+" : "";
-      th.innerHTML = tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + tz.abbr
-        + ' (UTC' + sign + tz.offset + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span>';
+      th.innerHTML = tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + getTimezoneAbbr(timezone)
+        + ' (' + getUTCOffset(timezone) + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span>';
       headerRow.appendChild(th);
     });
+  }
+
+  function getTimezoneAbbr(iana, date = new Date()) {
+    const offset = getOffsetByIana(iana, date);
+    return TIMEZONE_ABBRS[iana]?.[offset] ?? formatFallbackAbbr(offset);
+  }
+
+  function formatFallbackAbbr(offset) {
+    const sign = offset >= 0 ? "+" : "-";
+    const abs = Math.abs(offset);
+    const h = Math.floor(abs);
+    const m = (abs % 1) * 60;
+    return "UTC" + sign + (m ? h + ":" + String(m).padStart(2, "0") : h);
+  }
+
+  function getUTCOffset(tz) {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: tz,
+      timeZoneName: "longOffset"
+    }).formatToParts(new Date());
+
+    const value = parts.find(p => p.type === "timeZoneName").value;
+    return value.replace("GMT", "UTC");
   }
 
   function timezoneToId(timezone) {
