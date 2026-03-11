@@ -180,26 +180,26 @@
   ];
 
   const TIMEZONE_ABBRS = {
-    "Pacific/Honolulu":    { [-10]: "HST" },
-    "America/Anchorage":  { [-9]: "AKST", [-8]: "AKDT" },
-    "America/Los_Angeles":{ [-8]: "PST",  [-7]: "PDT"  },
-    "America/Denver":     { [-7]: "MST",  [-6]: "MDT"  },
-    "America/Chicago":    { [-6]: "CST",  [-5]: "CDT"  },
-    "America/New_York":   { [-5]: "EST",  [-4]: "EDT"  },
-    "America/Halifax":    { [-4]: "AST",  [-3]: "ADT"  },
-    "America/St_Johns":   { [-3.5]: "NST",[-2.5]: "NDT"},
-    "Europe/London":      { [0]: "GMT",   [1]: "BST"   },
-    "Europe/Berlin":      { [1]: "CET",   [2]: "CEST"  },
-    "Europe/Helsinki":    { [2]: "EET",   [3]: "EEST"  },
-    "Europe/Moscow":      { [3]: "MSK" },
-    "Asia/Karachi":       { [5]: "PKT" },
-    "Asia/Kolkata":       { [5.5]: "IST" },
-    "Australia/Perth":    { [8]: "AWST" },
-    "Asia/Tokyo":         { [9]: "JST" },
-    "Asia/Seoul":         { [9]: "KST" },
-    "Australia/Adelaide": { [9.5]: "ACST", [10.5]: "ACDT" },
-    "Australia/Sydney":   { [10]: "AEST",  [11]: "AEDT"   },
-    "Pacific/Auckland":   { [12]: "NZST",  [13]: "NZDT"   },
+    "Pacific/Honolulu":   { [-10]:   "HST" },
+    "America/Anchorage":   { [-9]:  "AKST",   [-8]: "AKDT" },
+    "America/Los_Angeles": { [-8]:   "PST",   [-7]:  "PDT" },
+    "America/Denver":      { [-7]:   "MST",   [-6]:  "MDT" },
+    "America/Chicago":     { [-6]:   "CST",   [-5]:  "CDT" },
+    "America/New_York":    { [-5]:   "EST",   [-4]:  "EDT" },
+    "America/Halifax":     { [-4]:   "AST",   [-3]:  "ADT" },
+    "America/St_Johns":    { [-3.5]: "NST", [-2.5]:  "NDT" },
+    "Europe/London":       { [0]:    "GMT",   [1]:   "BST" },
+    "Europe/Berlin":       { [1]:    "CET",   [2]:  "CEST" },
+    "Europe/Helsinki":     { [2]:    "EET",   [3]:  "EEST" },
+    "Europe/Moscow":       { [3]:    "MSK" },
+    "Asia/Karachi":        { [5]:    "PKT" },
+    "Asia/Kolkata":        { [5.5]:  "IST" },
+    "Australia/Perth":     { [8]:   "AWST" },
+    "Asia/Tokyo":          { [9]:    "JST" },
+    "Asia/Seoul":          { [9]:    "KST" },
+    "Australia/Adelaide":  { [9.5]: "ACST", [10.5]: "ACDT" },
+    "Australia/Sydney":    { [10]:  "AEST",  [11]:  "AEDT" },
+    "Pacific/Auckland":    { [12]:  "NZST",  [13]:  "NZDT" },
   };
 
 /*
@@ -554,8 +554,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
 
   function formatFallbackAbbr(offset) {
     const sign = offset >= 0 ? "+" : "-";
-    const abs = Math.abs(offset);
-    const h = Math.floor(abs);
+    const h = Math.floor(Math.abs(offset));
     const m = (abs % 1) * 60;
     return "UTC" + sign + (m ? h + ":" + String(m).padStart(2, "0") : h);
   }
@@ -563,7 +562,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
   function getUTCOffset(timezone) {
     const parts = new Intl.DateTimeFormat("en-GB", {
       timeZone: timezone,
-      timeZoneName: "longOffset"
+      timeZoneName: "shortOffset"
     }).formatToParts(new Date());
 
     return parts.find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
