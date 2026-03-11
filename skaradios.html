@@ -549,14 +549,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
 
   function getTimezoneAbbr(iana, date = new Date()) {
     const offset = getOffsetByIana(iana, date);
-    return TIMEZONE_ABBRS[iana]?.[offset] ?? formatFallbackAbbr(offset);
-  }
-
-  function formatFallbackAbbr(offset) {
-    const sign = offset >= 0 ? "+" : "-";
-    const h = Math.floor(Math.abs(offset));
-    const m = (abs % 1) * 60;
-    return "UTC" + sign + (m ? h + ":" + String(m).padStart(2, "0") : h);
+    return TIMEZONE_ABBRS[iana]?.[offset] ?? "";
   }
 
   function getUTCOffset(timezone) {
