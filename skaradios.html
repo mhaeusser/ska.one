@@ -560,14 +560,13 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     return "UTC" + sign + (m ? h + ":" + String(m).padStart(2, "0") : h);
   }
 
-  function getUTCOffset(tz) {
+  function getUTCOffset(timezone) {
     const parts = new Intl.DateTimeFormat("en-GB", {
-      timeZone: tz,
+      timeZone: timezone,
       timeZoneName: "longOffset"
     }).formatToParts(new Date());
 
-    const value = parts.find(p => p.type === "timeZoneName").value;
-    return value.replace("GMT", "UTC");
+    return parts.find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
   }
 
   function timezoneToId(timezone) {
