@@ -277,7 +277,10 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
         show.weekday = day;
         const idElement = countdownSpans[show.id];
         const nextShowTime = getNextShowTime(now, show);
-        if (nextShowTime.start <= now && now < nextShowTime.end) {
+        if (!nextShowTime) {
+          idElement.classList.remove("blink-red");
+          idElement.textContent = "no upcoming dates";
+        } else if (nextShowTime.start <= now && now < nextShowTime.end) {
           idElement.textContent = "NOW PLAYING!";
           idElement.classList.add("blink-red");
         } else {
