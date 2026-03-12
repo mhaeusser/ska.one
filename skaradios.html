@@ -523,7 +523,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
 
   // showdates for weeksInMonth e.g. show.weeks = [ 1, 3 ],
   // showdates for monthly or bi-weekly e.g. show.showdates = [ "2026-03-20", "2026-04-17" ],
-  function formatRecurrence(show) {
+  function formatRecurrence(now, show) {
     if (show.recurrence === "weekly") return "weekly";
     if (show.recurrence === "weeksInMonth") {
       let weeks = "";
@@ -575,7 +575,8 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
   // Create the table
   // ---------------------------
   function renderTable() {
-    computeTimezoneOffsets(new Date());
+    const now = new Date();
+    computeTimezoneOffsets(now);
 
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
 
@@ -587,7 +588,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       const tr = document.createElement("tr");
 
       // Day, Recurrence
-      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(show) + "</span>");
+      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(now, show) + "</span>");
 
       // Show name + optional subtitle
       const showLabel = show.subtitle
