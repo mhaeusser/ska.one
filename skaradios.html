@@ -156,6 +156,12 @@
     ],
   };
 
+  for (let day = 0; day <= 6; day++) {
+    weeklySchedule[day].forEach(show => {
+      show.weekday = day;
+    });
+  }
+
   const TIMEZONES = [
     { iana: "Pacific/Honolulu",   place1: "Honolulu",       place2: "Hilo"         }, // HST
     { iana: "America/Anchorage",  place1: "Anchorage",      place2: "Fairbanks"    }, // AKST / AKDT
@@ -274,7 +280,6 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
     // update times until shows start
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
-        show.weekday = day;
         const idElement = countdownSpans[show.id];
         const nextShowTime = getNextShowTime(now, show);
         if (!nextShowTime) {
