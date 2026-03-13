@@ -194,18 +194,18 @@
     "America/New_York":    { [-5]:   "EST",   [-4]:  "EDT" },
     "America/Halifax":     { [-4]:   "AST",   [-3]:  "ADT" },
     "America/St_Johns":    { [-3.5]: "NST", [-2.5]:  "NDT" },
-    "Europe/London":       { [0]:    "GMT",    [1]:  "BST" },
-    "Europe/Berlin":       { [1]:    "CET",    [2]: "CEST" },
-    "Europe/Helsinki":     { [2]:    "EET",    [3]: "EEST" },
-    "Europe/Moscow":       { [3]:    "MSK" },
-    "Asia/Karachi":        { [5]:    "PKT" },
-    "Asia/Kolkata":        { [5.5]:  "IST" },
-    "Australia/Perth":     { [8]:   "AWST" },
-    "Asia/Tokyo":          { [9]:    "JST" },
-    "Asia/Seoul":          { [9]:    "KST" },
-    "Australia/Adelaide":  { [9.5]: "ACST", [10.5]: "ACDT" },
-    "Australia/Sydney":    { [10]:  "AEST", [11]:   "AEDT" },
-    "Pacific/Auckland":    { [12]:  "NZST", [13]:   "NZDT" },
+    "Europe/London":       {  [0]:   "GMT",    [1]:  "BST" },
+    "Europe/Berlin":       {  [1]:   "CET",    [2]: "CEST" },
+    "Europe/Helsinki":     {  [2]:   "EET",    [3]: "EEST" },
+    "Europe/Moscow":       {  [3]:   "MSK" },
+    "Asia/Karachi":        {  [5]:   "PKT" },
+    "Asia/Kolkata":        {  [5.5]: "IST" },
+    "Australia/Perth":     {  [8]:  "AWST" },
+    "Asia/Tokyo":          {  [9]:   "JST" },
+    "Asia/Seoul":          {  [9]:   "KST" },
+    "Australia/Adelaide":  {  [9.5]:"ACST", [10.5]: "ACDT" },
+    "Australia/Sydney":    {  [10]: "AEST", [11]:   "AEDT" },
+    "Pacific/Auckland":    {  [12]: "NZST", [13]:   "NZDT" },
   };
 
 /*
@@ -397,7 +397,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     const month = now.getUTCMonth();
     const todayDay = now.getUTCDate();
     const wanted = new Set(weeks);
-    const results = [];
+    const daysInMonth = [];
 
     let occurrence = 0;
     for (let day = 1; day <= 31; day++) {
@@ -409,11 +409,11 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       if (d.getUTCDay() === weekday) {
         occurrence++;
         if (wanted.has(occurrence)) {
-          results.push(formatAsYYYY_MM_DD(year, month, day));
+          daysInMonth.push(formatAsYYYY_MM_DD(year, month, day));
         }
       }
     }
-    return results;
+    return daysInMonth;
   }
 
   function formatAsYYYY_MM_DD(year, month, day) {
@@ -535,11 +535,10 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       const dates = findDaysInMonth(now, show.weekday, show.weeks);
       return weeks + ", next:<br/>" + dates[0];
     }
-    if (show.recurrence === "bi-weekly") {
-      return show.showdates ? "bi-weekly, next:<br/>" + show.showdates[0] : "bi-weekly";
-    }
-    if (show.recurrence === "monthly") {
-      return show.showdates ? "monthly, next:<br/>" + show.showdates[0] : "monthly";
+    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
+      if (! show.showdates) return show.recurrence;
+      const next = getNextShowTime_Dates(now, show, show.showdates).start;
+      return show.recurrence + ", next:<br/>" + formatAsYYYY_MM_DD(next.getUTCFullYear(), next.getUTCMonth(), next.getUTCDate());
     }
     return show.recurrence;
   }
