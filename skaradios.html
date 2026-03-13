@@ -278,7 +278,7 @@
     // update local time on top
     document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
         + `<span class="hours">${formatTime(now.getHours(), now.getMinutes(), now.getSeconds())}</span> `
-		+ `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
+        + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
     // update UTC time on top
     document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
         + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
@@ -589,36 +589,34 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
 
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
-      const tr = document.createElement("tr");
+        const tr = document.createElement("tr");
 
-      // Day, Recurrence
-      addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(now, show) + "</span>");
+        // Day, Recurrence
+        addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(now, show) + "</span>");
 
-      // Show name + optional subtitle
-      const showLabel = show.subtitle
-        ? show.name + '<br/><sub>' + show.subtitle + '</sub>'
-        : show.name;
-      addTd(tr, showLabel, show.showUrl);
+        // Show name + optional subtitle
+        const showLabel = show.subtitle ? show.name + '<br/><sub>' + show.subtitle + '</sub>' : show.name;
+        addTd(tr, showLabel, show.showUrl);
 
-      // Station
-      addTd(tr, show.station, show.stationUrl, "", show.stationTown);
+        // Station
+        addTd(tr, show.station, show.stationUrl, "", show.stationTown);
 
-      // Stream
-      addTd(tr, "Stream", show.streamUrl, "-");
+        // Stream
+        addTd(tr, "Stream", show.streamUrl, "-");
 
-      // Archive
-      addTd(tr, "Archive", show.archiveUrl, "-");
+        // Archive
+        addTd(tr, "Archive", show.archiveUrl, "-");
 
-      // Time until next show, or is the show now playing?
-      const waitOrPlayingTd = document.createElement("td");
-      const span = document.createElement("span");
-      countdownSpans[show.id] = span;
-      waitOrPlayingTd.appendChild(span);
-      waitOrPlayingTd.classList.add("nowrap-right");
-      tr.appendChild(waitOrPlayingTd);
+        // Time until next show, or is the show now playing?
+        const waitOrPlayingTd = document.createElement("td");
+        const span = document.createElement("span");
+        countdownSpans[show.id] = span;
+        waitOrPlayingTd.appendChild(span);
+        waitOrPlayingTd.classList.add("nowrap-right");
+        tr.appendChild(waitOrPlayingTd);
 
-      // Timezone columns
-      timezones.forEach(timezone => {
+        // Timezone columns
+        timezones.forEach(timezone => {
         const td = document.createElement("td");
         const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
