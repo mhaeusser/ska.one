@@ -229,6 +229,8 @@
 
   const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   //const visitorTimezone = "America/St_Johns"; // TODO injects other timezones for testing
+  //const visitorTimezone = "America/Toronto"; // TODO injects other timezones for testing
+  //const visitorTimezone = "Europe/Amsterdam"; // TODO injects other timezones for testing
 
   // target timezones: add visitor timezone, if not in standard
   let timezones = [...STANDARD_TIMEZONES];
@@ -540,8 +542,10 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
   function renderTimezoneHeaders() {
     const headerRow = document.getElementById("headerRow");
     timezones.forEach(timezone => {
-      const tz = TIMEZONE_MAP[timezone];
-      if (!tz) return;
+      let tz = TIMEZONE_MAP[timezone];
+      if (!tz) {
+        tz = { iana: timezone, place1: timezone.substring(timezone.indexOf("/") + 1), place2: "" };
+      };
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
       if (timezone === visitorTimezone) th.classList.add("visitor-tz");
