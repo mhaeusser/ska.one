@@ -409,11 +409,15 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       if (d.getUTCDay() === weekday) {
         occurrence++;
         if (wanted.has(occurrence)) {
-          results.push(`${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
+          results.push(formatAsYYYY_MM_DD(year, month, day));
         }
       }
     }
     return results;
+  }
+
+  function formatAsYYYY_MM_DD(year, month, day) {
+    return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
   // returns show length in minutes
