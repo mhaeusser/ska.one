@@ -402,13 +402,10 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     let occurrence = 0;
     for (let day = 1; day <= 31; day++) {
       const d = new Date(Date.UTC(year, month, day));
-      // stop at end of month
       if (d.getUTCMonth() !== month) break;
-      // skip past dates
-      if (day < todayDay) continue;
       if (d.getUTCDay() === weekday) {
         occurrence++;
-        if (wanted.has(occurrence)) {
+        if (wanted.has(occurrence) && day >= todayDay) {
           daysInMonth.push(formatAsYYYY_MM_DD(year, month, day));
         }
       }
