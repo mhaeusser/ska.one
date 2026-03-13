@@ -622,7 +622,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
 
         const startTime = formatShowtime(showTimeInZone.start);
         const endTime = formatShowtime(showTimeInZone.end);
-        
+
         td.innerHTML = startTime + " - " + endTime;
         if (day !== showTimeInZone.day) {
           td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
