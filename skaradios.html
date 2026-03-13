@@ -348,7 +348,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 <body>
 <h1>Ska Radios of the World, Unite!</h1>
 
-This is an overview of radio shows and pocdasts worldwide that play the best music every - Ska! <a href="about.html">More...</a><br/>
+This is an overview of radio shows and podcasts worldwide that play the best music ever - Ska! <a href="about.html">More...</a><br/>
 Also check out the Facebook Group <a target="_blank" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts & radio shows</a>.
 <br/>
 <br/>
@@ -563,12 +563,16 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? "";
   }
 
+  const shortOffsetTimezoneFormatters = {};
+
   function getUTCOffset(timezone) {
-    const parts = new Intl.DateTimeFormat("en-GB", {
+    if (!shortOffsetTimezoneFormatters[timezone]) {
+      shortOffsetTimezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
       timeZone: timezone,
       timeZoneName: "shortOffset"
-    }).formatToParts(new Date());
-
+      });
+    }
+    const parts = shortOffsetTimezoneFormatters[timezone].formatToParts(new Date());
     return parts.find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
   }
 
