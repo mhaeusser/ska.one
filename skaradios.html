@@ -242,6 +242,21 @@
 
   const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
+  const timezoneFormatters = {};
+  timezones.forEach(timezone => {
+    timezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
+      timeZone: timezone,
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+  });
+
+  const shortOffsetTimezoneFormatters = {};
+  timezones.forEach(timezone => {
+    shortOffsetTimezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
+      timeZone: timezone,
+      timeZoneName: "shortOffset"
+    });
+  });
+
   const countdownSpans = {};
   let timezoneOffsets = {};
 
@@ -272,7 +287,7 @@
     document.getElementById("gmtOffsetMessage").textContent = makeGMTOffsetMessage(now);
     // update timezone times
     timezones.forEach(timezone => {
-      document.getElementById(timezoneToId(timezone)).textContent = formatInTimeZone(now, timezone);
+      document.getElementById(timezoneToId(timezone)).textContent = timezoneFormatters[timezone].format(now);
     });
     // update times until shows start
     for (let day = 0; day <= 6; day++) {
@@ -346,7 +361,7 @@
 <h1>Ska Radios of the World, Unite!</h1>
 
 This is an overview of radio shows and podcasts worldwide that play the best music ever - Ska! <a href="about.html">More...</a><br/>
-Also check out the Facebook Group <a target="_blank" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts & radio shows</a>.
+Also check out the Facebook Group <a target="_blank" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts &amp; radio shows</a>.
 <br/>
 <br/>
 <table>
@@ -410,6 +425,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     return daysInMonth;
   }
 
+  // month: 0-based
   function formatAsYYYY_MM_DD(year, month, day) {
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
@@ -490,16 +506,6 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  const timezoneFormatters = {};
-
-  function formatInTimeZone(date, timezone) {
-    if (!timezoneFormatters[timezone]) {
-      timezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
-        timeZone: timezone, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-    }
-    return timezoneFormatters[timezone].format(date);
-  }
-
   function addTd(tr, text, url, fallback, lineBelow) {
     const td = document.createElement("td");
     if (url) {
@@ -560,15 +566,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
     return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? "";
   }
 
-  const shortOffsetTimezoneFormatters = {};
-
   function getUTCOffset(timezone) {
-    if (!shortOffsetTimezoneFormatters[timezone]) {
-      shortOffsetTimezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
-      timeZone: timezone,
-      timeZoneName: "shortOffset"
-      });
-    }
     const parts = shortOffsetTimezoneFormatters[timezone].formatToParts(new Date());
     return parts.find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
   }
@@ -706,7 +704,7 @@ Ska Nation Radio (?)
     <td class="top"><a target="_blank" href="https://open.spotify.com/show/040tvobXGiD7vqXl62gDnO">Spotify</a></td>
   </tr>
   <tr>
-    <td class="top"><a target="_blank" href="https://www.mixcloud.com/bluebeatandska/">Blue Beat & Ska</a></td>
+    <td class="top"><a target="_blank" href="https://www.mixcloud.com/bluebeatandska/">Blue Beat &amp; Ska</a></td>
     <td class="top"><a target="_blank" href="https://www.facebook.com/bluebeatandska">facebook.com/bluebeatandska</a></td>
     <td class="top"><a target="_blank" href="https://www.mixcloud.com/bluebeatandska/">Mixcloud</a></td>
   </tr>
