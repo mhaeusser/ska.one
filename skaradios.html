@@ -525,7 +525,7 @@ Also check out the Facebook Group <a target="_blank" href="https://www.facebook.
       let weeks = "";
       show.weeks.forEach((weekIndex, index) => { if (index > 0) weeks += ", "; weeks += formatOrdinal(weekIndex); });
       const dates = findDaysInMonth(now, show.weekday, show.weeks);
-      return weeks + ", next:<br/>" + dates[0];
+      return weeks + (dates.length ? ", next:<br/>" + dates[0] : "");
     }
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
       if (! show.showdates) return show.recurrence;
