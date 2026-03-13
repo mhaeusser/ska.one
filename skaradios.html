@@ -208,12 +208,6 @@
     "Pacific/Auckland":    {  [12]: "NZST", [13]:   "NZDT" },
   };
 
-/*
-Temporal (Node 20+, modern browsers soon):
-const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
-  .offsetNanoseconds / 3_600_000_000_000;
-*/
-
   function getOffsetByIana(iana, date) {
     const dtf = new Intl.DateTimeFormat("en-US", {
       timeZone: iana, hour12: false,
@@ -262,6 +256,7 @@ const offset = Temporal.Now.zonedDateTimeISO("America/New_York")
 
   function updateTimes() {
     const now = new Date();
+    computeTimezoneOffsets(now)
     const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
     // update local time on top
     document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
