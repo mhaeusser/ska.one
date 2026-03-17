@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ska Radios of the World — Live Schedule</title>
 </head>
 
 <body>
 <h2>Impressum</h2>
-
 
 Angaben gemäß §5 DDG<br/>
 <br/>
@@ -17,7 +15,22 @@ Mühlain 30<br/>
 70180 Stuttgart<br/>
 Deutschland<br/>
 <br/>
-E-Mail: admin@ska.one<br/>
+<p>E-Mail: <span id="mail"></span></p>
+
+<script>
+  const user = "admin";
+  const domain = "ska.one";
+  const email = user + "@" + domain;
+
+  const link = document.createElement("a");
+  link.href = "mailto:" + email;
+  link.textContent = email;
+
+  document.getElementById("mail").appendChild(link);
+</script>
+
+
+
 <br/>
 Verantwortlich für den Inhalt nach §18 Abs. 2 MStV:<br/>
 Matthias Häußer<br/>
