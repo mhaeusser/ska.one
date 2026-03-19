@@ -342,7 +342,7 @@
     const offsetHours = Math.abs(offsetMinutes) / 60;
     const hourLabel = offsetHours === 1 ? "hour" : "hours";
     const direction = offsetMinutes > 0 ? "behind" : "ahead of";
-    return `You are ${offsetHours} ${hourLabel} ${direction} GMT.`;
+    return `${offsetHours} ${hourLabel} ${direction} GMT`;
   }
 
   const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
@@ -366,14 +366,12 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 <br/>
 <table>
   <tr>
-    <td>Your local time (<span id="localTimezone"></span>):</td>
     <td><span id="now"></span></td>
-    <td><span id="gmtOffsetMessage"></span></td>
+    <td>Your local time (<span id="localTimezone"></span>) - <span id="gmtOffsetMessage"></span></td>
   </tr>
   <tr>
-    <td class="nowrap-right"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT)</a>:</td>
     <td><span id="utc"></span></td>
-    <td></td>
+    <td class="nowrap-left"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT / Zulu time)</a></td>
   </tr>
 </table>
 <br/>
