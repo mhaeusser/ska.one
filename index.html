@@ -299,7 +299,6 @@
 
   function updateTimes() {
     const now = new Date();
-    computeTimezoneOffsets(now)
     const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
     // update local time on top
     document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
@@ -377,7 +376,7 @@
     renderTimezoneHeaders();
     renderTable();
     updateTimes();
-    setInterval(renderTable, 60 * 60 * 1000); // recreate table every hour
+    setInterval(renderTable, 30 * 60 * 1000); // recreate table every half hour
     setInterval(updateTimes, 1000);
   });
   </script>
