@@ -489,7 +489,14 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   }
 
   function getNextShowTime_WeeksInMonth(now, show) {
-    const dates = findDaysInMonth(now, show.weekday, show.weeks);
+    let dates = findDaysInMonth(now, show.weekday, show.weeks);
+    const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+    dates.push(findDaysInMonth(nextMonthFirst, show.weekday, show.weeks));
+    if (!show.nextDates) {
+      // No remaining occurrences this month - look in the next month from day 1
+      const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+      dates = findDaysInMonth(nextMonthFirst, show.weekday, show.weeks);
+    }
     return getNextShowTime_Dates(now, show, dates);
   }
 
@@ -568,8 +575,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     if (show.recurrence === "weeksInMonth") {
       let weeks = "";
       show.weeks.forEach((weekIndex, index) => { if (index > 0) weeks += ", "; weeks += formatOrdinal(weekIndex); });
-      const dates = findDaysInMonth(now, show.weekday, show.weeks);
-      return weeks + (dates.length ? ", next:<br/>" + dates[0] : "");
+      const nextStart = show.nextShowTime.start
+      return weeks + ", next:<br/>" + formatAsYYYY_MM_DD(nextStart.getUTCFullYear(), nextStart.getUTCMonth(), nextStart.getUTCDate());
     }
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
       if (! show.showdates) return show.recurrence;
