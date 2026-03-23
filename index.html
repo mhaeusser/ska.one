@@ -372,11 +372,22 @@
 
   const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
 
+  // recreate table every half hour
+  function scheduleNextRenderTable() {
+    const now = new Date();
+    const msUntilNextHour = (60 - now.getMinutes()) * 30 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
+    setTimeout(() => {
+      renderTable();
+      scheduleNextRenderTable();
+    }, msUntilNextHour);
+  }
+
+  scheduleNextRenderTable();
+
   window.addEventListener("DOMContentLoaded", () => {
     renderTimezoneHeaders();
     renderTable();
     updateTimes();
-    setInterval(renderTable, 30 * 60 * 1000); // recreate table every half hour
     setInterval(updateTimes, 1000);
   });
   </script>
@@ -603,6 +614,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   // ---------------------------
   function renderTable() {
     const now = new Date();
+    console.log("Rendering table at " + now);
     computeTimezoneOffsets(now);
 
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
