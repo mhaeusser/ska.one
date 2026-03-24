@@ -313,11 +313,11 @@
     document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
         + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
         + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay())})</span>`;
-    document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
-    document.getElementById("gmtOffsetMessage").textContent = makeGMTOffsetMessage(now);
+    setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
+    setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
     timezones.forEach(timezone => {
-      document.getElementById(timezoneToId(timezone)).textContent = timezoneFormatters[timezone].format(now);
+      setTextIfChanged(document.getElementById(timezoneToId(timezone)), timezoneFormatters[timezone].format(now));
     });
     // update times until shows start
     for (let day = 0; day <= 6; day++) {
@@ -325,16 +325,22 @@
         const idElement = countdownSpans[show.id];
         if (!show.nextShowTime) {
           idElement.classList.remove("blink-red");
-          idElement.textContent = "no upcoming dates";
+          setTextIfChanged(idElement, "no upcoming dates");
         } else if (show.nextShowTime.start <= now && now < show.nextShowTime.end) {
-          idElement.textContent = "NOW PLAYING!";
+          setTextIfChanged(idElement, "NOW PLAYING!");
           idElement.classList.add("blink-red");
         } else {
           idElement.classList.remove("blink-red");
           const remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
-          idElement.textContent = formatDuration(remaining_sec);
+          setTextIfChanged(idElement, formatDuration(remaining_sec));
         }
       });
+    }
+  }
+
+  function setTextIfChanged(el, text) {
+    if (el.textContent !== text) {
+      el.textContent = text;
     }
   }
 
@@ -376,7 +382,7 @@
 
   const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
 
-  // recreate table every half hour
+  // recreate table every hour
   function scheduleNextRenderTable() {
     const now = new Date();
     const msUntilNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
@@ -663,23 +669,23 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
         // Timezone columns
         timezones.forEach(timezone => {
-        const td = document.createElement("td");
-        const showTimeInZone = getShowTimeInZone(show, day, timezone);
+          const td = document.createElement("td");
+          const showTimeInZone = getShowTimeInZone(show, day, timezone);
 
-        const startTime = formatShowtime(showTimeInZone.start);
-        const endTime = formatShowtime(showTimeInZone.end);
+          const startTime = formatShowtime(showTimeInZone.start);
+          const endTime = formatShowtime(showTimeInZone.end);
 
-        td.innerHTML = startTime + " - " + endTime;
-        if (day !== showTimeInZone.day) {
-          td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
-        }
-        if (timezone === show.timezone) td.classList.add("bold");
-        if (timezone === visitorTimezone) td.classList.add("visitor-tz");
-        td.classList.add("center-top", "nowrap");
-        tr.appendChild(td);
-      });
+          td.innerHTML = startTime + " - " + endTime;
+          if (day !== showTimeInZone.day) {
+            td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
+          }
+          if (timezone === show.timezone) td.classList.add("bold");
+          if (timezone === visitorTimezone) td.classList.add("visitor-tz");
+          td.classList.add("center-top", "nowrap");
+          tr.appendChild(td);
+        });
 
-      tbody.appendChild(tr);
+        tbody.appendChild(tr);
       });
     }
   }
