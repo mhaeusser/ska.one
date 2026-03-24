@@ -262,6 +262,7 @@
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
   }
 
+  // returns names like "shortTimezoneFormatter"
   const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
   const timezoneFormatters = {};
@@ -278,19 +279,18 @@
       timeZoneName: "shortOffset" });
   });
 
-  const countdownSpans = {};
-  let timezoneOffsets = {};
+  const timezoneOffsets = {};
 
-  function computeTimezoneOffsets(now) {
-    timezoneOffsets = {};
-    timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
-    // also compute offsets for show source timezones
-    Object.values(weeklySchedule).flat().forEach(show => {
-      if (!(show.timezone in timezoneOffsets)) {
-        timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
-      }
-    });
-  }
+  const now = new Date();
+  timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+  // also compute offsets for show source timezones
+  Object.values(weeklySchedule).flat().forEach(show => {
+    if (!(show.timezone in timezoneOffsets)) {
+      timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
+    }
+  });
+
+  const countdownSpans = {};
 
   function initShows(now) {
     for (let day = 0; day <= 6; day++) {
@@ -312,7 +312,7 @@
     document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
         + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
         + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay())})</span>`;
-    setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
+    setTextIfChanged(document.getElementById("localTimezone"), "X"+shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + "Y - " + visitorTimezone);
     setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
     timezones.forEach(timezone => {
@@ -623,7 +623,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   function renderTable() {
     const now = new Date();
     console.log("Rendering table at " + now);
-    computeTimezoneOffsets(now);
     initShows(now);
 
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
