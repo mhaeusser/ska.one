@@ -335,6 +335,10 @@
         }
       });
     }
+    // when the hour is full, update the table
+    if (now.getUTCMinutes() === 0 && now.getUTCSeconds() === 0) {
+      renderTable();
+    }
   }
 
   function setTextIfChanged(el, text) {
@@ -381,20 +385,9 @@
 
   const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
 
-  // recreate table every hour
-  function scheduleNextRenderTable() {
-    const now = new Date();
-    const msUntilNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds();
-    setTimeout(() => {
-      renderTable();
-      scheduleNextRenderTable();
-    }, msUntilNextHour);
-  }
-
   window.addEventListener("DOMContentLoaded", () => {
     renderTimezoneHeaders();
     renderTable();
-    scheduleNextRenderTable();
     updateTimes();
     setInterval(updateTimes, 1000);
   });
