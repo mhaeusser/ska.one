@@ -270,6 +270,7 @@
   const shortOffsetTimezoneFormatters = {};
 
   timezones.forEach(timezone => {
+    // formats as HH:MM:SS
     timezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
       timeZone: timezone,
       hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
@@ -312,7 +313,7 @@
     document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
         + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
         + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay())})</span>`;
-    setTextIfChanged(document.getElementById("localTimezone"), "X"+shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + "Y - " + visitorTimezone);
+    setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
     setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
     timezones.forEach(timezone => {
@@ -608,6 +609,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? "";
   }
 
+  // returns e.g. "UTC-4"
   function getUTCOffset(timezone) {
     const parts = shortOffsetTimezoneFormatters[timezone].formatToParts(new Date());
     return parts.find(p => p.type === "timeZoneName").value.replace("GMT", "UTC");
