@@ -33,6 +33,7 @@
         recurrence: "weekly",
         showUrl: "https://www.kpfk.org/on-air/reggae-central",
         station: "KPFK",
+        stationTown: "Los Angeles",
         stationUrl: "https://www.kpfk.org",
         start: { h: 14, m: 0 },
         end: { h: 17, m: 0 },
@@ -45,6 +46,7 @@
         recurrence: "weekly",
         showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
         station: "Dirty Radio",
+        stationTown: "Redlands, CA",
         stationUrl: "https://dirtyradio.fm",
         start: { h: 20, m: 0 },
         end: { h: 22, m: 0 },
@@ -384,11 +386,10 @@
     }, msUntilNextHour);
   }
 
-  scheduleNextRenderTable();
-
   window.addEventListener("DOMContentLoaded", () => {
     renderTimezoneHeaders();
     renderTable();
+    scheduleNextRenderTable();
     updateTimes();
     setInterval(updateTimes, 1000);
   });
@@ -718,7 +719,7 @@ www.mixcloud.com/Skanking105
   </tr>
   <tr>
     <td class="top"><a target="_blank" rel="noopener" href="https://www.bobskaradio.com">Bob's Ska Radio</a></td>
-    <td class="top"><audio controls autoplay style="width:160px"><source src="https://eu8.fastcast4u.com/proxy/chrtre00?mp=/1" type="audio/mpeg"></audio>
+    <td class="top"><a target="_blaml" rel="noopener" href="https://eu8.fastcast4u.com/proxy/chrtre00?mp=/1">Stream</a></td>
     <!-- US: https://usa19.fastcast4u.com:2030/;?type=http&nocache=1663820484 -->
     <td class="top"><a target="_blank" rel="noopener" href="https://www.facebook.com/Bobs.Ska.Radio1">Facebook</a></td>
   </tr>
