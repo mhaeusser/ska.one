@@ -493,7 +493,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     let dates = findDaysInMonth(now, show.weekday, show.weeks);
     const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
     dates.push(...findDaysInMonth(nextMonthFirst, show.weekday, show.weeks));
-    if (!show.nextDates) {
+    if (dates.length === 0) {
       // No remaining occurrences this month - look in the next month from day 1
       const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
       dates = findDaysInMonth(nextMonthFirst, show.weekday, show.weeks);
