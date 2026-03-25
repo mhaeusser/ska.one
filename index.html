@@ -299,7 +299,7 @@
       weeklySchedule[day].forEach(show => {
         show.weekday = day;
         show.length = calcShowLength(show);
-        show.nextShowTime = getNextShowTime(now, show);
+        show.nextShowTime = calcNextShowTime(now, show);
       });
     }
   }
@@ -483,15 +483,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   }
 
   // Depends on show end!
-  function getNextShowTime(now, show) {
-    if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(now, show);
-    if (show.recurrence === "monthly") return getNextShowTime_Dates(now, show, show.showdates);
-    if (show.recurrence === "bi-weekly") return getNextShowTime_Biweekly(now, show);
+  function calcNextShowTime(now, show) {
+    if (show.recurrence === "weeksInMonth") return calcNextShowTime_WeeksInMonth(now, show);
+    if (show.recurrence === "monthly") return calcNextShowTime_Dates(now, show, show.showdates);
+    if (show.recurrence === "bi-weekly") return calcNextShowTime_Biweekly(now, show);
     // default: show.recurrence === "weekly"
-    return getNextShowTime_Weekly(now, show);
+    return calcNextShowTime_Weekly(now, show);
   }
 
-  function getNextShowTime_WeeksInMonth(now, show) {
+  function calcNextShowTime_WeeksInMonth(now, show) {
     let dates = findDaysInMonth(now, show.weekday, show.weeks);
     const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
     dates.push(...findDaysInMonth(nextMonthFirst, show.weekday, show.weeks));
@@ -500,10 +500,10 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       const nextMonthFirst = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
       dates = findDaysInMonth(nextMonthFirst, show.weekday, show.weeks);
     }
-    return getNextShowTime_Dates(now, show, dates);
+    return calcNextShowTime_Dates(now, show, dates);
   }
 
-  function getNextShowTime_Dates(now, show, dates) {
+  function calcNextShowTime_Dates(now, show, dates) {
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
       const nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
@@ -514,7 +514,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return null;
   }
 
-  function getNextShowTime_Biweekly(now, show) {
+  function calcNextShowTime_Biweekly(now, show) {
     const [year, month, day] = show.showdate.split("-").map(Number);
     let nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
     let nextEndDate = calcEndDate(show, nextStartDate);
@@ -526,7 +526,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return { start: nextStartDate, end: nextEndDate };
   }
 
-  function getNextShowTime_Weekly(now, show) {
+  function calcNextShowTime_Weekly(now, show) {
     const nextStartDate = makeUTCDate(now, show.start.h - timezoneOffsets[show.timezone], show.start.m);
     const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
@@ -539,7 +539,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return { start: nextStartDate, end: nextEndDate };
   }
 
-  function getShowTimeInZone(show, showDay, timezone) {
+  function calcShowTimeInZone(show, showDay, timezone) {
     const offsetMins = (timezoneOffsets[timezone] - timezoneOffsets[show.timezone]) * 60;
     const startMins  = show.start.h * 60 + show.start.m + offsetMins;
     const endMins    = show.end.h   * 60 + show.end.m   + offsetMins;
@@ -677,7 +677,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         // Timezone columns
         timezones.forEach(timezone => {
           const td = document.createElement("td");
-          const showTimeInZone = getShowTimeInZone(show, day, timezone);
+          const showTimeInZone = calcShowTimeInZone(show, day, timezone);
 
           const startTime = formatShowtime(showTimeInZone.start);
           const endTime = formatShowtime(showTimeInZone.end);
