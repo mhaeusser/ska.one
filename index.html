@@ -250,9 +250,10 @@
   const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
 
   const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  //const visitorTimezone = "America/St_Johns"; // TODO injects other timezones for testing
-  //const visitorTimezone = "America/Toronto"; // TODO injects other timezones for testing
-  //const visitorTimezone = "Europe/Amsterdam"; // TODO injects other timezones for testing
+  // Timezones for testing
+  //const visitorTimezone = "America/St_Johns"; // UTC/GMT -2:30 hours
+  //const visitorTimezone = "America/Toronto";
+  //const visitorTimezone = "Europe/Amsterdam";
 
   // target timezones: add visitor timezone, if not in standard
   let timezones = [...STANDARD_TIMEZONES];
@@ -262,7 +263,7 @@
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
   }
 
-  // returns names like "shortTimezoneFormatter"
+  // returns names like "CET"
   const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
   const timezoneFormatters = {};
@@ -460,9 +461,9 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
     let occurrence = 0;
     for (let day = 1; day <= 31; day++) {
-      const d = new Date(Date.UTC(year, month, day));
-      if (d.getUTCMonth() !== month) break;
-      if (d.getUTCDay() === weekday) {
+      const date = new Date(Date.UTC(year, month, day));
+      if (date.getUTCMonth() !== month) break;
+      if (date.getUTCDay() === weekday) {
         occurrence++;
         if (wanted.has(occurrence) && day >= todayDay) {
           daysInMonth.push(formatAsYYYY_MM_DD(year, month, day));
