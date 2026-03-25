@@ -57,7 +57,7 @@
         name: "Rudie's back in town",
         id: "rbit",
         recurrence: "bi-weekly",
-        showdates: [ "2026-03-22", "2026-04-05", "2026-04-19" ],
+        showdate: "2026-04-05", // use last date or next to come, rest is calculated
         showUrl: "https://rudies-back-in-town.blogspot.com/",
         station: "Radio libertaire",
         stationUrl: "https://radio-libertaire.org/agenda/",
@@ -466,16 +466,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       if (date.getUTCDay() === weekday) {
         occurrence++;
         if (wanted.has(occurrence) && day >= todayDay) {
-          daysInMonth.push(formatAsYYYY_MM_DD(year, month, day));
+          daysInMonth.push(formatAsYYYY_MM_DD(date));
         }
       }
     }
     return daysInMonth;
   }
 
-  // month: 0-based
-  function formatAsYYYY_MM_DD(year, month, day) {
-    return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  function formatAsYYYY_MM_DD(date) {
+    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
   }
 
   // returns show's end date
@@ -483,9 +482,11 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return new Date(startDate.getTime() + show.length * 60_000);
   }
 
+  // Depends on show end!
   function getNextShowTime(now, show) {
     if (show.recurrence === "weeksInMonth") return getNextShowTime_WeeksInMonth(now, show);
-    if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") return getNextShowTime_Dates(now, show, show.showdates);
+    if (show.recurrence === "monthly") return getNextShowTime_Dates(now, show, show.showdates);
+    if (show.recurrence === "bi-weekly") return getNextShowTime_Biweekly(now, show);
     // default: show.recurrence === "weekly"
     return getNextShowTime_Weekly(now, show);
   }
@@ -502,7 +503,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return getNextShowTime_Dates(now, show, dates);
   }
 
-  // Depends on show end!
   function getNextShowTime_Dates(now, show, dates) {
     for (const dateStr of dates) {
       const [year, month, day] = dateStr.split("-").map(Number);
@@ -512,6 +512,18 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     }
     // no future date found - showdates needs updating
     return null;
+  }
+
+  function getNextShowTime_Biweekly(now, show) {
+    const [year, month, day] = show.showdate.split("-").map(Number);
+    let nextStartDate = new Date(Date.UTC(year, month - 1, day, show.start.h - timezoneOffsets[show.timezone], show.start.m, 0, 0));
+    let nextEndDate = calcEndDate(show, nextStartDate);
+    // while the next end date is in the past, add two weeks
+    while (nextEndDate < now) {
+      nextStartDate.setUTCDate(nextStartDate.getUTCDate() + 14);
+      nextEndDate = calcEndDate(show, nextStartDate);
+    }
+    return { start: nextStartDate, end: nextEndDate };
   }
 
   function getNextShowTime_Weekly(now, show) {
@@ -570,22 +582,22 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     tr.appendChild(td);
   }
 
-  // showdates for weeksInMonth e.g. show.weeks = [ 1, 3 ],
-  // showdates for monthly or bi-weekly e.g. show.showdates = [ "2026-03-20", "2026-04-17" ],
+  // showdates for weeksInMonth: e.g. show.weeks = [ 1, 3 ]
+  // showdates for monthly: e.g. show.showdates = [ "2026-03-20", "2026-04-17" ]
+  // showdates for bi-weekly: e.g. show.showdate = "2026-04-17" (calculated onward)
   function formatRecurrence(now, show) {
     if (show.recurrence === "weekly") return "weekly";
     if (show.recurrence === "weeksInMonth") {
       let weeks = "";
       show.weeks.forEach((weekIndex, index) => { if (index > 0) weeks += ", "; weeks += formatOrdinal(weekIndex); });
-      const nextStart = show.nextShowTime.start // must be set for "weeksInMonth"
-      return weeks + ", next:<br/>" + formatAsYYYY_MM_DD(nextStart.getUTCFullYear(), nextStart.getUTCMonth(), nextStart.getUTCDate());
+      const nextStart = show.nextShowTime.start
+      return weeks + ", next:<br/>" + formatAsYYYY_MM_DD(nextStart);
     }
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
-      if (! show.showdates) return show.recurrence;
-      const next = getNextShowTime_Dates(now, show, show.showdates);
-      if (! next) return show.recurrence;
-      return show.recurrence + ", next:<br/>"
-        + formatAsYYYY_MM_DD(next.start.getUTCFullYear(), next.start.getUTCMonth(), next.start.getUTCDate());
+      if (! show.showdates && ! show.showdate) return show.recurrence;
+      const nextStart = show.nextShowTime.start
+      if (! nextStart) return show.recurrence;
+      return show.recurrence + ", next:<br/>" + formatAsYYYY_MM_DD(nextStart);
     }
     return show.recurrence;
   }
