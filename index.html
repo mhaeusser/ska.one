@@ -284,8 +284,9 @@
   const timezoneOffsets = {};
 
   const now = new Date();
+
   timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
-  // also compute offsets for show source timezones
+  // compute offsets for show source timezones
   Object.values(weeklySchedule).flat().forEach(show => {
     if (!(show.timezone in timezoneOffsets)) {
       timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
@@ -314,13 +315,19 @@
     return length;
   }
 
+  const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
+
   function updateTimes() {
     const now = new Date();
-    const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
     // update local time on top
-    document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
+    /*document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
         + `<span class="hours">${formatTime(now.getHours(), now.getMinutes(), now.getSeconds())}</span> `
         + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
+    */
+    document.getElementById("now_date").textContent = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear());
+    document.getElementById("now_time").textContent = formatTime(now.getHours(), now.getMinutes(), now.getSeconds());
+    document.getElementById("now_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
+		
     // update UTC time on top
     document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
         + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
@@ -416,7 +423,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 <br/>
 <table>
   <tr>
-    <td><span id="now"></span></td>
+    <td><span id="now_date"></span>, <span class="hours"><span id="now_time"></span></span> <span class="small-text">(<span id="now_week"></span>)</span></td>
     <td>Your local time (<span id="localTimezone"></span>) - <span id="gmtOffsetMessage"></span></td>
   </tr>
   <tr>
