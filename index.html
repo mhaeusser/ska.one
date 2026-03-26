@@ -320,12 +320,12 @@
   function updateTimes() {
     const now = new Date();
     // update local time on top
-    document.getElementById("now_date").textContent = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear());
-    document.getElementById("now_time").textContent = formatTime(now.getHours(), now.getMinutes(), now.getSeconds());
+    setTextIfChanged(document.getElementById("now_date"), formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear()));
+    setTextIfChanged(document.getElementById("now_time"), formatTime(now.getHours(), now.getMinutes(), now.getSeconds()));
     document.getElementById("now_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
     // update UTC time on top
-    document.getElementById("utc_date").textContent = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear());
-    document.getElementById("utc_time").textContent = formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+    setTextIfChanged(document.getElementById("utc_date"), formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
+    setTextIfChanged(document.getElementById("utc_time"), formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
     document.getElementById("utc_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
     setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
     setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
