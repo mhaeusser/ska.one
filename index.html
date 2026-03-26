@@ -320,13 +320,13 @@
   function updateTimes() {
     const now = new Date();
     // update local time on top
-    setTextIfChanged(document.getElementById("now_date"), formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear()));
-    setTextIfChanged(document.getElementById("now_time"), formatTime(now.getHours(), now.getMinutes(), now.getSeconds()));
-    document.getElementById("now_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
+    setTextIfChanged(now_date_el, formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear()));
+    setTextIfChanged(now_time_el, formatTime(now.getHours(), now.getMinutes(), now.getSeconds()));
+    now_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
     // update UTC time on top
-    setTextIfChanged(document.getElementById("utc_date"), formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
-    setTextIfChanged(document.getElementById("utc_time"), formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
-    document.getElementById("utc_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
+    setTextIfChanged(utc_date_el, formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
+    setTextIfChanged(utc_time_el, formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
+    utc_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
     setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
     setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
@@ -448,6 +448,13 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   // --------------------------
   // Helper functions
   // --------------------------
+  const now_date_el = document.getElementById("now_date");
+  const now_time_el = document.getElementById("now_time");
+  const now_week_el = document.getElementById("now_week");
+  const utc_date_el = document.getElementById("utc_date");
+  const utc_time_el = document.getElementById("utc_time");
+  const utc_week_el = document.getElementById("utc_week");
+
   function makeUTCDate(now, hours, minutes) {
     const date = new Date(now);
     date.setUTCHours(hours, minutes, 0, 0);
