@@ -327,8 +327,6 @@
     setTextIfChanged(utc_date_el, formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
     setTextIfChanged(utc_time_el, formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
     utc_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
-    setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
-    setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
     timezones.forEach(timezone => {
       setTextIfChanged(document.getElementById(timezoneToId(timezone)), timezoneFormatters[timezone].format(now));
@@ -703,6 +701,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
         tbody.appendChild(tr);
       });
+      document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
+      document.getElementById("gmtOffsetMessage").textContent =  makeGMTOffsetMessage(now);
     }
   }
 </script>
