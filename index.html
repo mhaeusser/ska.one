@@ -283,19 +283,20 @@
 
   const timezoneOffsets = {};
 
-  const now = new Date();
-
-  timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
-  // compute offsets for show source timezones
-  Object.values(weeklySchedule).flat().forEach(show => {
-    if (!(show.timezone in timezoneOffsets)) {
-      timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
-    }
-  });
+  function computeTimezoneOffsets(now) {
+    timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+    // compute offsets for show source timezones
+    Object.values(weeklySchedule).flat().forEach(show => {
+      if (!(show.timezone in timezoneOffsets)) {
+        timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
+      }
+    });
+  }
 
   const countdownSpans = {};
 
   function initShows(now) {
+    computeTimezoneOffsets(now);
     for (let day = 0; day <= 6; day++) {
       weeklySchedule[day].forEach(show => {
         show.weekday = day;
@@ -414,15 +415,17 @@ This is an overview of radio shows and podcasts worldwide that play the best mus
 Also check out the Facebook Group <a target="_blank" rel="noopener" href="https://www.facebook.com/groups/444399576124393/">Ska podcasts &amp; radio shows</a>.
 <br/>
 <br/>
-<table>
-  <tr>
-    <td><span id="now_date"></span>, <span class="hours"><span id="now_time"></span></span> <span class="small-text">(<span id="now_week"></span>)</span></td>
-    <td>Your local time (<span id="localTimezone"></span>) - <span id="gmtOffsetMessage"></span></td>
-  </tr>
-  <tr>
-    <td><span id="utc_date"></span>, <span class="hours"><span id="utc_time"></span></span> <span class="small-text">(<span id="utc_week"></span>)</span></td>
-    <td class="nowrap-left"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT / Zulu time)</a></td>
-  </tr>
+<table id="clockTable" role="presentation">
+  <tbody>
+    <tr>
+      <td><span id="now_date"></span>, <span class="hours"><span id="now_time"></span></span> <span class="small-text">(<span id="now_week"></span>)</span></td>
+      <td>Your local time (<span id="localTimezone"></span>) - <span id="gmtOffsetMessage"></span></td>
+    </tr>
+    <tr>
+      <td><span id="utc_date"></span>, <span class="hours"><span id="utc_time"></span></span> <span class="small-text">(<span id="utc_week"></span>)</span></td>
+      <td class="nowrap-left"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT / Zulu time)</a></td>
+    </tr>
+  </tbody>
 </table>
 <br/>
 <h2>FM Radio Shows</h2>
