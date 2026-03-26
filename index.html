@@ -320,18 +320,13 @@
   function updateTimes() {
     const now = new Date();
     // update local time on top
-    /*document.getElementById("now").innerHTML = `${formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear())}, `
-        + `<span class="hours">${formatTime(now.getHours(), now.getMinutes(), now.getSeconds())}</span> `
-        + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay())})</span>`;
-    */
     document.getElementById("now_date").textContent = formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear());
     document.getElementById("now_time").textContent = formatTime(now.getHours(), now.getMinutes(), now.getSeconds());
     document.getElementById("now_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
-		
     // update UTC time on top
-    document.getElementById("utc").innerHTML = `${formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear())}, `
-        + `<span class="hours">${formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds())}</span> `
-        + `<span class="small-text">(${formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay())})</span>`;
+    document.getElementById("utc_date").textContent = formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear());
+    document.getElementById("utc_time").textContent = formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+    document.getElementById("utc_week").innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
     setTextIfChanged(document.getElementById("localTimezone"), shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone);
     setTextIfChanged(document.getElementById("gmtOffsetMessage"), makeGMTOffsetMessage(now));
     // update timezone times
@@ -427,7 +422,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     <td>Your local time (<span id="localTimezone"></span>) - <span id="gmtOffsetMessage"></span></td>
   </tr>
   <tr>
-    <td><span id="utc"></span></td>
+    <td><span id="utc_date"></span>, <span class="hours"><span id="utc_time"></span></span> <span class="small-text">(<span id="utc_week"></span>)</span></td>
     <td class="nowrap-left"><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC (GMT / Zulu time)</a></td>
   </tr>
 </table>
