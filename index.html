@@ -648,7 +648,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   // ---------------------------
   function renderTable() {
     const now = new Date();
-    console.log("Rendering table at " + now);
     initShows(now);
 
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
@@ -704,9 +703,9 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
         tbody.appendChild(tr);
       });
-      document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
-      document.getElementById("gmtOffsetMessage").textContent =  makeGMTOffsetMessage(now);
     }
+    document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
+    document.getElementById("gmtOffsetMessage").textContent = makeGMTOffsetMessage(now);
   }
 </script>
 
