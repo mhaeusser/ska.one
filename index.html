@@ -372,7 +372,11 @@
           idElement.classList.add("blink-red");
         } else {
           idElement.classList.remove("blink-red");
-          const remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
+          let remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
+          if (remaining_sec < 0) {
+            initShows(now);
+            remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
+          }
           setTextIfChanged(idElement, formatDuration(remaining_sec));
         }
       });
