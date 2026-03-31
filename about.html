@@ -22,7 +22,7 @@ I've had this idea for a long time and secured the domain when it became availab
   <img src="Domain Renewal_thumb.jpg" alt="Thumbnail" class="thumbnail">
   <img src="Domain Renewal.jpg" alt="Full Size" class="fullsize">
 </div>
-<br/>This is one of the projects that AI helped finish. Timezones (with daylight saving time and half-hour offsets) are really tricky to implement. So there is no warranty for correctness...
+<br/>Timezones (with daylight saving time and half-hour offsets) are really tricky to implement. AI helped with the JavaScript code, but there is no warranty for correctness...
 <br/>
 
 
@@ -35,16 +35,25 @@ Suggestions for improving the look and usability are very welcome.
 
 <table>
   <tr>
-    <td><img src="m1.webp" height="100" alt="m1"/></td><td>Send me the details by e-mail (matthias@file-under-ska.de)</td>
+    <td><img src="m1.webp" height="100" alt="m1"/></td><td>Send me the details by e-mail (<span id="xyz"></span>).</td>
   </tr>
   <tr>
-    <td><img src="m2.webp" height="100" alt="m2"/></td><td>Send me a JSON snippet, following the examples in the page source</td>
+    <td><img src="m2.webp" height="100" alt="m2"/></td><td>Send me a JSON snippet, following the examples in the page source.</td>
   </tr>
   <tr>
-    <td><img src="m3.webp" height="100" alt="m3"/></td><td>If you are a <span style="text-decoration: line-through;">nerd</span> geek like me, create a merge request for <a href="https://github.com/mhaeusser/ska.one/blob/main/skaradios.html">https://github.com/mhaeusser/ska.one/blob/main/skaradios.html</a></td>
+    <td><img src="m3.webp" height="100" alt="m3"/></td><td>If you are a <span style="text-decoration: line-through;">nerd</span> geek like me, create a merge request for <a href="https://github.com/mhaeusser/ska.one/blob/main/index.html">https://github.com/mhaeusser/ska.one/blob/main/index.html</a>.</td>
   </tr>
 </table>
 
+<script>
+  const user = "matthias";
+  const domain = "file-under-ska.de";
+  const email = user + "@" + domain;
+  const link = document.createElement("a");
+  link.href = "mailto:" + email;
+  link.textContent = email;
+  document.getElementById("xyz").appendChild(link);
+</script>
 
 <h3>Spread the word!</h3>
 

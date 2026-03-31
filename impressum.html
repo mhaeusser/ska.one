@@ -16,20 +16,17 @@ Mühlrain 30<br/>
 70180 Stuttgart<br/>
 Deutschland<br/>
 <br/>
-<p>E-Mail: <span id="mail"></span></p>
+<p>E-Mail: <span id="xyz"></span></p>
 
 <script>
   const user = "admin";
   const domain = "ska.one";
   const email = user + "@" + domain;
-
   const link = document.createElement("a");
   link.href = "mailto:" + email;
   link.textContent = email;
-
-  document.getElementById("mail").appendChild(link);
+  document.getElementById("xyz").appendChild(link);
 </script>
-
 
 
 <br/>
