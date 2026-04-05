@@ -27,14 +27,6 @@ background: white;
 display: block;           /* Show on hover */
 }
 
-table {
-  border-collapse: collapse;
-}
-
-td {
-  padding: 2px 6px; /* vertical | horizontal */
-}
-
 :root {
   --bg: #111;
   --fg: #eee;
@@ -70,4 +62,12 @@ a:hover {
 
 table {
   border-collapse: collapse;
+}
+
+td {
+  padding: 2px 6px; /* vertical | horizontal */
+}
+
+a h1 {
+  color: var(--fg);
 }
