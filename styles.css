@@ -53,6 +53,10 @@ td.nowrap {
   white-space: nowrap;
 }
 
+span.nowrap {
+  white-space: nowrap;
+}
+
 td.nowrap-right {
   white-space: nowrap;
   text-align: right;

@@ -346,6 +346,8 @@
     timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
   }
 
+  let activeTimezones = [...timezones];
+
   // returns names like "CET"
   const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
 
@@ -412,7 +414,7 @@
     setTextIfChanged(utc_time_el, formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
     utc_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
     // update timezone times
-    timezones.forEach(timezone => {
+    activeTimezones.forEach(timezone => {
       setTextIfChanged(document.getElementById(timezoneToId(timezone)), timezoneFormatters[timezone].format(now));
     });
     // update times until shows start
@@ -487,6 +489,18 @@
   const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
 
   window.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("tzToggle");
+    toggle.addEventListener("change", () => {
+      if (toggle.checked) {
+        activeTimezones = [...timezones];
+      } else {
+        activeTimezones = [visitorTimezone];
+      }
+      renderTimezoneHeaders();
+      renderTable();
+      updateTimes();
+    });
+
     renderTimezoneHeaders();
     renderTable();
     updateTimes();
@@ -516,17 +530,13 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 </table>
 <br/>
 <h2>FM Radio Shows</h2>
-
+<label>
+  <input type="checkbox" id="tzToggle" checked>
+  Show all timezones
+</label>
 <table id="radioTable">
   <thead>
   <tr id="headerRow">
-    <th>Day</th>
-    <th>Show</th>
-    <th>Station</th>
-    <th>Stream</th>
-    <th>Archive</th>
-    <th>Time until next show</th>
-    <!-- timezones go here -->
   </tr>
   </thead>
   <tbody></tbody>
@@ -696,7 +706,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
   function renderTimezoneHeaders() {
     const headerRow = document.getElementById("headerRow");
-    timezones.forEach(timezone => {
+    headerRow.innerHTML = `
+    <th>Day</th>
+    <th>Show</th>
+    <th>Station</th>
+    <th>Stream</th>
+    <th>Archive</th>
+    <th>Time until next show</th>`;
+
+    activeTimezones.forEach(timezone => {
       let tz = TIMEZONE_MAP[timezone];
       if (!tz) {
         tz = { iana: timezone, place1: timezone.substring(timezone.indexOf("/") + 1), place2: "" };
@@ -704,8 +722,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
       if (timezone === visitorTimezone) th.classList.add("visitor-tz");
-      th.innerHTML = tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + getTimezoneAbbr(timezone)
-        + ' (' + getUTCOffset(timezone) + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span>';
+      th.innerHTML = '<span class="nowrap">' + tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + getTimezoneAbbr(timezone)
+        + ' (' + getUTCOffset(timezone) + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span></span>';
       headerRow.appendChild(th);
     });
   }
@@ -766,7 +784,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         tr.appendChild(waitOrPlayingTd);
 
         // Timezone columns
-        timezones.forEach(timezone => {
+        activeTimezones.forEach(timezone => {
           const td = document.createElement("td");
           const showTimeInZone = calcShowTimeInZone(show, day, timezone);
 
