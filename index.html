@@ -347,6 +347,7 @@
   }
 
   let activeTimezones = [...timezones];
+  let sortByTime = false;
 
   // returns names like "CET"
   const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
@@ -497,6 +498,13 @@
       updateTimes();
     });
 
+    const sortToggle = document.getElementById("sortToggle");
+    sortToggle.addEventListener("change", () => {
+      sortByTime = sortToggle.checked;
+      renderTable();
+      updateTimes();
+    });
+
     renderTimezoneHeaders();
     renderTable();
     updateTimes();
@@ -529,6 +537,10 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 <label>
   <input type="checkbox" id="timezonesToggle" checked>
   Show all timezones
+</label>
+<label>
+  <input type="checkbox" id="sortToggle">
+  Sort by Time until next show
 </label>
 <table id="radioTable">
   <thead>
@@ -751,8 +763,24 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
 
+    // Collect all shows, then optionally sort by time until next show
+    const allShows = [];
     for (let day = 0; day <= 6; day++) {
-      weeklySchedule[day].forEach(show => {
+      weeklySchedule[day].forEach(show => allShows.push(show));
+    }
+    if (sortByTime) {
+      allShows.sort((a, b) => {
+        // Shows with no upcoming date go to the bottom
+        if (!a.nextShowTime && !b.nextShowTime) return 0;
+        if (!a.nextShowTime) return 1;
+        if (!b.nextShowTime) return -1;
+        return a.nextShowTime.start - b.nextShowTime.start;
+      });
+    }
+
+    allShows.forEach(show => {
+      const day = show.weekday;
+      {
         const tr = document.createElement("tr");
 
         // Day, Recurrence
@@ -798,8 +826,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         });
 
         tbody.appendChild(tr);
-      });
-    }
+      }
+    });
     document.getElementById("localTimezone").textContent = shortTimezoneFormatter.formatToParts(now).find(p => p.type === "timeZoneName").value + " - " + visitorTimezone;
     document.getElementById("gmtOffsetMessage").textContent = makeGMTOffsetMessage(now);
   }
