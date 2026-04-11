@@ -338,7 +338,7 @@
   //const visitorTimezone = "America/Toronto";
   //const visitorTimezone = "Europe/Amsterdam";
 
-  // target timezones: add visitor timezone, if not in standard
+  // target timezones: add visitor timezone if not in standard
   let timezones = [...STANDARD_TIMEZONES];
   if (!timezones.includes(visitorTimezone)) {
     timezones.push(visitorTimezone);
