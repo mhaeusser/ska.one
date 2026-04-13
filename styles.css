@@ -120,3 +120,8 @@ th {
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+#radioTable td,
+#radioTable th {
+  line-height: 1.2;
+}
