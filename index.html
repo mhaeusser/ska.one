@@ -651,8 +651,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   }
 
   function calcNextShowTime_Weekly(now, show) {
+    const daysToWait = (show.weekday - now.getUTCDay() + 7) % 7;
     const nextStartDate = makeUTCDate(now, show.start.h - timezoneOffsets[show.timezone], show.start.m);
-    const daysToWait = (show.weekday - nextStartDate.getUTCDay() + 7) % 7;
     nextStartDate.setUTCDate(nextStartDate.getUTCDate() + daysToWait);
     let nextEndDate = calcEndDate(show, nextStartDate);
     if (nextEndDate <= now) {
