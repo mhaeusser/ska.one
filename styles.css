@@ -39,6 +39,13 @@ table {
   border-collapse: collapse;
 }
 
+table th {
+  position: sticky;
+  top: 0;
+  background: #00;
+  z-index: 2;
+}
+
 th, td {
   padding: 0.6rem;
   border: 1px solid var(--border);
