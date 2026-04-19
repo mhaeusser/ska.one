@@ -7,576 +7,579 @@
   <link rel="stylesheet" href="styles.css">
   <script type="text/javascript">
 
-  // ---------------------------
-  // Show data
-  // ---------------------------
-  const weeklySchedule = {
-    0: [ // Sunday
-      {
-        name: "Blue Beat in my Soul",
-        id: "bbims",
-        recurrence: "weeksInMonth",
-        weeks: [ 2, 4 ], // starts with 1
-        showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
-        station: "Radio Flora",
-        stationUrl: "https://radioflora.de",
-        stationTown: "Hannover",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://radioflora.de",
-        archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
-        timezone: "Europe/Berlin"
-      },
-      {
-        name: "Ska Parade",
-        id: "sp",
-        recurrence: "weekly",
-        showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
-        station: "Dirty Radio",
-        stationTown: "Redlands, CA",
-        stationUrl: "https://dirtyradio.fm",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "http://albireo.shoutca.st:8815/;",
-        timezone: "America/Los_Angeles"
-      },
-      {
-        name: "Rudie's back in town",
-        id: "rbit",
-        recurrence: "bi-weekly",
-        showdate: "2026-04-19", // use last date or next to come, rest is calculated
-        showUrl: "https://rudies-back-in-town.blogspot.com/",
-        station: "Radio libertaire",
-        stationUrl: "https://radio-libertaire.org/agenda/",
-        stationTown: "Paris",
-        start: { h: 22, m: 0 },
-        end: { h: 20, m: 0 },
-        streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
-        archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
-        timezone: "Europe/Berlin"
-      },
-      {
-        name: "Reggae Central",
-        id: "rc",
-        recurrence: "weekly",
-        showUrl: "https://www.kpfk.org/on-air/reggae-central",
-        station: "KPFK",
-        stationTown: "Los Angeles",
-        stationUrl: "https://www.kpfk.org",
-        start: { h: 14, m: 0 },
-        end: { h: 17, m: 0 },
-        streamUrl: "https://www.kpfk.org/player/",
-        timezone: "America/Los_Angeles"
-      },
-      {
-        name: "Sunday Sound System",
-        id: "sss",
-        recurrence: "weekly",
-        showUrl: "https://spinitron.com/RadioBoise/pl/22267497/Sunday-Sound-System",
-        station: "Radio Boise",
-        stationUrl: "https://radioboise.org",
-        stationTown: "Boise, ID",
-        start: { h: 15, m: 0 },
-        end: { h: 17, m: 0 },
-        streamUrl: "https://www.radiorethink.com/tuner/?stationCode=radioboise",
-        archiveUrl: "https://radioboise.org/shows/recent-broadcast-archive/",
-        timezone: "America/Denver"
-      }
-    ],
-    1: [ // Monday
-      {
-        name: "Alan Cann Radio Show",
-        id: "ac",
-        recurrence: "weekly",
-        showUrl: "https://www.hailshamfm.com/schedule/",
-        station: "Hailsham FM",
-        stationUrl: "https://www.hailshamfm.com",
-        stationTown: "Hailsha, UK",
-        start: { h: 18, m: 0 },
-        end: { h: 20, m: 0 },
-        streamUrl: "https://www.hailshamfm.com/listen-live/",
-        archiveUrl: "",
-        timezone: "Europe/London"
-      },
-      {
-        name: "Ska Patrol",
-        id: "spl",
-        recurrence: "weekly",
-        showUrl: "https://skapatrol.weebly.com",
-        station: "NEAR fm 90.3",
-        stationUrl: "https://nearfm.ie/",
-        stationTown: "Dublin",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://nearfm.ie/livestream/",
-        archiveUrl: "",
-        timezone: "Europe/London"
-      }
-    ],
-    2: [ // Tuesday
-      {
-        name: "Beefy's Ska Club",
-        id: "bsc",
-        recurrence: "weekly",
-        showUrl: "https://www.facebook.com/BeefySkaClub/",
-        station: "88.3 Southern FM",
-        stationUrl: "https://www.southernfm.com.au",
-        stationTown: "Melbourne",
-        start: { h: 22, m: 0 },
-        end: { h: 1, m: 0 },
-        streamUrl: "https://www.southernfm.com.au",
-        archiveUrl: "https://podcastaddict.com/podcast/beefy-s-ska-club/4160695",
-        timezone: "Australia/Sydney"
-      },
-      {
-        name: "Rock Steady Rhythms",
-        id: "rsr",
-        recurrence: "weekly",
-        showUrl: "https://www.dundalkfm.com/category/music/",
-        station: "Dundalk FM",
-        stationUrl: "https://www.dundalkfm.com/",
-        stationTown: "Dundalk",
-        start: { h: 19, m: 0 },
-        end: { h: 21, m: 0 },
-        streamUrl: "https://www.dundalkfm.com/",
-        archiveUrl: "https://www.dundalkfm.com/listen-again/",
-        timezone: "Europe/London"
-      },
-      {
-        name: "This Is Ska",
-        id: "tis",
-        recurrence: "weekly",
-        showUrl: "https://wolfmanradio.co.uk/en/tuesdays?view=article&id=58&catid=13",
-        station: "Wolfman Radio",
-        stationUrl: "https://wolfmanradio.co.uk/",
-        start: { h: 22, m: 0 },
-        end: { h: 24, m: 0 },
-        streamUrl: "https://wolfmanradio.co.uk/en/",
-        timezone: "Europe/London"
-      }
-    ],
-    3: [ // Wednesday
-      {
-        name: "Offbeat",
-        id: "o",
-        recurrence: "weekly",
-        showUrl: "https://www.facebook.com/RiverinaRudeboy",
-        station: "Triple AAA FM",
-        stationUrl: "https://tripleafm.net.au",
-        stationTown: "Wagga Wagga",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://tripleafm.net.au/stream",
-        timezone: "Australia/Sydney"
-      },
-      // 7pm on 96.7 2GHR in the Greater Hume and Albury Wodonga
-      // 8pm on Triple AAA Fm in Wagga, Coolamon, Junee and Gundagai
-      // And online from those station's websites at those times, or via any good radio app.
-      {
-        name: "Mr Scurf’s Koast Train",
-        id: "mskt",
-        recurrence: "weekly",
-        showUrl: "https://koastradio.co.uk/koast-schedules/",
-        station: "Koast Radio",
-        stationUrl: "https://koastradio.co.uk",
-        stationTown: "SE Northumberland",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://koastradio.co.uk/listen-live",
-        timezone: "Europe/London"
-      },
-      {
-        name: "Rudeboy's Delight",
-        id: "rd",
-        recurrence: "weekly",
-        showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
-        station: "Wüste Welle",
-        stationUrl: "https://www.wueste-welle.de",
-        stationTown: "Tübingen",
-        start: { h: 22, m: 0 },
-        end: { h: 23, m: 0 },
-        streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
-        archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
-        timezone: "Europe/Berlin"
-      },
-      {
-        name: "EAV Rudio",
-        id: "eavr",
-        recurrence: "weekly",
-        showUrl: "https://www.facebook.com/EavRudio",
-        station: "Radio Free Pensacola",
-        stationUrl: "https://www.radiofreepensacola.com",
-        stationTown: "Pensacola",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://www.radiofreepensacola.com/shows-on-demand",
-        timezone: "America/Chicago"
-      },
-      {
-        name: "Everything Off Beat",
-        id: "eob",
-        recurrence: "weekly",
-        showUrl: "https://wnur.org/radio-schedule/",
-        station: "WNUR",
-        stationUrl: "https://wnur.org/",
-        stationTown: "Chicago",
-        start: { h: 21, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://wnur.org/radio-playlist/",
-        timezone: "America/Chicago"
-      }
-    ],
-    4: [ // Thursday
-      {
-        name: "Skanking Down Under",
-        subtitle: "with Gary Skaman",
-        id: "sdu",
-        recurrence: "weekly",
-        showUrl: "https://radio.eltham.melbourne/schedule",
-        station: "Radio Eltham",
-        stationUrl: "https://radio.eltham.melbourne",
-        stationTown: "Melbourne",
-        start: { h: 9, m: 0 },
-        end: { h: 11, m: 0 },
-        streamUrl: "https://radio.eltham.melbourne",
-        timezone: "Australia/Sydney"
-      }
-    ],
-    5: [ // Friday
-      {
-        name: "Wormtown Ska",
-        id: "ws",
-        recurrence: "weekly",
-        showUrl: "https://spinitron.com/WCUW/show/79960/Wormtown-Ska",
-        station: "WCUW",
-        stationUrl: "https://wcuw.org",
-        stationTown: "Worcester, MA",
-        start: { h: 0, m: 0 },
-        end: { h: 2, m: 0 },
-        streamUrl: "https://wcuw.org/listen/live/",
-        archiveUrl: "https://spinitron.com/WCUW/calendar",
-        timezone: "America/New_York"
-      },
-      {
-        name: "Ska Break",
-        id: "sb",
-        recurrence: "weekly",
-        showUrl: "https://spinitron.com/KGLT/pl/22185420/Ska-Break",
-        station: "KGLT",
-        stationUrl: "https://kglt.net",
-        stationTown: "Bozeman, MT",
-        start: { h: 11, m: 0 },
-        end: { h: 12, m: 0 },
-        streamUrl: "https://www.radiorethink.com/tuner/?stationCode=kglt&stream=hi",
-        archiveUrl: "https://spinitron.com/KGLT/show/207563/Ska-Break",
-        timezone: "America/Denver"
-      },
-      {
-        name: "File Under Ska",
-        subtitle: "part of Suchtstation",
-        id: "fus",
-        recurrence: "monthly",
-        showdates: [ "2026-04-17", "2026-05-22", "2026-06-19", "2026-07-24", "2026-08-21", "2026-09-18", "2026-10-16", "2026-11-20", "2026-12-18" ],
-        showUrl: "https://www.file-under-ska.de",
-        station: "FRS",
-        stationUrl: "https://www.freies-radio.de",
-        stationTown: "Stuttgart",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
-        archiveUrl: "https://www.freies-radio.de/mediathek",
-        timezone: "Europe/Berlin"
-      }
-    ],
-    6: [ // Saturday
-      {
-        name: "SkaTime FS-Ska",
-        id: "stime",
-        recurrence: "monthly",
-        showdates: [ "2026-03-28", "2026-04-25" ],
-        station: "FSK Hamburg",
-        stationUrl: "https://www.fsk-hh.org",
-        stationTown: "Hamburg",
-        start: { h: 18, m: 0 },
-        end: { h: 19, m: 30 },
-        streamUrl: "https://streaming.fueralle.org/fsk.mp3",
-        archiveUrl: "https://www.fsk-hh.org/archive",
-        timezone: "Europe/Berlin"
-      },
-      {
-        name: "Ska Trek",
-        id: "strek",
-        recurrence: "weekly",
-        showUrl: "https://www.file-under-ska.de",
-        station: "4ZZZ",
-        stationUrl: "https://4zzz.org.au/program/ska-trek",
-        stationTown: "Brisbane",
-        start: { h: 20, m: 0 },
-        end: { h: 22, m: 0 },
-        streamUrl: "https://www.4zzzfm.org.au/listen-online",
-        archiveUrl: "http://ondemand.4zzzfm.org.au/ska-trek",
-        timezone: "Australia/Sydney"
-      },
-      {
-        name: "Catch a Wave",
-        id: "cw",
-        recurrence: "weekly",
-        showUrl: "https://spinitron.com/RadioBoise/show/202812/Catch-a-Wave", // www.facebook.com/catchawaveska
-        station: "Radio Boise",
-        stationUrl: "https://radioboise.org",
-        stationTown: "Boise, ID",
-        start: { h: 13, m: 0 },
-        end: { h: 15, m: 0 },
-        streamUrl: "https://www.radiorethink.com/tuner/?stationCode=radioboise",
-        archiveUrl: "https://radioboise.org/shows/recent-broadcast-archive/",
-        timezone: "America/Denver"
-      }
-    ],
-  };
+    // ---------------------------
+    // Show data
+    // ---------------------------
+    //
+    // possible schedule:
+    // recurrence: "weeksInMonth",
+    // weeks: [ 2, 4 ], // starts with 1
+    const weeklySchedule = {
+      0: [ // Sunday
+        {
+          name: "Blue Beat in my Soul",
+          id: "bbims",
+          recurrence: "weekly",
+          showUrl: "https://radioflora.de/shows/blue-beat-in-my-soul-ska-rocksteady-reggae-soul-from-the-60s-to-today/",
+          station: "Radio Flora",
+          stationUrl: "https://radioflora.de",
+          stationTown: "Hannover",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://radioflora.de",
+          archiveUrl: "https://www.mixcloud.com/bluebeatshelter/",
+          timezone: "Europe/Berlin"
+        },
+        {
+          name: "Ska Parade",
+          id: "sp",
+          recurrence: "weekly",
+          showUrl: "https://dirtyradio.fm/programs/tazy-phyllipz",
+          station: "Dirty Radio",
+          stationTown: "Redlands, CA",
+          stationUrl: "https://dirtyradio.fm",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "http://albireo.shoutca.st:8815/;",
+          timezone: "America/Los_Angeles"
+        },
+        {
+          name: "Rudie's back in town",
+          id: "rbit",
+          recurrence: "bi-weekly",
+          showdate: "2026-04-19", // use last date or next to come, rest is calculated
+          showUrl: "https://rudies-back-in-town.blogspot.com/",
+          station: "Radio libertaire",
+          stationUrl: "https://radio-libertaire.org/agenda/",
+          stationTown: "Paris",
+          start: { h: 22, m: 0 },
+          end: { h: 20, m: 0 },
+          streamUrl: "http://media.radio-libertaire.org:8080/radiolib.mp3",
+          archiveUrl: "https://radio-libertaire.org/agenda/passechx.php",
+          timezone: "Europe/Berlin"
+        },
+        {
+          name: "Reggae Central",
+          id: "rc",
+          recurrence: "weekly",
+          showUrl: "https://www.kpfk.org/on-air/reggae-central",
+          station: "KPFK",
+          stationTown: "Los Angeles",
+          stationUrl: "https://www.kpfk.org",
+          start: { h: 14, m: 0 },
+          end: { h: 17, m: 0 },
+          streamUrl: "https://www.kpfk.org/player/",
+          timezone: "America/Los_Angeles"
+        },
+        {
+          name: "Sunday Sound System",
+          id: "sss",
+          recurrence: "weekly",
+          showUrl: "https://spinitron.com/RadioBoise/pl/22267497/Sunday-Sound-System",
+          station: "Radio Boise",
+          stationUrl: "https://radioboise.org",
+          stationTown: "Boise, ID",
+          start: { h: 15, m: 0 },
+          end: { h: 17, m: 0 },
+          streamUrl: "https://www.radiorethink.com/tuner/?stationCode=radioboise",
+          archiveUrl: "https://radioboise.org/shows/recent-broadcast-archive/",
+          timezone: "America/Denver"
+        }
+      ],
+      1: [ // Monday
+        {
+          name: "Alan Cann Radio Show",
+          id: "ac",
+          recurrence: "weekly",
+          showUrl: "https://www.hailshamfm.com/schedule/",
+          station: "Hailsham FM",
+          stationUrl: "https://www.hailshamfm.com",
+          stationTown: "Hailsha, UK",
+          start: { h: 18, m: 0 },
+          end: { h: 20, m: 0 },
+          streamUrl: "https://www.hailshamfm.com/listen-live/",
+          archiveUrl: "",
+          timezone: "Europe/London"
+        },
+        {
+          name: "Ska Patrol",
+          id: "spl",
+          recurrence: "weekly",
+          showUrl: "https://skapatrol.weebly.com",
+          station: "NEAR fm 90.3",
+          stationUrl: "https://nearfm.ie/",
+          stationTown: "Dublin",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://nearfm.ie/livestream/",
+          archiveUrl: "",
+          timezone: "Europe/London"
+        }
+      ],
+      2: [ // Tuesday
+        {
+          name: "Beefy's Ska Club",
+          id: "bsc",
+          recurrence: "weekly",
+          showUrl: "https://www.facebook.com/BeefySkaClub/",
+          station: "88.3 Southern FM",
+          stationUrl: "https://www.southernfm.com.au",
+          stationTown: "Melbourne",
+          start: { h: 22, m: 0 },
+          end: { h: 1, m: 0 },
+          streamUrl: "https://www.southernfm.com.au",
+          archiveUrl: "https://podcastaddict.com/podcast/beefy-s-ska-club/4160695",
+          timezone: "Australia/Sydney"
+        },
+        {
+          name: "Rock Steady Rhythms",
+          id: "rsr",
+          recurrence: "weekly",
+          showUrl: "https://www.dundalkfm.com/category/music/",
+          station: "Dundalk FM",
+          stationUrl: "https://www.dundalkfm.com/",
+          stationTown: "Dundalk",
+          start: { h: 19, m: 0 },
+          end: { h: 21, m: 0 },
+          streamUrl: "https://www.dundalkfm.com/",
+          archiveUrl: "https://www.dundalkfm.com/listen-again/",
+          timezone: "Europe/London"
+        },
+        {
+          name: "This Is Ska",
+          id: "tis",
+          recurrence: "weekly",
+          showUrl: "https://wolfmanradio.co.uk/en/tuesdays?view=article&id=58&catid=13",
+          station: "Wolfman Radio",
+          stationUrl: "https://wolfmanradio.co.uk/",
+          start: { h: 22, m: 0 },
+          end: { h: 24, m: 0 },
+          streamUrl: "https://wolfmanradio.co.uk/en/",
+          timezone: "Europe/London"
+        }
+      ],
+      3: [ // Wednesday
+        {
+          name: "Offbeat",
+          id: "o",
+          recurrence: "weekly",
+          showUrl: "https://www.facebook.com/RiverinaRudeboy",
+          station: "Triple AAA FM",
+          stationUrl: "https://tripleafm.net.au",
+          stationTown: "Wagga Wagga",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://tripleafm.net.au/stream",
+          timezone: "Australia/Sydney"
+        },
+        // 7pm on 96.7 2GHR in the Greater Hume and Albury Wodonga
+        // 8pm on Triple AAA Fm in Wagga, Coolamon, Junee and Gundagai
+        // And online from those station's websites at those times, or via any good radio app.
+        {
+          name: "Mr Scurf’s Koast Train",
+          id: "mskt",
+          recurrence: "weekly",
+          showUrl: "https://koastradio.co.uk/koast-schedules/",
+          station: "Koast Radio",
+          stationUrl: "https://koastradio.co.uk",
+          stationTown: "SE Northumberland",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://koastradio.co.uk/listen-live",
+          timezone: "Europe/London"
+        },
+        {
+          name: "Rudeboy's Delight",
+          id: "rd",
+          recurrence: "weekly",
+          showUrl: "https://www.wueste-welle.de/sendung/view/id/81/Rudeboy-rsquo-s_Delight.html",
+          station: "Wüste Welle",
+          stationUrl: "https://www.wueste-welle.de",
+          stationTown: "Tübingen",
+          start: { h: 22, m: 0 },
+          end: { h: 23, m: 0 },
+          streamUrl: "https://www.wueste-welle.de/broadcasts/livestream/",
+          archiveUrl: "https://www.wueste-welle.de/mediathek/viewsendung/id/78445",
+          timezone: "Europe/Berlin"
+        },
+        {
+          name: "EAV Rudio",
+          id: "eavr",
+          recurrence: "weekly",
+          showUrl: "https://www.facebook.com/EavRudio",
+          station: "Radio Free Pensacola",
+          stationUrl: "https://www.radiofreepensacola.com",
+          stationTown: "Pensacola",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://www.radiofreepensacola.com/shows-on-demand",
+          timezone: "America/Chicago"
+        },
+        {
+          name: "Everything Off Beat",
+          id: "eob",
+          recurrence: "weekly",
+          showUrl: "https://wnur.org/radio-schedule/",
+          station: "WNUR",
+          stationUrl: "https://wnur.org/",
+          stationTown: "Chicago",
+          start: { h: 21, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://wnur.org/radio-playlist/",
+          timezone: "America/Chicago"
+        }
+      ],
+      4: [ // Thursday
+        {
+          name: "Skanking Down Under",
+          subtitle: "with Gary Skaman",
+          id: "sdu",
+          recurrence: "weekly",
+          showUrl: "https://radio.eltham.melbourne/schedule",
+          station: "Radio Eltham",
+          stationUrl: "https://radio.eltham.melbourne",
+          stationTown: "Melbourne",
+          start: { h: 9, m: 0 },
+          end: { h: 11, m: 0 },
+          streamUrl: "https://radio.eltham.melbourne",
+          timezone: "Australia/Sydney"
+        }
+      ],
+      5: [ // Friday
+        {
+          name: "Wormtown Ska",
+          id: "ws",
+          recurrence: "weekly",
+          showUrl: "https://spinitron.com/WCUW/show/79960/Wormtown-Ska",
+          station: "WCUW",
+          stationUrl: "https://wcuw.org",
+          stationTown: "Worcester, MA",
+          start: { h: 0, m: 0 },
+          end: { h: 2, m: 0 },
+          streamUrl: "https://wcuw.org/listen/live/",
+          archiveUrl: "https://spinitron.com/WCUW/calendar",
+          timezone: "America/New_York"
+        },
+        {
+          name: "Ska Break",
+          id: "sb",
+          recurrence: "weekly",
+          showUrl: "https://spinitron.com/KGLT/pl/22185420/Ska-Break",
+          station: "KGLT",
+          stationUrl: "https://kglt.net",
+          stationTown: "Bozeman, MT",
+          start: { h: 11, m: 0 },
+          end: { h: 12, m: 0 },
+          streamUrl: "https://www.radiorethink.com/tuner/?stationCode=kglt&stream=hi",
+          archiveUrl: "https://spinitron.com/KGLT/show/207563/Ska-Break",
+          timezone: "America/Denver"
+        },
+        {
+          name: "File Under Ska",
+          subtitle: "part of Suchtstation",
+          id: "fus",
+          recurrence: "monthly",
+          showdates: [ "2026-04-17", "2026-05-22", "2026-06-19", "2026-07-24", "2026-08-21", "2026-09-18", "2026-10-16", "2026-11-20", "2026-12-18" ],
+          showUrl: "https://www.file-under-ska.de",
+          station: "FRS",
+          stationUrl: "https://www.freies-radio.de",
+          stationTown: "Stuttgart",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://streaming.fueralle.org/frs-hi.mp3",
+          archiveUrl: "https://www.freies-radio.de/mediathek",
+          timezone: "Europe/Berlin"
+        }
+      ],
+      6: [ // Saturday
+        {
+          name: "SkaTime FS-Ska",
+          id: "stime",
+          recurrence: "monthly",
+          showdates: [ "2026-03-28", "2026-04-25" ],
+          station: "FSK Hamburg",
+          stationUrl: "https://www.fsk-hh.org",
+          stationTown: "Hamburg",
+          start: { h: 18, m: 0 },
+          end: { h: 19, m: 30 },
+          streamUrl: "https://streaming.fueralle.org/fsk.mp3",
+          archiveUrl: "https://www.fsk-hh.org/archive",
+          timezone: "Europe/Berlin"
+        },
+        {
+          name: "Ska Trek",
+          id: "strek",
+          recurrence: "weekly",
+          showUrl: "https://www.file-under-ska.de",
+          station: "4ZZZ",
+          stationUrl: "https://4zzz.org.au/program/ska-trek",
+          stationTown: "Brisbane",
+          start: { h: 20, m: 0 },
+          end: { h: 22, m: 0 },
+          streamUrl: "https://www.4zzzfm.org.au/listen-online",
+          archiveUrl: "http://ondemand.4zzzfm.org.au/ska-trek",
+          timezone: "Australia/Sydney"
+        },
+        {
+          name: "Catch a Wave",
+          id: "cw",
+          recurrence: "weekly",
+          showUrl: "https://spinitron.com/RadioBoise/show/202812/Catch-a-Wave", // www.facebook.com/catchawaveska
+          station: "Radio Boise",
+          stationUrl: "https://radioboise.org",
+          stationTown: "Boise, ID",
+          start: { h: 13, m: 0 },
+          end: { h: 15, m: 0 },
+          streamUrl: "https://www.radiorethink.com/tuner/?stationCode=radioboise",
+          archiveUrl: "https://radioboise.org/shows/recent-broadcast-archive/",
+          timezone: "America/Denver"
+        }
+      ],
+    };
 
-  const TIMEZONES = [
-    { iana: "Pacific/Honolulu",   place1: "Honolulu",       place2: "Hilo"         }, // HST
-    { iana: "America/Anchorage",  place1: "Anchorage",      place2: "Fairbanks"    }, // AKST / AKDT
-    { iana: "America/Los_Angeles",place1: "Vancouver",      place2: "Los Angeles"  }, // PST / PDT
-    { iana: "America/Denver",     place1: "Denver",         place2: "Phoenix"      }, // MST / MDT
-    { iana: "America/Chicago",    place1: "Chicago",        place2: "Dallas"       }, // CST / CDT
-    { iana: "America/New_York",   place1: "New York",       place2: "Kingston"     }, // EST / EDT
-    { iana: "America/Halifax",    place1: "Halifax",        place2: "San Juan"     }, // AST / ADT
-    { iana: "America/St_Johns",   place1: "St. John's",     place2: "Corner Brook" }, // NST / NDT
-    { iana: "Europe/London",      place1: "London",         place2: "Dublin"       }, // GMT / BST
-    { iana: "Europe/Berlin",      place1: "Stuttgart",      place2: "Skaska"       }, // CET / CEST
-    { iana: "Europe/Helsinki",    place1: "Helsinki",       place2: "Athens"       }, // EET / EEST
-    { iana: "Europe/Moscow",      place1: "St. Petersburg", place2: "Moscow"       }, // MSK
-    { iana: "Asia/Karachi",       place1: "Karachi",        place2: "Islamabad"    }, // PKT
-    { iana: "Asia/Kolkata",       place1: "Delhi",          place2: "Mumbai"       }, // IST
-    { iana: "Australia/Perth",    place1: "Perth",          place2: "Broome"       }, // AWST
-    { iana: "Asia/Tokyo",         place1: "Tokyo",          place2: "Nagoya"       }, // JST
-    { iana: "Asia/Seoul",         place1: "Seoul",          place2: "Busan"        }, // KST
-    { iana: "Australia/Adelaide", place1: "Adelaide",       place2: "Darwin"       }, // ACST / ACDT
-    { iana: "Australia/Sydney",   place1: "Melbourne",      place2: "Sydney"       }, // AEST / AEDT
-    { iana: "Pacific/Auckland",   place1: "Auckland",       place2: "Wellington"   }  // NZST / NZDT
-  ];
+    const TIMEZONES = [
+      { iana: "Pacific/Honolulu",   place1: "Honolulu",       place2: "Hilo"         }, // HST
+      { iana: "America/Anchorage",  place1: "Anchorage",      place2: "Fairbanks"    }, // AKST / AKDT
+      { iana: "America/Los_Angeles",place1: "Vancouver",      place2: "Los Angeles"  }, // PST / PDT
+      { iana: "America/Denver",     place1: "Denver",         place2: "Phoenix"      }, // MST / MDT
+      { iana: "America/Chicago",    place1: "Chicago",        place2: "Dallas"       }, // CST / CDT
+      { iana: "America/New_York",   place1: "New York",       place2: "Kingston"     }, // EST / EDT
+      { iana: "America/Halifax",    place1: "Halifax",        place2: "San Juan"     }, // AST / ADT
+      { iana: "America/St_Johns",   place1: "St. John's",     place2: "Corner Brook" }, // NST / NDT
+      { iana: "Europe/London",      place1: "London",         place2: "Dublin"       }, // GMT / BST
+      { iana: "Europe/Berlin",      place1: "Stuttgart",      place2: "Skaska"       }, // CET / CEST
+      { iana: "Europe/Helsinki",    place1: "Helsinki",       place2: "Athens"       }, // EET / EEST
+      { iana: "Europe/Moscow",      place1: "St. Petersburg", place2: "Moscow"       }, // MSK
+      { iana: "Asia/Karachi",       place1: "Karachi",        place2: "Islamabad"    }, // PKT
+      { iana: "Asia/Kolkata",       place1: "Delhi",          place2: "Mumbai"       }, // IST
+      { iana: "Australia/Perth",    place1: "Perth",          place2: "Broome"       }, // AWST
+      { iana: "Asia/Tokyo",         place1: "Tokyo",          place2: "Nagoya"       }, // JST
+      { iana: "Asia/Seoul",         place1: "Seoul",          place2: "Busan"        }, // KST
+      { iana: "Australia/Adelaide", place1: "Adelaide",       place2: "Darwin"       }, // ACST / ACDT
+      { iana: "Australia/Sydney",   place1: "Melbourne",      place2: "Sydney"       }, // AEST / AEDT
+      { iana: "Pacific/Auckland",   place1: "Auckland",       place2: "Wellington"   }  // NZST / NZDT
+    ];
 
-  const TIMEZONE_ABBREVIATIONS = {
-    "Pacific/Honolulu":   { [-10]:   "HST" },
-    "America/Anchorage":   { [-9]:  "AKST",   [-8]: "AKDT" },
-    "America/Los_Angeles": { [-8]:   "PST",   [-7]:  "PDT" },
-    "America/Denver":      { [-7]:   "MST",   [-6]:  "MDT" },
-    "America/Chicago":     { [-6]:   "CST",   [-5]:  "CDT" },
-    "America/New_York":    { [-5]:   "EST",   [-4]:  "EDT" },
-    "America/Halifax":     { [-4]:   "AST",   [-3]:  "ADT" },
-    "America/St_Johns":    { [-3.5]: "NST", [-2.5]:  "NDT" },
-    "Europe/London":       {  [0]:   "GMT",    [1]:  "BST" },
-    "Europe/Berlin":       {  [1]:   "CET",    [2]: "CEST" },
-    "Europe/Helsinki":     {  [2]:   "EET",    [3]: "EEST" },
-    "Europe/Moscow":       {  [3]:   "MSK" },
-    "Asia/Karachi":        {  [5]:   "PKT" },
-    "Asia/Kolkata":        {  [5.5]: "IST" },
-    "Australia/Perth":     {  [8]:  "AWST" },
-    "Asia/Tokyo":          {  [9]:   "JST" },
-    "Asia/Seoul":          {  [9]:   "KST" },
-    "Australia/Adelaide":  {  [9.5]:"ACST", [10.5]: "ACDT" },
-    "Australia/Sydney":    {  [10]: "AEST", [11]:   "AEDT" },
-    "Pacific/Auckland":    {  [12]: "NZST", [13]:   "NZDT" },
-  };
+    const TIMEZONE_ABBREVIATIONS = {
+      "Pacific/Honolulu":   { [-10]:   "HST" },
+      "America/Anchorage":   { [-9]:  "AKST",   [-8]: "AKDT" },
+      "America/Los_Angeles": { [-8]:   "PST",   [-7]:  "PDT" },
+      "America/Denver":      { [-7]:   "MST",   [-6]:  "MDT" },
+      "America/Chicago":     { [-6]:   "CST",   [-5]:  "CDT" },
+      "America/New_York":    { [-5]:   "EST",   [-4]:  "EDT" },
+      "America/Halifax":     { [-4]:   "AST",   [-3]:  "ADT" },
+      "America/St_Johns":    { [-3.5]: "NST", [-2.5]:  "NDT" },
+      "Europe/London":       {  [0]:   "GMT",    [1]:  "BST" },
+      "Europe/Berlin":       {  [1]:   "CET",    [2]: "CEST" },
+      "Europe/Helsinki":     {  [2]:   "EET",    [3]: "EEST" },
+      "Europe/Moscow":       {  [3]:   "MSK" },
+      "Asia/Karachi":        {  [5]:   "PKT" },
+      "Asia/Kolkata":        {  [5.5]: "IST" },
+      "Australia/Perth":     {  [8]:  "AWST" },
+      "Asia/Tokyo":          {  [9]:   "JST" },
+      "Asia/Seoul":          {  [9]:   "KST" },
+      "Australia/Adelaide":  {  [9.5]:"ACST", [10.5]: "ACDT" },
+      "Australia/Sydney":    {  [10]: "AEST", [11]:   "AEDT" },
+      "Pacific/Auckland":    {  [12]: "NZST", [13]:   "NZDT" },
+    };
 
-  function getOffsetByIana(iana, date) {
-    const dtf = new Intl.DateTimeFormat("en-US", {
-      timeZone: iana, hour12: false,
-      year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit", second: "2-digit"
-    });
-    const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
-    const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
-    // difference in minutes → avoids floating point drift
-    const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
-    return offsetMinutes / 60;
-  }
-
-  const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-  // standard timezones
-  const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
-
-  const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  // Timezones for testing
-  //const visitorTimezone = "America/St_Johns"; // UTC/GMT -2:30 hours
-  //const visitorTimezone = "America/Toronto";
-  //const visitorTimezone = "Europe/Amsterdam";
-
-  // target timezones: add visitor timezone if not in standard
-  let timezones = [...STANDARD_TIMEZONES];
-  if (!timezones.includes(visitorTimezone)) {
-    timezones.push(visitorTimezone);
-    const now = new Date();
-    timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
-  }
-
-  let activeTimezones = [...timezones];
-  let sortByTime = false;
-
-  // returns names like "CET"
-  const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
-
-  const timezoneFormatters = {};
-
-  const shortOffsetTimezoneFormatters = {};
-
-  timezones.forEach(timezone => {
-    // formats as HH:MM:SS
-    timezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
-      timeZone: timezone,
-      hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-
-    shortOffsetTimezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
-      timeZone: timezone,
-      timeZoneName: "shortOffset" });
-  });
-
-  const timezoneOffsets = {};
-
-  function computeTimezoneOffsets(now) {
-    timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
-    // compute offsets for show source timezones
-    Object.values(weeklySchedule).flat().forEach(show => {
-      if (!(show.timezone in timezoneOffsets)) {
-        timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
-      }
-    });
-  }
-
-  const countdownSpans = {};
-
-  function initShows(now) {
-    computeTimezoneOffsets(now);
-    for (let day = 0; day <= 6; day++) {
-      weeklySchedule[day].forEach(show => {
-        show.weekday = day;
-        show.length = calcShowLength(show);
-        show.nextShowTime = calcNextShowTime(now, show);
+    function getOffsetByIana(iana, date) {
+      const dtf = new Intl.DateTimeFormat("en-US", {
+        timeZone: iana, hour12: false,
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
       });
+      const parts = Object.fromEntries(dtf.formatToParts(date).map(p => [p.type, p.value]));
+      const localMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+      // difference in minutes → avoids floating point drift
+      const offsetMinutes = Math.round((localMs - date.getTime()) / 60_000);
+      return offsetMinutes / 60;
     }
-  }
 
-  // returns show length in minutes
-  function calcShowLength(show) {
-    const startMinutes = show.start.h * 60 + show.start.m;
-    const endMinutes = show.end.h * 60 + show.end.m;
-    let length = endMinutes - startMinutes;
-    // if show passes midnight
-    if (length < 0) length += 24 * 60;
-    return length;
-  }
+    const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-  const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
+    // standard timezones
+    const STANDARD_TIMEZONES = ["America/Los_Angeles","America/New_York","Europe/London","Europe/Berlin","Europe/Moscow","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
 
-  function updateTimes() {
-    const now = new Date();
-    // update local time on top
-    setTextIfChanged(now_date_el, formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear()));
-    setTextIfChanged(now_time_el, formatTime(now.getHours(), now.getMinutes(), now.getSeconds()));
-    now_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
-    // update UTC time on top
-    setTextIfChanged(utc_date_el, formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
-    setTextIfChanged(utc_time_el, formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
-    utc_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
-    // update timezone times
-    activeTimezones.forEach(timezone => {
-      setTextIfChanged(document.getElementById(timezoneToId(timezone)), timezoneFormatters[timezone].format(now));
+    const visitorTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // Timezones for testing
+    //const visitorTimezone = "America/St_Johns"; // UTC/GMT -2:30 hours
+    //const visitorTimezone = "America/Toronto";
+    //const visitorTimezone = "Europe/Amsterdam";
+
+    // target timezones: add visitor timezone if not in standard
+    let timezones = [...STANDARD_TIMEZONES];
+    if (!timezones.includes(visitorTimezone)) {
+      timezones.push(visitorTimezone);
+      const now = new Date();
+      timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
+    }
+
+    let activeTimezones = [...timezones];
+    let sortByTime = false;
+
+    // returns names like "CET"
+    const shortTimezoneFormatter = new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" });
+
+    const timezoneFormatters = {};
+
+    const shortOffsetTimezoneFormatters = {};
+
+    timezones.forEach(timezone => {
+      // formats as HH:MM:SS
+      timezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
+        timeZone: timezone,
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+
+      shortOffsetTimezoneFormatters[timezone] = new Intl.DateTimeFormat("en-GB", {
+        timeZone: timezone,
+        timeZoneName: "shortOffset" });
     });
-    // update times until shows start
-    for (let day = 0; day <= 6; day++) {
-      weeklySchedule[day].forEach(show => {
-        const idElement = countdownSpans[show.id];
-        if (!show.nextShowTime) {
-          idElement.classList.remove("blink-red");
-          setTextIfChanged(idElement, "no upcoming dates");
-        } else if (show.nextShowTime.start <= now && now < show.nextShowTime.end) {
-          setTextIfChanged(idElement, "NOW PLAYING!");
-          idElement.classList.add("blink-red");
-        } else {
-          idElement.classList.remove("blink-red");
-          let remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
-          if (remaining_sec < 0) {
-            initShows(now);
-            remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
-          }
-          setTextIfChanged(idElement, formatDuration(remaining_sec));
+
+    const timezoneOffsets = {};
+
+    function computeTimezoneOffsets(now) {
+      timezones.forEach(tz => { timezoneOffsets[tz] = getOffsetByIana(tz, now); });
+      // compute offsets for show source timezones
+      Object.values(weeklySchedule).flat().forEach(show => {
+        if (!(show.timezone in timezoneOffsets)) {
+          timezoneOffsets[show.timezone] = getOffsetByIana(show.timezone, now);
         }
       });
     }
-    // when the hour is full, update the table
-    if (now.getUTCMinutes() === 0 && now.getUTCSeconds() === 0) {
-      renderTable();
+
+    const countdownSpans = {};
+
+    function initShows(now) {
+      computeTimezoneOffsets(now);
+      for (let day = 0; day <= 6; day++) {
+        weeklySchedule[day].forEach(show => {
+          show.weekday = day;
+          show.length = calcShowLength(show);
+          show.nextShowTime = calcNextShowTime(now, show);
+        });
+      }
     }
-  }
 
-  function setTextIfChanged(el, text) {
-    if (el.textContent !== text) {
-      el.textContent = text;
+    // returns show length in minutes
+    function calcShowLength(show) {
+      const startMinutes = show.start.h * 60 + show.start.m;
+      const endMinutes = show.end.h * 60 + show.end.m;
+      let length = endMinutes - startMinutes;
+      // if show passes midnight
+      if (length < 0) length += 24 * 60;
+      return length;
     }
-  }
 
-  function formatShowtime(showtime) {
-    return String(showtime.h).padStart(2,"0") + ":" + String(showtime.m).padStart(2,"0");
-  }
+    const formatTime = (h, m, s) => [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
 
-  function formatDate(day, date, month, year) {
-    return WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year;
-  }
+    function updateTimes() {
+      const now = new Date();
+      // update local time on top
+      setTextIfChanged(now_date_el, formatDate(now.getDay(), now.getDate(), now.getMonth(), now.getFullYear()));
+      setTextIfChanged(now_time_el, formatTime(now.getHours(), now.getMinutes(), now.getSeconds()));
+      now_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getDate())), now.getDay());
+      // update UTC time on top
+      setTextIfChanged(utc_date_el, formatDate(now.getUTCDay(), now.getUTCDate(), now.getUTCMonth(), now.getUTCFullYear()));
+      setTextIfChanged(utc_time_el, formatTime(now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
+      utc_week_el.innerHTML = formatWeekInMonth(formatOrdinal(getWeekInMonth(now.getUTCDate())), now.getUTCDay());
+      // update timezone times
+      activeTimezones.forEach(timezone => {
+        setTextIfChanged(document.getElementById(timezoneToId(timezone)), timezoneFormatters[timezone].format(now));
+      });
+      // update times until shows start
+      for (let day = 0; day <= 6; day++) {
+        weeklySchedule[day].forEach(show => {
+          const idElement = countdownSpans[show.id];
+          if (!show.nextShowTime) {
+            idElement.classList.remove("blink-red");
+            setTextIfChanged(idElement, "no upcoming dates");
+          } else if (show.nextShowTime.start <= now && now < show.nextShowTime.end) {
+            setTextIfChanged(idElement, "NOW PLAYING!");
+            idElement.classList.add("blink-red");
+          } else {
+            idElement.classList.remove("blink-red");
+            let remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
+            if (remaining_sec < 0) {
+              initShows(now);
+              remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
+            }
+            setTextIfChanged(idElement, formatDuration(remaining_sec));
+          }
+        });
+      }
+      // when the hour is full, update the table
+      if (now.getUTCMinutes() === 0 && now.getUTCSeconds() === 0) {
+        renderTable();
+      }
+    }
 
-  function getWeekInMonth(day) {
-    if (day < 8) return 1;
-    if (day < 15) return 2;
-    if (day < 22) return 3;
-    if (day < 29) return 4;
-    return 5;
-  }
+    function setTextIfChanged(el, text) {
+      if (el.textContent !== text) {
+        el.textContent = text;
+      }
+    }
 
-  function formatOrdinal(number) {
-    if (number === 1) return "1<sup>st</sup>";
-    if (number === 2) return "2<sup>nd</sup>";
-    if (number === 3) return "3<sup>rd</sup>";
-    return number + "<sup>th</sup>";
-  }
+    function formatShowtime(showtime) {
+      return String(showtime.h).padStart(2,"0") + ":" + String(showtime.m).padStart(2,"0");
+    }
 
-  function formatWeekInMonth(weekInMonth, day) {
-    return weekInMonth + ' ' + WEEKDAYS[day] + ' this month';
-  }
+    function formatDate(day, date, month, year) {
+      return WEEKDAYS[day] + ', ' + date + '. ' + MONTHS[month] + ' ' + year;
+    }
 
-  function makeGMTOffsetMessage(now) {
-    const offsetMinutes = now.getTimezoneOffset();
-    if (offsetMinutes === 0) return "You are in GMT.";
-    const offsetHours = Math.abs(offsetMinutes) / 60;
-    const hourLabel = offsetHours === 1 ? "hour" : "hours";
-    const direction = offsetMinutes > 0 ? "behind" : "ahead of";
-    return `${offsetHours} ${hourLabel} ${direction} GMT`;
-  }
+    function getWeekInMonth(day) {
+      if (day < 8) return 1;
+      if (day < 15) return 2;
+      if (day < 22) return 3;
+      if (day < 29) return 4;
+      return 5;
+    }
 
-  const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
+    function formatOrdinal(number) {
+      if (number === 1) return "1<sup>st</sup>";
+      if (number === 2) return "2<sup>nd</sup>";
+      if (number === 3) return "3<sup>rd</sup>";
+      return number + "<sup>th</sup>";
+    }
 
-  window.addEventListener("DOMContentLoaded", () => {
-    const timezonesToggle = document.getElementById("timezonesToggle");
-    timezonesToggle.addEventListener("change", () => {
-      activeTimezones = timezonesToggle.checked ? [...timezones] : [visitorTimezone];
+    function formatWeekInMonth(weekInMonth, day) {
+      return weekInMonth + ' ' + WEEKDAYS[day] + ' this month';
+    }
+
+    function makeGMTOffsetMessage(now) {
+      const offsetMinutes = now.getTimezoneOffset();
+      if (offsetMinutes === 0) return "You are in GMT.";
+      const offsetHours = Math.abs(offsetMinutes) / 60;
+      const hourLabel = offsetHours === 1 ? "hour" : "hours";
+      const direction = offsetMinutes > 0 ? "behind" : "ahead of";
+      return `${offsetHours} ${hourLabel} ${direction} GMT`;
+    }
+
+    const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const timezonesToggle = document.getElementById("timezonesToggle");
+      timezonesToggle.addEventListener("change", () => {
+        activeTimezones = timezonesToggle.checked ? [...timezones] : [visitorTimezone];
+        renderTimezoneHeaders();
+        renderTable();
+        updateTimes();
+      });
+
+      const sortToggle = document.getElementById("sortToggle");
+      sortToggle.addEventListener("change", () => {
+        sortByTime = sortToggle.checked;
+        renderTable();
+        updateTimes();
+      });
+
       renderTimezoneHeaders();
       renderTable();
       updateTimes();
+      setInterval(updateTimes, 1000);
     });
-
-    const sortToggle = document.getElementById("sortToggle");
-    sortToggle.addEventListener("change", () => {
-      sortByTime = sortToggle.checked;
-      renderTable();
-      updateTimes();
-    });
-
-    renderTimezoneHeaders();
-    renderTable();
-    updateTimes();
-    setInterval(updateTimes, 1000);
-  });
   </script>
 </head>
 
