@@ -133,6 +133,28 @@ th {
   line-height: 1.2;
 }
 
+#clockTable {
+  height: auto;
+}
+
+.header-row {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header-logo {
+  height: auto;
+  max-height: 240px;
+  object-fit: contain;
+}
+
 .show-tooltip-wrap {
   position: relative;
   display: inline-block;
