@@ -757,15 +757,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
-  function makeShowHoverText(show) {
-    const timezone = show.timezone;
-    const showTimeInZone = calcShowTimeInZone(show, show.weekday, timezone);
-    const startTime = formatShowtime(showTimeInZone.start);
-    const endTime = formatShowtime(showTimeInZone.end);
-    const abbr = getTimezoneAbbr(timezone);
-    return `${startTime} - ${endTime} ${abbr}`;
-  }
-
   function addTd(tr, text, url, fallback, lineBelow) {
     const td = document.createElement("td");
     if (url) {
@@ -786,8 +777,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   }
 
   function addShowTd(tr, show) {
-    const tooltipText = makeShowHoverText(show);
-
     const td = document.createElement("td");
     const wrap = document.createElement("span");
     wrap.className = "show-tooltip-wrap";
@@ -801,7 +790,9 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
     const tooltip = document.createElement("span");
     tooltip.className = "show-tooltip-box";
-    tooltip.textContent = tooltipText;
+
+    const showTimeInZone = calcShowTimeInZone(show, show.weekday, show.timezone);
+    tooltip.textContent = `${formatShowtime(showTimeInZone.start)} - ${formatShowtime(showTimeInZone.end)} ${getTimezoneAbbr(show.timezone)}`;
     wrap.appendChild(tooltip);
 
     td.appendChild(wrap);
