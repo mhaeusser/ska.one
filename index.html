@@ -785,14 +785,16 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     tr.appendChild(td);
   }
 
-  function addShowTd(tr, text, url, tooltipText) {
+  function addShowTd(tr, show) {
+    const tooltipText = makeShowHoverText(show);
+
     const td = document.createElement("td");
     const wrap = document.createElement("span");
     wrap.className = "show-tooltip-wrap";
 
     const link = document.createElement("a");
-    link.href = url;
-    link.innerHTML = text;
+    link.href = show.showUrl;
+    link.innerHTML = show.subtitle ? show.name + '<br/><sub>' + show.subtitle + '</sub>' : show.name;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     wrap.appendChild(link);
@@ -901,8 +903,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         addTd(tr, WEEKDAYS[day] + '<br/><span class="small-text">' + formatRecurrence(now, show) + "</span>");
 
         // Show name + optional subtitle
-        const showLabel = show.subtitle ? show.name + '<br/><sub>' + show.subtitle + '</sub>' : show.name;
-        addShowTd(tr, showLabel, show.showUrl, makeShowHoverText(show));
+        addShowTd(tr, show);
 
         // Station
         addTd(tr, show.station, show.stationUrl, "", show.stationTown);
