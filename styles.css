@@ -132,3 +132,44 @@ th {
 #radioTable th {
   line-height: 1.2;
 }
+
+.show-tooltip-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.show-tooltip-box {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  display: none;
+  padding: 6px 8px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  white-space: nowrap;
+  font-size: 0.9em;
+  line-height: 1.2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.show-tooltip-box::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+  filter: drop-shadow(0 1px 0 #666);
+}
+
+.show-tooltip-wrap:hover .show-tooltip-box,
+.show-tooltip-wrap:focus-within .show-tooltip-box {
+  display: block;
+}

@@ -757,6 +757,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     return `${days ? days + " d, " : ""}${hours ? hours + " h, " : ""}${minutes} m, ${seconds} s`;
   }
 
+  function makeShowHoverText(show) {
+    const timezone = show.timezone;
+    const showTimeInZone = calcShowTimeInZone(show, show.weekday, timezone);
+    const startTime = formatShowtime(showTimeInZone.start);
+    const endTime = formatShowtime(showTimeInZone.end);
+    const abbr = getTimezoneAbbr(timezone);
+    return `${startTime} - ${endTime} ${abbr}`;
+  }
+
   function addTd(tr, text, url, fallback, lineBelow) {
     const td = document.createElement("td");
     if (url) {
@@ -773,6 +782,27 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       td.appendChild(document.createElement("br"));
       td.appendChild(document.createTextNode(lineBelow));
     }
+    tr.appendChild(td);
+  }
+
+  function addShowTd(tr, text, url, tooltipText) {
+    const td = document.createElement("td");
+    const wrap = document.createElement("span");
+    wrap.className = "show-tooltip-wrap";
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.innerHTML = text;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    wrap.appendChild(link);
+
+    const tooltip = document.createElement("span");
+    tooltip.className = "show-tooltip-box";
+    tooltip.textContent = tooltipText;
+    wrap.appendChild(tooltip);
+
+    td.appendChild(wrap);
     tr.appendChild(td);
   }
 
@@ -872,7 +902,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
         // Show name + optional subtitle
         const showLabel = show.subtitle ? show.name + '<br/><sub>' + show.subtitle + '</sub>' : show.name;
-        addTd(tr, showLabel, show.showUrl);
+        addShowTd(tr, showLabel, show.showUrl, makeShowHoverText(show));
 
         // Station
         addTd(tr, show.station, show.stationUrl, "", show.stationTown);
