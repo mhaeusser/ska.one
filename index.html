@@ -479,6 +479,7 @@
     }
 
     const countdownSpans = {};
+    const streamSpans = {};
 
     function initShows(now) {
       computeTimezoneOffsets(now);
@@ -527,8 +528,10 @@
           } else if (show.nextShowTime.start <= now && now < show.nextShowTime.end) {
             setTextIfChanged(idElement, "NOW PLAYING!");
             idElement.classList.add("blink-red");
+            streamSpans[show.id].classList.add("blink-red");
           } else {
             idElement.classList.remove("blink-red");
+            streamSpans[show.id].classList.remove("blink-red");
             let remaining_sec = Math.ceil((show.nextShowTime.start - now) / 1000);
             if (remaining_sec < 0) {
               initShows(now);
@@ -805,6 +808,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     streamLink.target = "_blank";
     streamLink.rel = "noopener noreferrer";
     box.appendChild(streamLink);
+    streamSpans[show.id] = streamLink;
 
     if (show.archiveUrl) {
       const divider = document.createElement("div");
@@ -913,6 +917,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     initShows(now);
 
     Object.keys(countdownSpans).forEach(k => delete countdownSpans[k]);
+    Object.keys(streamSpans).forEach(k => delete streamSpans[k]);
 
     const tbody = document.querySelector("#radioTable tbody");
     tbody.innerHTML = "";
