@@ -830,6 +830,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     }
     if (show.recurrence === "monthly" || show.recurrence === "bi-weekly") {
       if (! show.showdates && ! show.showdate) return show.recurrence;
+      if (! show.nextShowTime) return show.recurrence;
       const nextStart = show.nextShowTime.start
       if (! nextStart) return show.recurrence;
       return show.recurrence + ", next:<br/>" + formatAsYYYY_MM_DD(nextStart);
