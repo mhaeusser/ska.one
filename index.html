@@ -796,18 +796,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
   function addStreamAndArchiveTd(tr, show) {
     const td = document.createElement("td");
-
     const box = document.createElement("div");
     box.className = "stacked-cell-inner";
 
-    if (show.streamUrl) {
-      const streamLink = document.createElement("a");
-      streamLink.href = show.streamUrl;
-      streamLink.textContent = "Stream";
-      streamLink.target = "_blank";
-      streamLink.rel = "noopener noreferrer";
-      box.appendChild(streamLink);
-    }
+    const streamLink = document.createElement("a");
+    streamLink.href = show.streamUrl;
+    streamLink.textContent = "Stream";
+    streamLink.target = "_blank";
+    streamLink.rel = "noopener noreferrer";
+    box.appendChild(streamLink);
 
     if (show.archiveUrl) {
       const divider = document.createElement("div");
@@ -820,10 +817,6 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       archiveLink.target = "_blank";
       archiveLink.rel = "noopener noreferrer";
       box.appendChild(archiveLink);
-    }
-
-    if (!show.streamUrl && !show.archiveUrl) {
-      box.textContent = "-";
     }
 
     td.appendChild(box);
@@ -880,7 +873,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     <th>Day</th>
     <th>Show</th>
     <th>Station</th>
-    <th>Stream<br><br>Archive</th>
+    <th>Stream,<br>Archive</th>
     <th>Time until next show</th>`;
 
     activeTimezones.forEach(timezone => {
