@@ -794,6 +794,27 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     tr.appendChild(td);
   }
 
+  function addStreamAndArchiveTd(tr, show) {
+    const td = document.createElement("td");
+    const link = document.createElement("a");
+    link.href = show.streamUrl;
+    link.innerHTML = "Stream";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    td.appendChild(link);
+
+    if (show.archiveUrl) {
+      td.appendChild(document.createElement("br"));
+      const link = document.createElement("a");
+      link.href = show.archiveUrl;
+      link.innerHTML = "Archive";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      td.appendChild(link);
+    }
+    tr.appendChild(td);
+  }
+
   function addShowTd(tr, show) {
     const td = document.createElement("td");
     const wrap = document.createElement("span");
@@ -844,8 +865,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     <th>Day</th>
     <th>Show</th>
     <th>Station</th>
-    <th>Stream</th>
-    <th>Archive</th>
+    <th>Stream<br><br>Archive</th>
     <th>Time until next show</th>`;
 
     activeTimezones.forEach(timezone => {
@@ -918,11 +938,8 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         // Station
         addTd(tr, show.station, show.stationUrl, "", show.stationTown);
 
-        // Stream
-        addTd(tr, "Stream", show.streamUrl, "-");
-
-        // Archive
-        addTd(tr, "Archive", show.archiveUrl, "-");
+        // Stream and Archive
+        addStreamAndArchiveTd(tr, show);
 
         // Time until next show, or is the show now playing?
         const waitOrPlayingTd = document.createElement("td");
