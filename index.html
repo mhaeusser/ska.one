@@ -796,22 +796,37 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
   function addStreamAndArchiveTd(tr, show) {
     const td = document.createElement("td");
-    const link = document.createElement("a");
-    link.href = show.streamUrl;
-    link.innerHTML = "Stream";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    td.appendChild(link);
+
+    const box = document.createElement("div");
+    box.className = "stacked-cell-inner";
+
+    if (show.streamUrl) {
+      const streamLink = document.createElement("a");
+      streamLink.href = show.streamUrl;
+      streamLink.textContent = "Stream";
+      streamLink.target = "_blank";
+      streamLink.rel = "noopener noreferrer";
+      box.appendChild(streamLink);
+    }
 
     if (show.archiveUrl) {
-      td.appendChild(document.createElement("br"));
-      const link = document.createElement("a");
-      link.href = show.archiveUrl;
-      link.innerHTML = "Archive";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      td.appendChild(link);
+      const divider = document.createElement("div");
+      divider.className = "divider";
+      box.appendChild(divider);
+
+      const archiveLink = document.createElement("a");
+      archiveLink.href = show.archiveUrl;
+      archiveLink.textContent = "Archive";
+      archiveLink.target = "_blank";
+      archiveLink.rel = "noopener noreferrer";
+      box.appendChild(archiveLink);
     }
+
+    if (!show.streamUrl && !show.archiveUrl) {
+      box.textContent = "-";
+    }
+
+    td.appendChild(box);
     tr.appendChild(td);
   }
 

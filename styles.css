@@ -212,3 +212,21 @@ th {
     width: 100%;
   }
 }
+
+.stacked-cell-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: -0.6rem; /* cancels normal td padding */
+}
+
+.stacked-cell-inner a {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+}
+
+.stacked-cell-inner .divider {
+  height: 1px;
+  background: var(--border);
+}
