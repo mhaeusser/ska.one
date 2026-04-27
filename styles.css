@@ -69,6 +69,10 @@ td.nowrap-right {
   text-align: right;
 }
 
+th.right {
+  text-align: right;
+}
+
 td.bold {
   font-weight: bold;
 }
