@@ -47,7 +47,7 @@
           name: "Rudie's back in town",
           id: "rbit",
           recurrence: "bi-weekly",
-          showdate: "2026-04-19", // use last date or next to come, rest is calculated
+          showdate: "2026-04-19", // use last date or next to come, future dates are calculated
           showUrl: "https://rudies-back-in-town.blogspot.com/",
           station: "Radio libertaire",
           stationUrl: "https://radio-libertaire.org/agenda/",
@@ -419,26 +419,79 @@
     ];
 
     const TIMEZONE_ABBREVIATIONS = {
-      "Pacific/Honolulu":   { [-10]:   "HST" },
-      "America/Anchorage":   { [-9]:  "AKST",   [-8]: "AKDT" },
-      "America/Los_Angeles": { [-8]:   "PST",   [-7]:  "PDT" },
-      "America/Denver":      { [-7]:   "MST",   [-6]:  "MDT" },
-      "America/Chicago":     { [-6]:   "CST",   [-5]:  "CDT" },
-      "America/New_York":    { [-5]:   "EST",   [-4]:  "EDT" },
-      "America/Halifax":     { [-4]:   "AST",   [-3]:  "ADT" },
-      "America/St_Johns":    { [-3.5]: "NST", [-2.5]:  "NDT" },
-      "Europe/London":       {  [0]:   "GMT",    [1]:  "BST" },
-      "Europe/Berlin":       {  [1]:   "CET",    [2]: "CEST" },
-      "Europe/Helsinki":     {  [2]:   "EET",    [3]: "EEST" },
-      "Europe/Moscow":       {  [3]:   "MSK" },
-      "Asia/Karachi":        {  [5]:   "PKT" },
-      "Asia/Kolkata":        {  [5.5]: "IST" },
-      "Australia/Perth":     {  [8]:  "AWST" },
-      "Asia/Tokyo":          {  [9]:   "JST" },
-      "Asia/Seoul":          {  [9]:   "KST" },
-      "Australia/Adelaide":  {  [9.5]:"ACST", [10.5]: "ACDT" },
-      "Australia/Sydney":    {  [10]: "AEST", [11]:   "AEDT" },
-      "Pacific/Auckland":    {  [12]: "NZST", [13]:   "NZDT" },
+      "Pacific/Honolulu": {
+        [-10]: { short: "HST", long: "Hawaii Standard Time" }
+      },
+      "America/Anchorage": {
+        [-9]:  { short: "AKST", long: "Alaska Standard Time" },
+        [-8]:  { short: "AKDT", long: "Alaska Daylight Time" }
+      },
+      "America/Los_Angeles": {
+        [-8]:  { short: "PST", long: "Pacific Standard Time" },
+        [-7]:  { short: "PDT", long: "Pacific Daylight Time" }
+      },
+      "America/Denver": {
+        [-7]:  { short: "MST", long: "Mountain Standard Time" },
+        [-6]:  { short: "MDT", long: "Mountain Daylight Time" }
+      },
+      "America/Chicago": {
+        [-6]:  { short: "CST", long: "Central Standard Time" },
+        [-5]:  { short: "CDT", long: "Central Daylight Time" }
+      },
+      "America/New_York": {
+        [-5]:  { short: "EST", long: "Eastern Standard Time" },
+        [-4]:  { short: "EDT", long: "Eastern Daylight Time" }
+      },
+      "America/Halifax": {
+        [-4]:  { short: "AST", long: "Atlantic Standard Time" },
+        [-3]:  { short: "ADT", long: "Atlantic Daylight Time" }
+      },
+      "America/St_Johns": {
+        [-3.5]: { short: "NST", long: "Newfoundland Standard Time" },
+        [-2.5]: { short: "NDT", long: "Newfoundland Daylight Time" }
+      },
+      "Europe/London": {
+        [0]: { short: "GMT", long: "Greenwich Mean Time" },
+        [1]: { short: "BST", long: "British Summer Time" }
+      },
+      "Europe/Berlin": {
+        [1]: { short: "CET", long: "Central European Time" },
+        [2]: { short: "CEST", long: "Central European Summer Time" }
+      },
+      "Europe/Helsinki": {
+        [2]: { short: "EET", long: "Eastern European Time" },
+        [3]: { short: "EEST", long: "Eastern European Summer Time" }
+      },
+      "Europe/Moscow": {
+        [3]: { short: "MSK", long: "Moscow Standard Time" }
+      },
+      "Asia/Karachi": {
+        [5]: { short: "PKT", long: "Pakistan Standard Time" }
+      },
+      "Asia/Kolkata": {
+        [5.5]: { short: "IST", long: "India Standard Time" }
+      },
+      "Australia/Perth": {
+        [8]: { short: "AWST", long: "Australian Western Standard Time" }
+      },
+      "Asia/Tokyo": {
+        [9]: { short: "JST", long: "Japan Standard Time" }
+      },
+      "Asia/Seoul": {
+        [9]: { short: "KST", long: "Korea Standard Time" }
+      },
+      "Australia/Adelaide": {
+        [9.5]:  { short: "ACST", long: "Australian Central Standard Time" },
+        [10.5]: { short: "ACDT", long: "Australian Central Daylight Time" }
+      },
+      "Australia/Sydney": {
+        [10]: { short: "AEST", long: "Australian Eastern Standard Time" },
+        [11]: { short: "AEDT", long: "Australian Eastern Daylight Time" }
+      },
+      "Pacific/Auckland": {
+        [12]: { short: "NZST", long: "New Zealand Standard Time" },
+        [13]: { short: "NZDT", long: "New Zealand Daylight Time" }
+      }
     };
 
     function getOffsetByIana(iana, date) {
@@ -872,7 +925,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     tooltip.className = "show-tooltip-box";
 
     const showTimeInZone = calcShowTimeInZone(show, show.weekday, show.timezone);
-    tooltip.textContent = `${formatShowtime(showTimeInZone.start)} - ${formatShowtime(showTimeInZone.end)} ${getTimezoneAbbr(show.timezone)}`;
+    tooltip.textContent = `${formatShowtime(showTimeInZone.start)} - ${formatShowtime(showTimeInZone.end)} ${getTimezoneInfo(show.timezone).short}`;
     wrap.appendChild(tooltip);
 
     td.appendChild(wrap);
@@ -917,15 +970,15 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
       const th = document.createElement("th");
       th.classList.add("center", "nowrap");
       if (timezone === visitorTimezone) th.classList.add("visitor-tz");
-      th.innerHTML = '<span class="nowrap">' + tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + getTimezoneAbbr(timezone)
+      th.innerHTML = '<span class="nowrap">' + tz.place1 + '<br/>' + tz.place2 + '<br/><span class="small-text">' + getTimezoneInfo(timezone).short
         + ' (' + getUTCOffset(timezone) + ')</span><br/><span id="' + timezoneToId(timezone) + '"></span></span>';
       headerRow.appendChild(th);
     });
   }
 
-  function getTimezoneAbbr(iana, date = new Date()) {
+  function getTimezoneInfo(iana, date = new Date()) {
     const offset = getOffsetByIana(iana, date);
-    return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? "";
+    return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? { short: "", long: "" };
   }
 
   // returns e.g. "UTC-4"
