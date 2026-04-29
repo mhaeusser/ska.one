@@ -1048,13 +1048,39 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
         activeTimezones.forEach(timezone => {
           const td = document.createElement("td");
           const showTimeInZone = calcShowTimeInZone(show, day, timezone);
-
           const startTime = formatShowtime(showTimeInZone.start);
           const endTime = formatShowtime(showTimeInZone.end);
 
-          td.innerHTML = startTime + " - " + endTime;
+          const wrap = document.createElement("span");
+          wrap.className = "show-tooltip-wrap";
+          wrap.textContent = startTime + " - " + endTime;
+
+          const tooltip = document.createElement("span");
+          tooltip.className = "show-tooltip-box";
+
+          const diff = timezoneOffsets[show.timezone] - timezoneOffsets[timezone];
+          const offsetHours = Math.abs(diff);
+          const hourLabel = offsetHours === 1 ? "hour" : "hours";
+          const direction = diff > 0 ? "ahead of" : "behind";
+
+          let tooltipText;
+          if (timezone === show.timezone) {
+            tooltipText = show.name + " is in this timezone.";
+          } else {
+            tooltipText = show.name + " broadcasts from " + `${formatShowtime(show.start)} until ${formatShowtime(show.end)} ${getTimezoneInfo(show.timezone).long} (${getTimezoneInfo(show.timezone).short})\nwhich is ${offsetHours} ${hourLabel} ${direction} this timezone (${getTimezoneInfo(timezone).short}).`;
+          }
+
+          tooltip.textContent = tooltipText;
+
+          wrap.appendChild(tooltip);
+          td.appendChild(wrap);
+
           if (day !== showTimeInZone.day) {
-            td.innerHTML += '<br/><span class="small-text">' + WEEKDAYS[showTimeInZone.day] + "</span>";
+            td.appendChild(document.createElement("br"));
+            const small = document.createElement("span");
+            small.className = "small-text";
+            small.textContent = WEEKDAYS[showTimeInZone.day];
+            td.appendChild(small);
           }
           if (timezone === show.timezone) td.classList.add("bold");
           if (timezone === visitorTimezone) td.classList.add("visitor-tz");
