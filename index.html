@@ -911,24 +911,13 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
   function addShowTd(tr, show) {
     const td = document.createElement("td");
-    const wrap = document.createElement("span");
-    wrap.className = "show-tooltip-wrap";
-
     const link = document.createElement("a");
     link.href = show.showUrl;
     link.innerHTML = show.subtitle ? show.name + '<br/><sub>' + show.subtitle + '</sub>' : show.name;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    wrap.appendChild(link);
-
-    const tooltip = document.createElement("span");
-    tooltip.className = "show-tooltip-box";
-
+    td.appendChild(link);
     const showTimeInZone = calcShowTimeInZone(show, show.weekday, show.timezone);
-    tooltip.textContent = `${formatShowtime(showTimeInZone.start)} - ${formatShowtime(showTimeInZone.end)} ${getTimezoneInfo(show.timezone).short}`;
-    wrap.appendChild(tooltip);
-
-    td.appendChild(wrap);
     tr.appendChild(td);
   }
 
