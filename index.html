@@ -397,153 +397,133 @@
 
     const TIMEZONE_DATA = {
       "Pacific/Honolulu": {
-        place1: "Honolulu",
-        place2: "Hilo",
+        place1: "Honolulu", place2: "Hilo",
         abbr: {
           [-10]: { short: "HST", long: "Hawaii Standard Time" }
         }
       },
       "America/Anchorage": {
-        place1: "Anchorage",
-        place2: "Fairbanks",
+        place1: "Anchorage", place2: "Fairbanks",
         abbr: {
           [-9]: { short: "AKST", long: "Alaska Standard Time" },
           [-8]: { short: "AKDT", long: "Alaska Daylight Time" }
         }
       },
       "America/Los_Angeles": {
-        place1: "Vancouver",
-        place2: "Los Angeles",
+        place1: "Vancouver", place2: "Los Angeles",
         abbr: {
           [-8]: { short: "PST", long: "Pacific Standard Time" },
           [-7]: { short: "PDT", long: "Pacific Daylight Time" }
         }
       },
       "America/Denver": {
-        place1: "Denver",
-        place2: "Phoenix",
+        place1: "Denver", place2: "Phoenix",
         abbr: {
           [-7]: { short: "MST", long: "Mountain Standard Time" },
           [-6]: { short: "MDT", long: "Mountain Daylight Time" }
         }
       },
       "America/Chicago": {
-        place1: "Chicago",
-        place2: "Dallas",
+        place1: "Chicago", place2: "Dallas",
         abbr: {
           [-6]: { short: "CST", long: "Central Standard Time" },
           [-5]: { short: "CDT", long: "Central Daylight Time" }
         }
       },
       "America/New_York": {
-        place1: "New York",
-        place2: "Kingston",
+        place1: "New York", place2: "Kingston",
         abbr: {
           [-5]: { short: "EST", long: "Eastern Standard Time" },
           [-4]: { short: "EDT", long: "Eastern Daylight Time" }
         }
       },
       "America/Halifax": {
-        place1: "Halifax",
-        place2: "San Juan",
+        place1: "Halifax", place2: "San Juan",
         abbr: {
           [-4]: { short: "AST", long: "Atlantic Standard Time" },
           [-3]: { short: "ADT", long: "Atlantic Daylight Time" }
         }
       },
       "America/St_Johns": {
-        place1: "St. John's",
-        place2: "Corner Brook",
+        place1: "St. John's", place2: "Corner Brook",
         abbr: {
           [-3.5]: { short: "NST", long: "Newfoundland Standard Time" },
           [-2.5]: { short: "NDT", long: "Newfoundland Daylight Time" }
         }
       },
       "Europe/London": {
-        place1: "London",
-        place2: "Dublin",
+        place1: "London", place2: "Dublin",
         abbr: {
           [0]: { short: "GMT", long: "Greenwich Mean Time" },
           [1]: { short: "BST", long: "British Summer Time" }
         }
       },
       "Europe/Berlin": {
-        place1: "Stuttgart",
-        place2: "Skaska",
+        place1: "Stuttgart", place2: "Skaska",
         abbr: {
           [1]: { short: "CET", long: "Central European Time" },
           [2]: { short: "CEST", long: "Central European Summer Time" }
         }
       },
       "Europe/Helsinki": {
-        place1: "Helsinki",
-        place2: "Athens",
+        place1: "Helsinki", place2: "Athens",
         abbr: {
           [2]: { short: "EET", long: "Eastern European Time" },
           [3]: { short: "EEST", long: "Eastern European Summer Time" }
         }
       },
       "Europe/Moscow": {
-        place1: "St. Petersburg",
-        place2: "Moscow",
+        place1: "St. Petersburg", place2: "Moscow",
         abbr: {
           [3]: { short: "MSK", long: "Moscow Standard Time" }
         }
       },
       "Asia/Karachi": {
-        place1: "Karachi",
-        place2: "Islamabad",
+        place1: "Karachi", place2: "Islamabad",
         abbr: {
           [5]: { short: "PKT", long: "Pakistan Standard Time" }
         }
       },
       "Asia/Kolkata": {
-        place1: "Delhi",
-        place2: "Mumbai",
+        place1: "Delhi", place2: "Mumbai",
         abbr: {
           [5.5]: { short: "IST", long: "India Standard Time" }
         }
       },
       "Australia/Perth": {
-        place1: "Perth",
-        place2: "Broome",
+        place1: "Perth", place2: "Broome",
         abbr: {
           [8]: { short: "AWST", long: "Australian Western Standard Time" }
         }
       },
       "Asia/Tokyo": {
-        place1: "Tokyo",
-        place2: "Nagoya",
+        place1: "Tokyo", place2: "Nagoya",
         abbr: {
           [9]: { short: "JST", long: "Japan Standard Time" }
         }
       },
       "Asia/Seoul": {
-        place1: "Seoul",
-        place2: "Busan",
+        place1: "Seoul", place2: "Busan",
         abbr: {
           [9]: { short: "KST", long: "Korea Standard Time" }
         }
       },
       "Australia/Adelaide": {
-        place1: "Adelaide",
-        place2: "Darwin",
+        place1: "Adelaide", place2: "Darwin",
         abbr: {
           [9.5]:  { short: "ACST", long: "Australian Central Standard Time" },
           [10.5]: { short: "ACDT", long: "Australian Central Daylight Time" }
         }
       },
       "Australia/Sydney": {
-        place1: "Melbourne",
-        place2: "Sydney",
+        place1: "Melbourne", place2: "Sydney",
         abbr: {
           [10]: { short: "AEST", long: "Australian Eastern Standard Time" },
           [11]: { short: "AEDT", long: "Australian Eastern Daylight Time" }
         }
       },
       "Pacific/Auckland": {
-        place1: "Auckland",
-        place2: "Wellington",
+        place1: "Auckland", place2: "Wellington",
         abbr: {
           [12]: { short: "NZST", long: "New Zealand Standard Time" },
           [13]: { short: "NZDT", long: "New Zealand Daylight Time" }
@@ -727,8 +707,6 @@
       const direction = offsetMinutes > 0 ? "behind" : "ahead of";
       return `${offsetHours} ${hourLabel} ${direction} GMT`;
     }
-
-    const TIMEZONE_MAP = TIMEZONE_DATA;
 
     window.addEventListener("DOMContentLoaded", () => {
       const timezonesToggle = document.getElementById("timezonesToggle");
@@ -1012,7 +990,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
     <th class="right">Time until next show</th>`;
 
     activeTimezones.forEach(timezone => {
-      let tz = TIMEZONE_MAP[timezone];
+      let tz = TIMEZONE_DATA[timezone];
       if (!tz) {
         tz = { iana: timezone, place1: timezone.substring(timezone.indexOf("/") + 1), place2: "" };
       };
