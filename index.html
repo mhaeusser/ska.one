@@ -395,102 +395,159 @@
       ],
     };
 
-    const TIMEZONES = [
-      { iana: "Pacific/Honolulu",   place1: "Honolulu",       place2: "Hilo"         }, // HST
-      { iana: "America/Anchorage",  place1: "Anchorage",      place2: "Fairbanks"    }, // AKST / AKDT
-      { iana: "America/Los_Angeles",place1: "Vancouver",      place2: "Los Angeles"  }, // PST / PDT
-      { iana: "America/Denver",     place1: "Denver",         place2: "Phoenix"      }, // MST / MDT
-      { iana: "America/Chicago",    place1: "Chicago",        place2: "Dallas"       }, // CST / CDT
-      { iana: "America/New_York",   place1: "New York",       place2: "Kingston"     }, // EST / EDT
-      { iana: "America/Halifax",    place1: "Halifax",        place2: "San Juan"     }, // AST / ADT
-      { iana: "America/St_Johns",   place1: "St. John's",     place2: "Corner Brook" }, // NST / NDT
-      { iana: "Europe/London",      place1: "London",         place2: "Dublin"       }, // GMT / BST
-      { iana: "Europe/Berlin",      place1: "Stuttgart",      place2: "Skaska"       }, // CET / CEST
-      { iana: "Europe/Helsinki",    place1: "Helsinki",       place2: "Athens"       }, // EET / EEST
-      { iana: "Europe/Moscow",      place1: "St. Petersburg", place2: "Moscow"       }, // MSK
-      { iana: "Asia/Karachi",       place1: "Karachi",        place2: "Islamabad"    }, // PKT
-      { iana: "Asia/Kolkata",       place1: "Delhi",          place2: "Mumbai"       }, // IST
-      { iana: "Australia/Perth",    place1: "Perth",          place2: "Broome"       }, // AWST
-      { iana: "Asia/Tokyo",         place1: "Tokyo",          place2: "Nagoya"       }, // JST
-      { iana: "Asia/Seoul",         place1: "Seoul",          place2: "Busan"        }, // KST
-      { iana: "Australia/Adelaide", place1: "Adelaide",       place2: "Darwin"       }, // ACST / ACDT
-      { iana: "Australia/Sydney",   place1: "Melbourne",      place2: "Sydney"       }, // AEST / AEDT
-      { iana: "Pacific/Auckland",   place1: "Auckland",       place2: "Wellington"   }  // NZST / NZDT
-    ];
-
-    const TIMEZONE_ABBREVIATIONS = {
+    const TIMEZONE_DATA = {
       "Pacific/Honolulu": {
-        [-10]: { short: "HST", long: "Hawaii Standard Time" }
+        place1: "Honolulu",
+        place2: "Hilo",
+        abbr: {
+          [-10]: { short: "HST", long: "Hawaii Standard Time" }
+        }
       },
       "America/Anchorage": {
-        [-9]:  { short: "AKST", long: "Alaska Standard Time" },
-        [-8]:  { short: "AKDT", long: "Alaska Daylight Time" }
+        place1: "Anchorage",
+        place2: "Fairbanks",
+        abbr: {
+          [-9]: { short: "AKST", long: "Alaska Standard Time" },
+          [-8]: { short: "AKDT", long: "Alaska Daylight Time" }
+        }
       },
       "America/Los_Angeles": {
-        [-8]:  { short: "PST", long: "Pacific Standard Time" },
-        [-7]:  { short: "PDT", long: "Pacific Daylight Time" }
+        place1: "Vancouver",
+        place2: "Los Angeles",
+        abbr: {
+          [-8]: { short: "PST", long: "Pacific Standard Time" },
+          [-7]: { short: "PDT", long: "Pacific Daylight Time" }
+        }
       },
       "America/Denver": {
-        [-7]:  { short: "MST", long: "Mountain Standard Time" },
-        [-6]:  { short: "MDT", long: "Mountain Daylight Time" }
+        place1: "Denver",
+        place2: "Phoenix",
+        abbr: {
+          [-7]: { short: "MST", long: "Mountain Standard Time" },
+          [-6]: { short: "MDT", long: "Mountain Daylight Time" }
+        }
       },
       "America/Chicago": {
-        [-6]:  { short: "CST", long: "Central Standard Time" },
-        [-5]:  { short: "CDT", long: "Central Daylight Time" }
+        place1: "Chicago",
+        place2: "Dallas",
+        abbr: {
+          [-6]: { short: "CST", long: "Central Standard Time" },
+          [-5]: { short: "CDT", long: "Central Daylight Time" }
+        }
       },
       "America/New_York": {
-        [-5]:  { short: "EST", long: "Eastern Standard Time" },
-        [-4]:  { short: "EDT", long: "Eastern Daylight Time" }
+        place1: "New York",
+        place2: "Kingston",
+        abbr: {
+          [-5]: { short: "EST", long: "Eastern Standard Time" },
+          [-4]: { short: "EDT", long: "Eastern Daylight Time" }
+        }
       },
       "America/Halifax": {
-        [-4]:  { short: "AST", long: "Atlantic Standard Time" },
-        [-3]:  { short: "ADT", long: "Atlantic Daylight Time" }
+        place1: "Halifax",
+        place2: "San Juan",
+        abbr: {
+          [-4]: { short: "AST", long: "Atlantic Standard Time" },
+          [-3]: { short: "ADT", long: "Atlantic Daylight Time" }
+        }
       },
       "America/St_Johns": {
-        [-3.5]: { short: "NST", long: "Newfoundland Standard Time" },
-        [-2.5]: { short: "NDT", long: "Newfoundland Daylight Time" }
+        place1: "St. John's",
+        place2: "Corner Brook",
+        abbr: {
+          [-3.5]: { short: "NST", long: "Newfoundland Standard Time" },
+          [-2.5]: { short: "NDT", long: "Newfoundland Daylight Time" }
+        }
       },
       "Europe/London": {
-        [0]: { short: "GMT", long: "Greenwich Mean Time" },
-        [1]: { short: "BST", long: "British Summer Time" }
+        place1: "London",
+        place2: "Dublin",
+        abbr: {
+          [0]: { short: "GMT", long: "Greenwich Mean Time" },
+          [1]: { short: "BST", long: "British Summer Time" }
+        }
       },
       "Europe/Berlin": {
-        [1]: { short: "CET", long: "Central European Time" },
-        [2]: { short: "CEST", long: "Central European Summer Time" }
+        place1: "Stuttgart",
+        place2: "Skaska",
+        abbr: {
+          [1]: { short: "CET", long: "Central European Time" },
+          [2]: { short: "CEST", long: "Central European Summer Time" }
+        }
       },
       "Europe/Helsinki": {
-        [2]: { short: "EET", long: "Eastern European Time" },
-        [3]: { short: "EEST", long: "Eastern European Summer Time" }
+        place1: "Helsinki",
+        place2: "Athens",
+        abbr: {
+          [2]: { short: "EET", long: "Eastern European Time" },
+          [3]: { short: "EEST", long: "Eastern European Summer Time" }
+        }
       },
       "Europe/Moscow": {
-        [3]: { short: "MSK", long: "Moscow Standard Time" }
+        place1: "St. Petersburg",
+        place2: "Moscow",
+        abbr: {
+          [3]: { short: "MSK", long: "Moscow Standard Time" }
+        }
       },
       "Asia/Karachi": {
-        [5]: { short: "PKT", long: "Pakistan Standard Time" }
+        place1: "Karachi",
+        place2: "Islamabad",
+        abbr: {
+          [5]: { short: "PKT", long: "Pakistan Standard Time" }
+        }
       },
       "Asia/Kolkata": {
-        [5.5]: { short: "IST", long: "India Standard Time" }
+        place1: "Delhi",
+        place2: "Mumbai",
+        abbr: {
+          [5.5]: { short: "IST", long: "India Standard Time" }
+        }
       },
       "Australia/Perth": {
-        [8]: { short: "AWST", long: "Australian Western Standard Time" }
+        place1: "Perth",
+        place2: "Broome",
+        abbr: {
+          [8]: { short: "AWST", long: "Australian Western Standard Time" }
+        }
       },
       "Asia/Tokyo": {
-        [9]: { short: "JST", long: "Japan Standard Time" }
+        place1: "Tokyo",
+        place2: "Nagoya",
+        abbr: {
+          [9]: { short: "JST", long: "Japan Standard Time" }
+        }
       },
       "Asia/Seoul": {
-        [9]: { short: "KST", long: "Korea Standard Time" }
+        place1: "Seoul",
+        place2: "Busan",
+        abbr: {
+          [9]: { short: "KST", long: "Korea Standard Time" }
+        }
       },
       "Australia/Adelaide": {
-        [9.5]:  { short: "ACST", long: "Australian Central Standard Time" },
-        [10.5]: { short: "ACDT", long: "Australian Central Daylight Time" }
+        place1: "Adelaide",
+        place2: "Darwin",
+        abbr: {
+          [9.5]:  { short: "ACST", long: "Australian Central Standard Time" },
+          [10.5]: { short: "ACDT", long: "Australian Central Daylight Time" }
+        }
       },
       "Australia/Sydney": {
-        [10]: { short: "AEST", long: "Australian Eastern Standard Time" },
-        [11]: { short: "AEDT", long: "Australian Eastern Daylight Time" }
+        place1: "Melbourne",
+        place2: "Sydney",
+        abbr: {
+          [10]: { short: "AEST", long: "Australian Eastern Standard Time" },
+          [11]: { short: "AEDT", long: "Australian Eastern Daylight Time" }
+        }
       },
       "Pacific/Auckland": {
-        [12]: { short: "NZST", long: "New Zealand Standard Time" },
-        [13]: { short: "NZDT", long: "New Zealand Daylight Time" }
+        place1: "Auckland",
+        place2: "Wellington",
+        abbr: {
+          [12]: { short: "NZST", long: "New Zealand Standard Time" },
+          [13]: { short: "NZDT", long: "New Zealand Daylight Time" }
+        }
       }
     };
 
@@ -671,7 +728,7 @@
       return `${offsetHours} ${hourLabel} ${direction} GMT`;
     }
 
-    const TIMEZONE_MAP = Object.fromEntries(TIMEZONES.map(t => [t.iana, t]));
+    const TIMEZONE_MAP = TIMEZONE_DATA;
 
     window.addEventListener("DOMContentLoaded", () => {
       const timezonesToggle = document.getElementById("timezonesToggle");
@@ -970,7 +1027,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 
   function getTimezoneInfo(iana, date = new Date()) {
     const offset = getOffsetByIana(iana, date);
-    return TIMEZONE_ABBREVIATIONS[iana]?.[offset] ?? { short: "", long: "" };
+    return TIMEZONE_DATA[iana]?.abbr?.[offset] ?? { short: "", long: "" };
   }
 
   // returns e.g. "UTC-4"
