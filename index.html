@@ -531,6 +531,10 @@
       }
     };
 
+    function isMobile() {
+      return window.matchMedia("(max-width: 768px)").matches;
+    }
+
     function getOffsetByIana(iana, date) {
       const dtf = new Intl.DateTimeFormat("en-US", {
         timeZone: iana, hour12: false,
@@ -564,7 +568,7 @@
       timezones.sort((a,b) => getOffsetByIana(a, now) - getOffsetByIana(b, now));
     }
 
-    let activeTimezones = [...timezones];
+    let activeTimezones = isMobile() ? [visitorTimezone] : [...timezones];
     let sortByTime = true;
 
     // returns names like "CET"
@@ -710,6 +714,7 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       const timezonesToggle = document.getElementById("timezonesToggle");
+      timezonesToggle.checked = !isMobile();
       timezonesToggle.addEventListener("change", () => {
         activeTimezones = timezonesToggle.checked ? [...timezones] : [visitorTimezone];
         renderTimezoneHeaders();
@@ -757,7 +762,7 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 <br/>
 <h2>FM Radio Shows</h2>
 <label>
-  <input type="checkbox" id="timezonesToggle" checked>
+  <input type="checkbox" id="timezonesToggle">
   Show all timezones
 </label>
 <label>
