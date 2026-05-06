@@ -713,22 +713,6 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      const timezonesToggle = document.getElementById("timezonesToggle");
-      timezonesToggle.checked = !isMobile();
-      timezonesToggle.addEventListener("change", () => {
-        activeTimezones = timezonesToggle.checked ? [...timezones] : [visitorTimezone];
-        renderTimezoneHeaders();
-        renderTable();
-        updateTimes();
-      });
-
-      const sortToggle = document.getElementById("sortToggle");
-      sortToggle.addEventListener("change", () => {
-        sortByTime = sortToggle.checked;
-        renderTable();
-        updateTimes();
-      });
-
       renderTimezoneHeaders();
       renderTable();
       updateTimes();
@@ -761,19 +745,9 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
 </div>
 <br/>
 <h2>FM Radio Shows</h2>
-<label>
-  <input type="checkbox" id="timezonesToggle">
-  Show all timezones
-</label>
-<label>
-  <input type="checkbox" id="sortToggle" checked>
-  Sort by Time until next show
-</label>
-<label>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hover over the times for more info
-</label>
 <table id="radioTable">
   <thead>
+    <tr id="infoRow"></tr>
     <tr id="headerRow"></tr>
   </thead>
   <tbody></tbody>
@@ -985,6 +959,50 @@ Also check out the Facebook Group <a target="_blank" rel="noopener" href="https:
   }
 
   function renderTimezoneHeaders() {
+    const infoRow = document.getElementById("infoRow");
+    infoRow.innerHTML = "";
+
+    const baseCols = 5; // Day, Show, Station, Stream, Countdown
+    const tzCols = activeTimezones.length;
+
+    // left group (static columns)
+    const infoTd = document.createElement("td");
+    infoTd.colSpan = baseCols;
+    infoTd.innerHTML = `
+    <label>
+      <input type="checkbox" id="timezonesToggle">
+      Show all timezones
+    </label>
+    <label>
+      <input type="checkbox" id="sortToggle" checked>
+      Sort by Time until next show
+    </label>`;
+    infoRow.appendChild(infoTd);
+
+    const timezonesToggle = document.getElementById("timezonesToggle");
+    timezonesToggle.checked = activeTimezones.length > 1;
+    timezonesToggle.addEventListener("change", () => {
+      activeTimezones = timezonesToggle.checked ? [...timezones] : [visitorTimezone];
+      renderTimezoneHeaders();
+      renderTable();
+      updateTimes();
+    });
+
+    const sortToggle = document.getElementById("sortToggle");
+    sortToggle.checked = sortByTime;
+    sortToggle.addEventListener("change", () => {
+      sortByTime = sortToggle.checked;
+      renderTable();
+      updateTimes();
+    });
+
+    // right group (timezones)
+    const tzTd = document.createElement("td");
+    tzTd.colSpan = tzCols;
+    tzTd.textContent = "Hover over the times for more info";
+    tzTd.classList.add("group-header", "left");
+    infoRow.appendChild(tzTd);
+
     const headerRow = document.getElementById("headerRow");
     headerRow.innerHTML = `
     <th>Day</th>
