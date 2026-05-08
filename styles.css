@@ -60,6 +60,11 @@ td.nowrap {
   white-space: nowrap;
 }
 
+td.nowrap-left {
+  white-space: nowrap;
+  text-align: left;
+}
+
 span.nowrap {
   white-space: nowrap;
 }
@@ -117,7 +122,7 @@ td.center-top {
   vertical-align: top;
 }
 
-td.header {
+th.header {
   vertical-align: bottom;
   text-align: left;
 }
@@ -157,6 +162,7 @@ th {
   height: auto;
   max-height: 240px;
   object-fit: contain;
+  cursor: zoom-in;
 }
 
 .show-tooltip-wrap {
@@ -239,10 +245,6 @@ th {
   position: relative;
 }
 
-.header-logo {
-  cursor: zoom-in;
-}
-
 .logo-overlay {
   position: fixed;
   inset: 0;
@@ -260,8 +262,10 @@ th {
   z-index: 99999;
 }
 
-.logo-hover-container:hover .logo-overlay {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .logo-hover-container:hover .logo-overlay {
+    opacity: 1;
+  }
 }
 
 .logo-large {
