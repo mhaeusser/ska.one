@@ -234,3 +234,42 @@ th {
   height: 1px;
   background: var(--border);
 }
+
+.logo-hover-container {
+  position: relative;
+}
+
+.header-logo {
+  cursor: zoom-in;
+}
+
+.logo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.2s ease;
+
+  z-index: 99999;
+}
+
+.logo-hover-container:hover .logo-overlay {
+  opacity: 1;
+}
+
+.logo-large {
+  max-width: 95vw;
+  max-height: 95vh;
+
+  image-rendering: auto;
+
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  border-radius: 8px;
+}
