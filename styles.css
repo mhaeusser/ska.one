@@ -213,8 +213,8 @@ th {
   }
 
   .header-logo {
-    max-width: 60vw;
-    max-height: 120px;
+    max-width: 100vw;
+    max-height: 200px;
     margin-bottom: 10px;
     cursor: default;
   }
