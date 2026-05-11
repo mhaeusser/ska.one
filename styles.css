@@ -106,9 +106,8 @@ td.top {
   vertical-align: top;
 }
 
-td.center-top {
+td.center {
   text-align: center;
-  vertical-align: top;
 }
 
 th.header {
@@ -136,10 +135,6 @@ th {
 #radioTable td,
 #radioTable th {
   line-height: 1.2;
-}
-
-#clockTable {
-  height: auto;
 }
 
 .header-row {
