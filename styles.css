@@ -35,17 +35,6 @@ a:hover {
   text-decoration: underline;
 }
 
-table {
-  border-collapse: collapse;
-}
-
-table th {
-  position: sticky;
-  top: 0;
-  background: #000;
-  z-index: 2;
-}
-
 th, td {
   padding: 0.6rem;
   border: 1px solid var(--border);
@@ -127,7 +116,14 @@ th.header {
   text-align: left;
 }
 
+table {
+  border-collapse: collapse;
+}
+
 th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   text-align: left;
   background: #1b1b1b;
 }
