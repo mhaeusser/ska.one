@@ -42,7 +42,7 @@ table {
 table th {
   position: sticky;
   top: 0;
-  background: #00;
+  background: #000;
   z-index: 2;
 }
 
